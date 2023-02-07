@@ -1,0 +1,10 @@
+{
+  "extends": "@openreadme/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "es2022",
+    "target": "es2021"
+  },
+  "include": ["sst.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}

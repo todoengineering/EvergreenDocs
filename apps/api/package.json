@@ -1,0 +1,43 @@
+{
+  "name": "@openreadme/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "dev": "tsc-watch --onSuccess \"node ./dist/main.mjs\"",
+    "build": "tsc",
+    "start": "node dist/main.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "prisma db seed"
+  },
+  "prisma": {},
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.252.0",
+    "@aws-sdk/client-s3": "^3.241.0",
+    "@aws-sdk/credential-providers": "^3.241.0",
+    "@aws-sdk/s3-request-presigner": "^3.241.0",
+    "@prisma/client": "^4.7.1",
+    "@trpc/server": "^10.9.0",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@openreadme/tsconfig": "*",
+    "@tsconfig/node16-strictest-esm": "^1.0.3",
+    "@types/node": "^18.0.12",
+    "@vitest/ui": "^0.27.1",
+    "aws-sdk-client-mock": "^2.0.1",
+    "eslint-config-openreadme": "*",
+    "prisma": "^4.7.1",
+    "tsc-watch": "^6.0.0",
+    "typescript": "^4.5.3",
+    "vitest": "^0.27.2"
+  }
+}

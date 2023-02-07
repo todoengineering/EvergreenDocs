@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Pull Request
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Build & Unit Test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:10.12-alpine
+        env:
+          POSTGRES_DB: openreadme
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "yarn"
+
+      - name: Install Dependencies
+        run: yarn install --immutable --immutable-cache
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Push Prisma Schema
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/openreadme
+        run: yarn prisma:push
+
+      - name: Build
+        run: yarn build
+
+      - name: Run Tests
+        env:
+          POSTGRES_SCHEMA_NAME: public
+          POSTGRES_DATABASE_NAME: openreadme
+          POSTGRES_PORT: 5432
+          NODE_ENV: development
+        run: yarn test

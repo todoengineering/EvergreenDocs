@@ -1,0 +1,25 @@
+{
+  "name": "@openreadme/stacks",
+  "version": "1.0.0",
+  "main": "dist/main.mjs",
+  "types": "main.mts",
+  "type": "module",
+  "scripts": {
+    "deploy": "sst deploy  --stage development",
+    "dev:disabled": "sst dev --stage development",
+    "build": "tsc",
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
+    "console": "sst console"
+  },
+  "devDependencies": {
+    "@openreadme/tsconfig": "*",
+    "@types/node": "^18.11.15",
+    "eslint-config-openreadme": "*",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "constructs": "10.1.156",
+    "sst": "2.0.1",
+    "zod": "^3.20.2"
+  }
+}

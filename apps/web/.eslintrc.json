@@ -1,0 +1,9 @@
+{
+  "root": true,
+  "extends": ["openreadme", "next/core-web-vitals"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
