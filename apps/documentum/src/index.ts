@@ -1,13 +1,8 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
 
-import {
-  commitFilesToRepo,
-  createBranch,
-  createPullRequest,
-  retrieveFilesFromRepo,
-} from "./github.js";
 import { createGenerateReadmePrompt, generate } from "./open-ai.js";
+import GithubRepositoryService from "./github-service.js";
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const body = JSON.parse(event?.body || "{}") as PushEvent;
@@ -34,26 +29,29 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
   }
 
-  const files = await retrieveFilesFromRepo({ repoOwner, repoName, installationId }, [
-    "package.json",
-  ]);
+  const githubRepositoryService = new GithubRepositoryService({
+    repoOwner,
+    repoName,
+    installationId,
+  });
+
+  const files = await githubRepositoryService.fetchFiles(["package.json"]);
 
   const prompt = createGenerateReadmePrompt("next-saas-starter", files[0]);
 
   const generatedReadme = await generate(prompt);
 
-  await createBranch({ repoOwner, repoName, installationId }, "this-is-generated-from-my-lambda");
+  if (!generatedReadme) {
+    return {
+      statusCode: 500,
+      body: "Failed to generate readme",
+    };
+  }
 
-  await commitFilesToRepo(
-    { repoOwner, repoName, installationId },
-    "this-is-generated-from-my-lambda",
-    generatedReadme!
-  );
-
-  await createPullRequest(
-    { repoOwner, repoName, installationId },
-    "this-is-generated-from-my-lambda"
-  );
+  const branchName = "this-is-generated-from-my-lambda";
+  await githubRepositoryService.createBranch(branchName);
+  await githubRepositoryService.commitFile(branchName, "README.md", generatedReadme);
+  await githubRepositoryService.createPullRequest(branchName);
 
   console.info("Processed request", event);
 
