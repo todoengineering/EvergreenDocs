@@ -17,7 +17,7 @@ jobs:
       postgres:
         image: postgres:10.12-alpine
         env:
-          POSTGRES_DB: openreadme
+          POSTGRES_DB: evergreendocs
           POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
@@ -45,7 +45,7 @@ jobs:
 
       - name: Push Prisma Schema
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/openreadme
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/evergreendocs
         run: yarn prisma:push
 
       - name: Build
@@ -54,7 +54,7 @@ jobs:
       - name: Run Tests
         env:
           POSTGRES_SCHEMA_NAME: public
-          POSTGRES_DATABASE_NAME: openreadme
+          POSTGRES_DATABASE_NAME: evergreendocs
           POSTGRES_PORT: 5432
           NODE_ENV: development
         run: yarn test

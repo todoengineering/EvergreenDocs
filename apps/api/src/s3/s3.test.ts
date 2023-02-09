@@ -62,7 +62,7 @@ describe("s3", () => {
       expect(response.method).toBe("PUT");
       expect(response.signedImageUrl).toMatch(
         new RegExp(
-          `^https:\/\/openreadme-image-repository-development.s3.eu-west-1.amazonaws.com\/${fakeUser.id}\/fake-object-key.*&x-id=PutObject.*`
+          `^https:\/\/evergreendocs-image-repository-development.s3.eu-west-1.amazonaws.com\/${fakeUser.id}\/fake-object-key.*&x-id=PutObject.*`
         )
       );
       expect(response.imageKey).toMatch(new RegExp(`^${fakeUser.id}\/fake-object-key$`));

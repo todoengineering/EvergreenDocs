@@ -1,5 +1,5 @@
 {
-  "extends": "@openreadme/tsconfig/base.json",
+  "extends": "@evergreendocs/tsconfig/base.json",
   "compilerOptions": {
     "outDir": "dist",
     "module": "es2022",

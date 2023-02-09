@@ -1,7 +1,7 @@
 import { createEmotionCache } from "@mantine/core";
 
 const emotionCache = createEmotionCache({
-  key: "openreadme",
+  key: "evergreendocs",
 });
 
 export default emotionCache;

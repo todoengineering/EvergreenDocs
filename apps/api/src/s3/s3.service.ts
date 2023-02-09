@@ -26,7 +26,7 @@ const s3Service = {
     return getSignedUrl(
       s3Client,
       new PutObjectCommand({
-        Bucket: "openreadme-image-repository-development",
+        Bucket: "evergreendocs-image-repository-development",
         ...input,
       })
     );
@@ -34,7 +34,7 @@ const s3Service = {
   deleteObject: (input: Omit<DeleteObjectCommandInput, "Bucket">) => {
     return s3Client.send(
       new DeleteObjectCommand({
-        Bucket: "openreadme-image-repository-development",
+        Bucket: "evergreendocs-image-repository-development",
         ...input,
       })
     );

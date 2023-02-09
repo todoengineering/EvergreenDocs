@@ -1,10 +1,10 @@
 import React, { createContext, useMemo } from "react";
-import type { OpenReadmeTypes } from "@openreadme/api";
+import type { EvergreenDocsTypes } from "@evergreendocs/api";
 
 import { trpc } from "../trpc";
 
 type UserContextProps = {
-  user: OpenReadmeTypes.User | undefined;
+  user: EvergreenDocsTypes.User | undefined;
   isLoading: boolean;
 };
 

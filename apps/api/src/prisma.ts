@@ -8,7 +8,7 @@ async function getDatabaseUrls() {
   const writeHost = env("POSTGRES_WRITE_HOST", "localhost");
   const readHost = env("POSTGRES_READ_HOST", "localhost");
   const port = env("POSTGRES_PORT", "5432");
-  const database = env("POSTGRES_DATABASE_NAME", "openreadme");
+  const database = env("POSTGRES_DATABASE_NAME", "evergreendocs");
   const schema = env("POSTGRES_SCHEMA_NAME", "public");
 
   return {

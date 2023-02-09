@@ -1,0 +1,33 @@
+{
+  "name": "@evergreendocs/documentum",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.267.0",
+    "@octokit/auth-app": "^4.0.9",
+    "@octokit/core": "^4.2.0",
+    "openai": "^3.1.0",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@evergreendocs/tsconfig": "*",
+    "@octokit/webhooks-types": "^6.10.0",
+    "@types/aws-lambda": "^8.10.109",
+    "@types/node": "^18.0.12",
+    "aws-lambda": "^1.0.7",
+    "eslint-config-evergreendocs": "*",
+    "tsc-watch": "^6.0.0",
+    "typescript": "^4.5.3",
+    "vitest": "^0.27.2"
+  }
+}

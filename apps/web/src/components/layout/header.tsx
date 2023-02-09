@@ -65,7 +65,7 @@ function Header() {
   return (
     <MantineHeader height={60} className={classes.header}>
       <Flex fw={700} color="white" h="100%" w="100%" align="center" fz="30px">
-        <Title order={1}>OpenREADME</Title>
+        <Title order={1}>evergreendocs</Title>
       </Flex>
       <Flex gap={10} align="center">
         <RightHeader />

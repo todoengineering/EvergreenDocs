@@ -9,7 +9,7 @@ const config = {
     cognito: {
       baseUrl: env(
         "COGNITO_BASE_URL",
-        "https://openreadme-development.auth.eu-west-1.amazoncognito.com"
+        "https://evergreendocs-development.auth.eu-west-1.amazoncognito.com"
       ),
       clientId: env("COGNITO_CLIENT_ID", "1i5rbdfii23dfa4g5ukkar92vl"),
     },

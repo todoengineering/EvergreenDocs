@@ -1,14 +1,12 @@
 import { SSTConfig } from "sst";
 
-import authenticationStack from "./src/authentication.js";
-import imageStack from "./src/image.js";
+import apiStack from "./src/api.js";
 
 export default {
   config() {
     return {
-      name: "openreadme",
+      name: "evergreendocs",
       region: "eu-west-1",
-      profile: "personal",
     };
   },
   stacks(app) {
@@ -19,8 +17,6 @@ export default {
       },
     });
 
-    app.stack(authenticationStack).stack(imageStack);
-
-    // TODO: Add RDS and Lambdas for Next.js and tRPC
+    app.stack(apiStack);
   },
 } satisfies SSTConfig;

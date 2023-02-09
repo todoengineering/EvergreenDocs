@@ -1,5 +1,5 @@
 {
-  "name": "@openreadme/stacks",
+  "name": "@evergreendocs/stacks",
   "version": "1.0.0",
   "main": "dist/main.mjs",
   "types": "main.mts",
@@ -12,14 +12,14 @@
     "console": "sst console"
   },
   "devDependencies": {
-    "@openreadme/tsconfig": "*",
+    "@evergreendocs/tsconfig": "*",
     "@types/node": "^18.11.15",
-    "eslint-config-openreadme": "*",
+    "eslint-config-evergreendocs": "*",
     "typescript": "^4.9.4"
   },
   "dependencies": {
     "constructs": "10.1.156",
-    "sst": "2.0.1",
+    "sst": "2.0.7",
     "zod": "^3.20.2"
   }
 }

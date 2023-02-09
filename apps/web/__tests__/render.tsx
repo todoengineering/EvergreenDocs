@@ -2,12 +2,12 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render as reactTestingLibraryRender } from "@testing-library/react";
 import { httpBatchLink } from "@trpc/react-query";
-import { OpenReadmeTypes } from "@openreadme/api";
+import { EvergreenDocsTypes } from "@evergreendocs/api";
 
 import { trpc } from "../src/trpc.js";
 import { UserContext } from "../src/context/user.jsx";
 
-const render = (ui: React.ReactElement, options?: { user?: OpenReadmeTypes.User }) => {
+const render = (ui: React.ReactElement, options?: { user?: EvergreenDocsTypes.User }) => {
   const { user } = options || {};
 
   const trpcClient = trpc.createClient({

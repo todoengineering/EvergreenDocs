@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["openreadme", "next/core-web-vitals"],
+  "extends": ["evergreendocs", "next/core-web-vitals"],
   "settings": {
     "react": {
       "version": "detect"
