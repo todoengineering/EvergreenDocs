@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 
 import config from "./config.js";
-import type { JSONSchemaForNPMPackageJsonFiles } from "./package-json-type.js";
+import type { JSONSchemaForNPMPackageJsonFiles } from "./types/package-json.js";
 
 const openai = new OpenAIApi(
   new Configuration({

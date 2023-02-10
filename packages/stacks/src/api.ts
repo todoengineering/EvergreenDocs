@@ -1,9 +1,16 @@
-import { StackContext, Function, EventBus, Stack } from "sst/constructs";
+import { StackContext, Function, EventBus } from "sst/constructs";
 import { EventBus as CdkEventBus } from "aws-cdk-lib/aws-events";
+import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
 
 import banner from "./banner.js";
 
 async function apiStack({ stack }: StackContext) {
+  const defaultEventBus = CdkEventBus.fromEventBusArn(
+    stack,
+    "default-event-bus-aws",
+    `arn:aws:events:${stack.region}:${stack.account}:event-bus/default`
+  );
+
   // eslint-disable-next-line @typescript-eslint/ban-types
   let sunrise: Function | null = null;
 
@@ -12,6 +19,21 @@ async function apiStack({ stack }: StackContext) {
       handler: "../../apps/sunrise/src/index.handler",
       functionName: `sunrise-${stack.stage}`,
       timeout: "15 seconds",
+      url: true,
+      initialPolicy: [
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: ["secretsmanager:GetSecretValue"],
+          resources: [
+            `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/githubapp*`,
+          ],
+        }),
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: ["events:PutEvents"],
+          resources: [defaultEventBus.eventBusArn],
+        }),
+      ],
     });
   }
 
@@ -24,23 +46,32 @@ async function apiStack({ stack }: StackContext) {
     },
     environment: {
       OPENAI_API_KEY: process.env["OPENAI_API_KEY"] as string,
-      OPENAI_MODEL: "text-ada-001",
+      OPENAI_MODEL: "code-davinci-002",
     },
+    initialPolicy: [
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ["secretsmanager:GetSecretValue"],
+        resources: [
+          `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/githubapp*`,
+        ],
+      }),
+    ],
   });
 
   new EventBus(stack, "default-event-bus", {
     rules: {
       "github-webhook-ingest": {
-        pattern: { source: ["github.com"], detailType: ["push"] },
+        pattern: {
+          source: ["github.com"],
+          detailType: ["push"],
+          detail: { ref: ["refs/heads/main"] },
+        },
         targets: { documentum },
       },
     },
     cdk: {
-      eventBus: CdkEventBus.fromEventBusArn(
-        stack,
-        "default-event-bus-aws",
-        `arn:aws:events:${stack.region}:${stack.account}:event-bus/default`
-      ),
+      eventBus: defaultEventBus,
     },
   });
 

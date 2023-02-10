@@ -1,5 +1,6 @@
-import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 import { z } from "zod";
+
+import secretsManagerService from "./secrets-manager-service.js";
 
 declare global {
   namespace NodeJS {
@@ -10,10 +11,6 @@ declare global {
   }
 }
 
-const client = new SecretsManagerClient({
-  region: "eu-west-1",
-});
-
 const configSchema = z.object({
   openAi: z.object({
     key: z.string().min(1),
@@ -22,6 +19,7 @@ const configSchema = z.object({
       z.literal("text-babbage-001"),
       z.literal("text-curie-001"),
       z.literal("text-davinci-003"),
+      z.literal("code-davinci-002"),
     ]),
   }),
   github: z.object({
@@ -32,18 +30,15 @@ const configSchema = z.object({
   }),
 });
 
-const githubAppSecretsValueResponse = await client.send(
-  new GetSecretValueCommand({
-    SecretId: "development/evergreendocs/githubapp",
-  })
-);
+const githubAppAuth = await secretsManagerService.getSecretJson<{
+  appId: string;
+  clientId: string;
+  clientSecret: string;
+}>("development/evergreendocs/githubapp");
 
-const githubAppPrivateKeySecretsValueResponse = await client.send(
-  new GetSecretValueCommand({
-    SecretId: "development/evergreendocs/githubapp/privatekey",
-  })
+const githubAppPrivateKey = await secretsManagerService.getSecret(
+  "development/evergreendocs/githubapp/privatekey"
 );
-const githubAppAuth = JSON.parse(githubAppSecretsValueResponse.SecretString || "{}");
 
 const config = configSchema.parse({
   openAi: {
@@ -54,7 +49,7 @@ const config = configSchema.parse({
     appId: githubAppAuth?.appId,
     clientId: githubAppAuth?.clientId,
     clientSecret: githubAppAuth?.clientSecret,
-    privateKey: githubAppPrivateKeySecretsValueResponse.SecretString,
+    privateKey: githubAppPrivateKey,
   },
 });
 
