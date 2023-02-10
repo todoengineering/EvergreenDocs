@@ -1,11 +1,11 @@
-import { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import { EventBridgeHandler, APIGatewayProxyResultV2 } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
 
 import { createGenerateReadmePrompt, generate } from "./open-ai.js";
 import GithubRepositoryService from "./github-service.js";
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  const body = JSON.parse(event?.body || "{}") as PushEvent;
+const handler: EventBridgeHandler<"push", PushEvent, APIGatewayProxyResultV2> = async (event) => {
+  const body = event?.detail;
 
   if (!body?.commits?.length || body?.ref !== "refs/heads/main") {
     return {
@@ -64,4 +64,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   };
 };
 
-export default handler;
+export { handler };

@@ -14,6 +14,7 @@ export default {
   stacks(app) {
     app.setDefaultFunctionProps({
       runtime: "nodejs18.x",
+      logRetention: "one_day",
       nodejs: {
         format: "esm",
       },

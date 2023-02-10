@@ -43,7 +43,6 @@ const githubAppPrivateKeySecretsValueResponse = await client.send(
     SecretId: "development/evergreendocs/githubapp/privatekey",
   })
 );
-console.log(githubAppPrivateKeySecretsValueResponse);
 const githubAppAuth = JSON.parse(githubAppSecretsValueResponse.SecretString || "{}");
 
 const config = configSchema.parse({
