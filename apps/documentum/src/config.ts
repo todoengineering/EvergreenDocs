@@ -11,7 +11,7 @@ declare global {
 }
 
 const client = new SecretsManagerClient({
-  region: "us-east-1",
+  region: "eu-west-1",
 });
 
 const configSchema = z.object({
@@ -25,19 +25,26 @@ const configSchema = z.object({
     ]),
   }),
   github: z.object({
-    appId: z.number().min(1),
+    appId: z.string().min(1),
     privateKey: z.string().min(1),
     clientId: z.string().min(1),
     clientSecret: z.string().min(1),
   }),
 });
 
-const secretValueCommandResponse = await client.send(
+const githubAppSecretsValueResponse = await client.send(
   new GetSecretValueCommand({
     SecretId: "development/evergreendocs/githubapp",
   })
 );
-const githubAppAuth = JSON.parse(secretValueCommandResponse.SecretString || "{}");
+
+const githubAppPrivateKeySecretsValueResponse = await client.send(
+  new GetSecretValueCommand({
+    SecretId: "development/evergreendocs/githubapp/privatekey",
+  })
+);
+console.log(githubAppPrivateKeySecretsValueResponse);
+const githubAppAuth = JSON.parse(githubAppSecretsValueResponse.SecretString || "{}");
 
 const config = configSchema.parse({
   openAi: {
@@ -46,9 +53,9 @@ const config = configSchema.parse({
   },
   github: {
     appId: githubAppAuth?.appId,
-    privateKey: githubAppAuth?.privateKey,
     clientId: githubAppAuth?.clientId,
     clientSecret: githubAppAuth?.clientSecret,
+    privateKey: githubAppPrivateKeySecretsValueResponse.SecretString,
   },
 });
 
