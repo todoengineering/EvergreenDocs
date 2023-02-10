@@ -2,6 +2,8 @@ import { SSTConfig } from "sst";
 
 import apiStack from "./src/api.js";
 
+const validStages = ["isaac-development", "dan-development", "production"];
+
 export default {
   config() {
     return {
@@ -16,6 +18,10 @@ export default {
         format: "esm",
       },
     });
+
+    if (!validStages.includes(app.stage)) {
+      throw new Error(`Invalid stage: ${app.stage}, must be one of: ${validStages.join(", ")}`);
+    }
 
     app.stack(apiStack);
   },

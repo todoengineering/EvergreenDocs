@@ -10,7 +10,7 @@ function apiStack({ stack }: StackContext) {
     nodejs: {
       format: "esm",
       banner: [
-        // WORKAROUND: Add `crypto` and `CryptoKey` for next-auth middleware - https://github.com/serverless-stack/open-next#workaround-nextauth-middleware
+        // WORKAROUND: Add `crypto` octokit - https://github.com/serverless-stack/open-next#workaround-nextauth-middleware
         "import crypto from 'node:crypto';",
         "Object.assign(globalThis, {",
         "  crypto,",

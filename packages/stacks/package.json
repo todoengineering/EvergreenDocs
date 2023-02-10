@@ -5,8 +5,8 @@
   "types": "main.mts",
   "type": "module",
   "scripts": {
-    "deploy": "sst deploy  --stage development",
-    "dev:disabled": "sst dev --stage development",
+    "deploy": "sst deploy  --stage $SST_STAGE",
+    "dev:disabled": "sst dev --stage $SST_STAGE",
     "build": "tsc",
     "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
     "console": "sst console"
