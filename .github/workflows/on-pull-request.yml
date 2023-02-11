@@ -52,7 +52,8 @@ jobs:
         run: yarn build
 
       - name: Run Tests
-        # env:
+        env:
+          CI: true
         #   POSTGRES_SCHEMA_NAME: public
         #   POSTGRES_DATABASE_NAME: evergreendocs
         #   POSTGRES_PORT: 5432
