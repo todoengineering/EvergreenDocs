@@ -1,6 +1,8 @@
+// TODO: Not sure what I'm doing with this file...but it's good enough for now
+
 import { Configuration, OpenAIApi } from "openai";
 
-import config from "./config.js";
+import config from "../config.js";
 
 const openai = new OpenAIApi(
   new Configuration({
@@ -8,7 +10,7 @@ const openai = new OpenAIApi(
   })
 );
 
-const generate = async (prompt: string) => {
+const createCompletion = async (prompt: string) => {
   const response = await openai.createCompletion({
     model: config.openAi.model,
     prompt,
@@ -29,4 +31,4 @@ const generate = async (prompt: string) => {
   return response.data.choices[0].text;
 };
 
-export { generate };
+export { createCompletion };

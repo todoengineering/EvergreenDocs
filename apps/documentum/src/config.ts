@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import secretsManagerService from "./secrets-manager-service.js";
+import secretsManagerService from "./services/secrets-manager-service.js";
 
 declare global {
   namespace NodeJS {
@@ -10,6 +10,20 @@ declare global {
     }
   }
 }
+
+type GitHubAppAuth = {
+  appId: string;
+  clientId: string;
+  clientSecret: string;
+};
+
+const githubAppAuth = await secretsManagerService.getSecretJson<GitHubAppAuth>(
+  "development/evergreendocs/githubapp"
+);
+
+const githubAppPrivateKey = await secretsManagerService.getSecret(
+  "development/evergreendocs/githubapp/privatekey"
+);
 
 const configSchema = z.object({
   openAi: z.object({
@@ -29,16 +43,6 @@ const configSchema = z.object({
     clientSecret: z.string().min(1),
   }),
 });
-
-const githubAppAuth = await secretsManagerService.getSecretJson<{
-  appId: string;
-  clientId: string;
-  clientSecret: string;
-}>("development/evergreendocs/githubapp");
-
-const githubAppPrivateKey = await secretsManagerService.getSecret(
-  "development/evergreendocs/githubapp/privatekey"
-);
 
 const config = configSchema.parse({
   openAi: {

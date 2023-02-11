@@ -1,8 +1,9 @@
 import { createAppAuth } from "@octokit/auth-app";
 import { Octokit } from "@octokit/core";
+import minimatch from "minimatch";
 
-import { DocumentumFile } from "./types/index.js";
-import config from "./config.js";
+import { DocumentumFile } from "../types/index.js";
+import config from "../config.js";
 
 type GithubRepositoryServiceOptions = {
   installationId: number;
@@ -10,13 +11,12 @@ type GithubRepositoryServiceOptions = {
   repoName: string;
 };
 
-class GithubRepositoryService {
+class GithubRepositoryService extends Octokit {
   readonly repoOwner: string;
   readonly repoName: string;
-  octokit: Octokit;
 
   constructor({ installationId, repoOwner, repoName }: GithubRepositoryServiceOptions) {
-    this.octokit = new Octokit({
+    super({
       authStrategy: createAppAuth,
       auth: {
         type: "app",
@@ -32,17 +32,14 @@ class GithubRepositoryService {
     this.repoName = repoName;
   }
 
-  async fetchFiles(files: string[], branch = "main"): Promise<DocumentumFile[]> {
-    const getBranchResponse = await this.octokit.request(
-      "GET /repos/{owner}/{repo}/branches/{branch}",
-      {
-        owner: this.repoOwner,
-        repo: this.repoName,
-        branch,
-      }
-    );
+  async fetchFiles(fileGlobs: string[], branch = "main"): Promise<DocumentumFile[]> {
+    const getBranchResponse = await this.request("GET /repos/{owner}/{repo}/branches/{branch}", {
+      owner: this.repoOwner,
+      repo: this.repoName,
+      branch,
+    });
 
-    const getBranchTreeResponse = await this.octokit.request(
+    const getBranchTreeResponse = await this.request(
       "GET /repos/{owner}/{repo}/git/trees/{tree_sha}",
       {
         owner: this.repoOwner,
@@ -53,7 +50,7 @@ class GithubRepositoryService {
     );
 
     const filesInRepo = getBranchTreeResponse.data.tree.filter((file) =>
-      files.some((fileName) => file.path?.includes(fileName))
+      fileGlobs.some((fileGlob) => file.path && minimatch(file.path, fileGlob))
     );
 
     const fileWithContents: DocumentumFile[] = [];
@@ -63,14 +60,11 @@ class GithubRepositoryService {
         continue;
       }
 
-      const getFileResponse = await this.octokit.request(
-        "GET /repos/{owner}/{repo}/git/blobs/{file_sha}",
-        {
-          owner: this.repoOwner,
-          repo: this.repoName,
-          file_sha: file.sha,
-        }
-      );
+      const getFileResponse = await this.request("GET /repos/{owner}/{repo}/git/blobs/{file_sha}", {
+        owner: this.repoOwner,
+        repo: this.repoName,
+        file_sha: file.sha,
+      });
 
       const content = Buffer.from(getFileResponse.data.content, "base64").toString("utf-8");
 
@@ -86,16 +80,13 @@ class GithubRepositoryService {
   }
 
   async createBranch(branchName: string) {
-    const getBranchResponse = await this.octokit.request(
-      "GET /repos/{owner}/{repo}/branches/{branch}",
-      {
-        owner: this.repoOwner,
-        repo: this.repoName,
-        branch: "main",
-      }
-    );
+    const getBranchResponse = await this.request("GET /repos/{owner}/{repo}/branches/{branch}", {
+      owner: this.repoOwner,
+      repo: this.repoName,
+      branch: "main",
+    });
 
-    const createBranchResponse = await this.octokit.request("POST /repos/{owner}/{repo}/git/refs", {
+    const createBranchResponse = await this.request("POST /repos/{owner}/{repo}/git/refs", {
       owner: this.repoOwner,
       repo: this.repoName,
       ref: `refs/heads/${branchName}`,
@@ -110,55 +101,53 @@ class GithubRepositoryService {
     return createBranchResponse.data;
   }
 
-  async commitFile(branchName: string, path: string, content: string) {
-    const getCurrentFileResponse = await this.octokit.request(
-      "GET /repos/{owner}/{repo}/contents/{path}",
-      {
-        owner: this.repoOwner,
-        repo: this.repoName,
-        path: path,
-        ref: branchName,
-      }
-    );
+  async commitFile(commitFileProps: {
+    branchName: string;
+    path: string;
+    content: string;
+    message: string;
+  }) {
+    const getCurrentFileResponse = await this.request("GET /repos/{owner}/{repo}/contents/{path}", {
+      owner: this.repoOwner,
+      repo: this.repoName,
+      path: commitFileProps.path,
+      ref: commitFileProps.branchName,
+    });
 
     const sha = "sha" in getCurrentFileResponse.data ? getCurrentFileResponse.data.sha : "";
 
-    const updateFileResponse = await this.octokit.request(
-      "PUT /repos/{owner}/{repo}/contents/{path}",
-      {
-        owner: this.repoOwner,
-        repo: this.repoName,
-        path: path,
-        branch: branchName,
-        message: "This is created from the lambda!!!!!",
-        content: Buffer.from(content).toString("base64"),
-        sha,
-      }
-    );
+    const updateFileResponse = await this.request("PUT /repos/{owner}/{repo}/contents/{path}", {
+      owner: this.repoOwner,
+      repo: this.repoName,
+      path: commitFileProps.path,
+      branch: commitFileProps.branchName,
+      message: commitFileProps.message,
+      content: Buffer.from(commitFileProps.content).toString("base64"),
+      sha,
+    });
 
     console.log("Committed file to repo", {
       repository: `${this.repoOwner}/${this.repoName}`,
-      branchName,
-      path,
+      branchName: commitFileProps.branchName,
+      path: commitFileProps.path,
+      commitSha: updateFileResponse.data.commit.sha,
     });
 
     return updateFileResponse.data;
   }
 
-  async createPullRequest(branchName: string) {
-    const createPullRequestResponse = await this.octokit.request(
-      "POST /repos/{owner}/{repo}/pulls",
-      {
-        owner: this.repoOwner,
-        repo: this.repoName,
-        title: "This is a pull request from the lambda",
-        head: branchName,
-        base: "main",
-      }
-    );
+  async createPullRequest(branchName: string, title: string) {
+    const createPullRequestResponse = await this.request("POST /repos/{owner}/{repo}/pulls", {
+      owner: this.repoOwner,
+      repo: this.repoName,
+      title,
+      head: branchName,
+      base: "main",
+    });
 
     console.log("Created pull request", {
       repository: `${this.repoOwner}/${this.repoName}`,
+      title,
       branchName,
     });
 
