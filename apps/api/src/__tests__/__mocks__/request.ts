@@ -1,6 +1,8 @@
+// TODO: fix when thi is merged: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63892
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { mock } from "node:test";
+
 import type { FastifyRequest } from "fastify";
 
 const fakeRequest: FastifyRequest = {

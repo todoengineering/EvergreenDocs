@@ -1,7 +1,7 @@
-import { TRPCError } from "@trpc/server";
 import assert from "node:assert";
-
 import { describe, test } from "node:test";
+
+import { TRPCError } from "@trpc/server";
 
 import appRouter from "../router.js";
 import fakeRequest from "../__tests__/__mocks__/request.js";

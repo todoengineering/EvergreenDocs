@@ -1,15 +1,15 @@
 import { randomUUID } from "node:crypto";
 import assert from "node:assert";
-
 import { describe, test } from "node:test";
+
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
+import { TRPCError } from "@trpc/server";
 
 import appRouter from "../router.js";
 import fakeRequest from "../__tests__/__mocks__/request.js";
 import fakeResponse from "../__tests__/__mocks__/response.js";
 import fakeUser from "../__tests__/__mocks__/user.js";
-import { TRPCError } from "@trpc/server";
 
 const s3Mock = mockClient(S3Client);
 

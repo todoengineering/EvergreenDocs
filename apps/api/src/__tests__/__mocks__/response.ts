@@ -1,7 +1,9 @@
-import type { FastifyReply } from "fastify";
+// TODO: fix when thi is merged: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63892
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { mock } from "node:test";
+
+import type { FastifyReply } from "fastify";
 
 const fakeResponse: FastifyReply = {
   code: mock.fn(),
