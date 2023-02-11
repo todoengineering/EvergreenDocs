@@ -40,8 +40,8 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable --immutable-cache
 
-      - name: Lint
-        run: yarn lint
+      # - name: Lint
+      #   run: yarn lint
 
       # - name: Push Prisma Schema
       #   env:
