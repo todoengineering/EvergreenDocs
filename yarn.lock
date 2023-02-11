@@ -4675,7 +4675,7 @@ __metadata:
     "@trpc/client": ^10.8.2
     "@trpc/next": ^10.9.0
     "@trpc/react": ^9.27.4
-    "@trpc/react-query": ^10.9.0
+    "@trpc/react-query": ^10.11.0
     "@trpc/server": ^10.9.0
     "@types/cookie": ^0.5.1
     "@types/node": ^18.0.12
@@ -5835,16 +5835,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.9.0":
-  version: 10.9.0
-  resolution: "@trpc/react-query@npm:10.9.0"
+"@trpc/react-query@npm:^10.11.0":
+  version: 10.11.0
+  resolution: "@trpc/react-query@npm:10.11.0"
   peerDependencies:
     "@tanstack/react-query": ^4.3.8
-    "@trpc/client": 10.9.0
-    "@trpc/server": 10.9.0
+    "@trpc/client": 10.11.0
+    "@trpc/server": 10.11.0
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: f39de701dee38f32796c185b855a84bf8df9b6ccc45ab337cd58d77a2ab5bd434e5c6f459fc266ac6d98422d01f0700728b99f77ee6587a217fa2e59e74f99d0
+  checksum: b2d7d7165c38fc46be9009649cae15a7d471e9dbe32cfeefe42cd954bc7fce8d57e46ca65c32ad1bd0c69a7c18436cbd6385cb847fb3f0ad7fa8e614a586575d
   languageName: node
   linkType: hard
 

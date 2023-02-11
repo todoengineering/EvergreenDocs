@@ -26,7 +26,7 @@
     "@trpc/client": "^10.8.2",
     "@trpc/next": "^10.9.0",
     "@trpc/react": "^9.27.4",
-    "@trpc/react-query": "^10.9.0",
+    "@trpc/react-query": "^10.11.0",
     "@trpc/server": "^10.9.0",
     "cookie": "^0.5.0",
     "fastify": "^4.12.0",
