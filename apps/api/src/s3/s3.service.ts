@@ -7,7 +7,6 @@ import {
   S3ClientConfig,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { fromIni } from "@aws-sdk/credential-providers";
 
 import config from "../config.js";
 
@@ -16,6 +15,8 @@ const s3ClientConfig: S3ClientConfig = {
 };
 
 if (config.aws.profile) {
+  const { fromIni } = await import("@aws-sdk/credential-providers");
+
   s3ClientConfig.credentials = fromIni({ profile: config.aws.profile });
 }
 

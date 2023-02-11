@@ -9,6 +9,7 @@
     "dev": "tsc-watch --onSuccess \"node ./dist/main.mjs\"",
     "build": "tsc",
     "start": "node dist/main.mjs",
+    "test": "vitest run",
     "test:watch": "vitest watch",
     "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
     "prisma:generate": "prisma generate",
