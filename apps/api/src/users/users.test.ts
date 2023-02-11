@@ -1,4 +1,7 @@
-import { describe, expect, test } from "vitest";
+import { TRPCError } from "@trpc/server";
+import assert from "node:assert";
+
+import { describe, test } from "node:test";
 
 import appRouter from "../router.js";
 import fakeRequest from "../__tests__/__mocks__/request.js";
@@ -12,9 +15,12 @@ describe("users", () => {
 
       const callPromise = caller.users.me();
 
-      await expect(callPromise).rejects.toStrictEqual(
-        expect.objectContaining({ code: "UNAUTHORIZED" })
-      );
+      await assert.rejects(callPromise, (err: TRPCError) => {
+        assert.strictEqual(err.name, "TRPCError");
+        assert.strictEqual(err.message, "User not authenticated");
+        assert.strictEqual(err.code, "UNAUTHORIZED");
+        return true;
+      });
     });
 
     test("should return the user within the context when user is authenticated", async () => {
@@ -26,7 +32,7 @@ describe("users", () => {
 
       const user = await caller.users.me();
 
-      expect(user).toStrictEqual(fakeUser);
+      assert.deepEqual(user, fakeUser);
     });
   });
 });
