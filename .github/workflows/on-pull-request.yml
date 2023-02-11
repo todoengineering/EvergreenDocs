@@ -58,4 +58,4 @@ jobs:
         #   POSTGRES_DATABASE_NAME: evergreendocs
         #   POSTGRES_PORT: 5432
         #   NODE_ENV: development
-        run: yarn test --reporter verbose
+        run: yarn test
