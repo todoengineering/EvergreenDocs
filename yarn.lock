@@ -4573,11 +4573,13 @@ __metadata:
     "@trpc/server": ^10.9.0
     "@tsconfig/node16-strictest-esm": ^1.0.3
     "@types/node": ^18.0.12
+    "@vitest/ui": ^0.28.4
     aws-sdk-client-mock: ^2.0.1
     eslint-config-evergreendocs: "*"
     prisma: ^4.7.1
     tsc-watch: ^6.0.0
     typescript: ^4.5.3
+    vitest: ^0.28.4
     zod: ^3.20.2
   languageName: unknown
   linkType: soft
@@ -4598,6 +4600,7 @@ __metadata:
     openai: ^3.1.0
     tsc-watch: ^6.0.0
     typescript: ^4.5.3
+    vitest: ^0.28.4
     zod: ^3.20.2
   languageName: unknown
   linkType: soft
@@ -4629,6 +4632,7 @@ __metadata:
     eslint-config-evergreendocs: "*"
     tsc-watch: ^6.0.0
     typescript: ^4.5.3
+    vitest: ^0.28.4
     zod: ^3.20.2
   languageName: unknown
   linkType: soft
@@ -4682,6 +4686,7 @@ __metadata:
     react: latest
     react-dom: latest
     typescript: ^4.5.3
+    vitest: ^0.28.4
   languageName: unknown
   linkType: soft
 
@@ -9322,10 +9327,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "evergreendocs@workspace:."
   dependencies:
-    "@vitest/ui": ^0.28.4
     prettier: latest
     turbo: latest
-    vitest: ^0.28.4
   languageName: unknown
   linkType: soft
 

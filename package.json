@@ -10,15 +10,13 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "test": "vitest run",
+    "lint": "turbo run lint --parallel",
+    "test": "turbo run test --parallel",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@vitest/ui": "^0.28.4",
     "prettier": "latest",
-    "turbo": "latest",
-    "vitest": "^0.28.4"
+    "turbo": "latest"
   },
   "engines": {
     "node": ">=14.0.0"
