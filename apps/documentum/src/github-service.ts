@@ -1,6 +1,7 @@
 import { createAppAuth } from "@octokit/auth-app";
 import { Octokit } from "@octokit/core";
 
+import { DocumentumFile } from "./types/index.js";
 import config from "./config.js";
 
 type GithubRepositoryServiceOptions = {
@@ -31,7 +32,7 @@ class GithubRepositoryService {
     this.repoName = repoName;
   }
 
-  async fetchFiles(files: string[], branch = "main") {
+  async fetchFiles(files: string[], branch = "main"): Promise<DocumentumFile[]> {
     const getBranchResponse = await this.octokit.request(
       "GET /repos/{owner}/{repo}/branches/{branch}",
       {
@@ -55,7 +56,7 @@ class GithubRepositoryService {
       files.some((fileName) => file.path?.includes(fileName))
     );
 
-    const fileContents: string[] = [];
+    const fileWithContents: DocumentumFile[] = [];
 
     for (const file of filesInRepo) {
       if (!file.sha) {
@@ -71,12 +72,17 @@ class GithubRepositoryService {
         }
       );
 
-      fileContents.push(Buffer.from(getFileResponse.data.content, "base64").toString("utf-8"));
+      const content = Buffer.from(getFileResponse.data.content, "base64").toString("utf-8");
+
+      fileWithContents.push({
+        ...file,
+        content,
+      });
     }
 
-    console.log(`Retrieved ${fileContents.length} files from repo`);
+    console.log(`Retrieved ${fileWithContents.length} files from repo`);
 
-    return fileContents;
+    return fileWithContents;
   }
 
   async createBranch(branchName: string) {
@@ -96,7 +102,10 @@ class GithubRepositoryService {
       sha: getBranchResponse.data["commit"]["sha"],
     });
 
-    console.log("Created branch", createBranchResponse.data);
+    console.log("Created branch", {
+      repository: `${this.repoOwner}/${this.repoName}`,
+      branchName,
+    });
 
     return createBranchResponse.data;
   }
@@ -127,11 +136,10 @@ class GithubRepositoryService {
       }
     );
 
-    console.log("Committed files to repo", {
-      repoOwner: this.repoOwner,
-      repoName: this.repoName,
+    console.log("Committed file to repo", {
+      repository: `${this.repoOwner}/${this.repoName}`,
       branchName,
-      content,
+      path,
     });
 
     return updateFileResponse.data;
@@ -149,7 +157,10 @@ class GithubRepositoryService {
       }
     );
 
-    console.log("Created pull request", createPullRequestResponse.data);
+    console.log("Created pull request", {
+      repository: `${this.repoOwner}/${this.repoName}`,
+      branchName,
+    });
 
     return createPullRequestResponse.data;
   }

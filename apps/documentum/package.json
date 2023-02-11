@@ -1,5 +1,6 @@
 {
   "name": "@evergreendocs/documentum",
+  "description": "Documentum is a README.md file generator for GitHub repositories. It uses the GitHub API to fetch information about the repository and uses OpenAI's GPT-3 API to generate a README.md file",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,13 +14,14 @@
     "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
   },
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.267.0",
     "@octokit/auth-app": "^4.0.9",
     "@octokit/core": "^4.2.0",
+    "minimatch": "^6.1.6",
     "openai": "^3.1.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.267.0",
     "@evergreendocs/tsconfig": "*",
     "@octokit/webhooks-types": "^6.10.0",
     "@types/aws-lambda": "^8.10.109",

@@ -1,5 +1,6 @@
 {
   "name": "@evergreendocs/sunrise",
+  "description": "Sunrise ia lambda function with an endpoint that is called by the Evergreen Docs Github App webhook and a webhook event message on the EventBridge bus",
   "version": "0.0.0",
   "private": true,
   "type": "module",

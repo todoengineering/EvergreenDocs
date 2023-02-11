@@ -1,5 +1,6 @@
 {
   "name": "@evergreendocs/api",
+  "description": "Evergreen Docs API used for the Evergreen Docs web app and the Evergreen Docs CLI",
   "version": "0.0.0",
   "private": true,
   "type": "module",

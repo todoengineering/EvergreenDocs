@@ -1,5 +1,6 @@
 {
   "name": "@evergreendocs/web",
+  "description": "Evergreen Docs web app. Allows users to manage and customise the Evergreen GitHub app",
   "version": "0.0.0",
   "private": true,
   "scripts": {

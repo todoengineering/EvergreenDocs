@@ -1,8 +1,11 @@
 import { EventBridgeHandler, APIGatewayProxyResultV2 } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
 
-import { createGenerateReadmePrompt, generate } from "./open-ai.js";
+import { createReadmePrompt } from "./prompt.js";
+import { generate } from "./open-ai.js";
 import GithubRepositoryService from "./github-service.js";
+
+const keyFiles = ["package.json"];
 
 const handler: EventBridgeHandler<"push", PushEvent, APIGatewayProxyResultV2> = async (event) => {
   const body = event?.detail;
@@ -13,7 +16,11 @@ const handler: EventBridgeHandler<"push", PushEvent, APIGatewayProxyResultV2> = 
     };
   }
 
-  console.info("Received request", event, body);
+  console.log("Received event", {
+    repository: body.repository?.full_name,
+    ref: body.ref,
+    commits: body.commits.map((commit) => commit.id),
+  });
 
   const repoOwner = body.repository?.owner?.login;
   const repoName = body.repository?.name;
@@ -35,25 +42,22 @@ const handler: EventBridgeHandler<"push", PushEvent, APIGatewayProxyResultV2> = 
     installationId,
   });
 
-  const files = await githubRepositoryService.fetchFiles(["package.json"]);
+  const files = await githubRepositoryService.fetchFiles(keyFiles);
 
-  const prompt = createGenerateReadmePrompt("next-saas-starter", files[0]);
+  const prompt = createReadmePrompt(files);
 
   const generatedReadme = await generate(prompt);
-
-  if (!generatedReadme) {
-    return {
-      statusCode: 500,
-      body: "Failed to generate readme",
-    };
-  }
 
   const branchName = "this-is-generated-from-my-lambda";
   await githubRepositoryService.createBranch(branchName);
   await githubRepositoryService.commitFile(branchName, "README.md", generatedReadme);
   await githubRepositoryService.createPullRequest(branchName);
 
-  console.info("Processed request", event);
+  console.log("Processed event", {
+    repository: body.repository?.full_name,
+    ref: body.ref,
+    commits: body.commits.map((commit) => commit.id),
+  });
 
   return {
     statusCode: 200,
