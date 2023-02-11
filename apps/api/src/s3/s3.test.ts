@@ -1,8 +1,10 @@
 import { randomUUID } from "node:crypto";
+import assert from "node:assert";
+import { describe, test } from "node:test";
 
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { describe, expect, test } from "vitest";
 import { mockClient } from "aws-sdk-client-mock";
+import { TRPCError } from "@trpc/server";
 
 import appRouter from "../router.js";
 import fakeRequest from "../__tests__/__mocks__/request.js";
@@ -22,9 +24,12 @@ describe("s3", () => {
         contentType: "fake-content-type",
       });
 
-      await expect(callPromise).rejects.toStrictEqual(
-        expect.objectContaining({ code: "UNAUTHORIZED" })
-      );
+      await assert.rejects(callPromise, (err: TRPCError) => {
+        assert.strictEqual(err.name, "TRPCError");
+        assert.strictEqual(err.message, "User not authorized to create presigned url");
+        assert.strictEqual(err.code, "UNAUTHORIZED");
+        return true;
+      });
     });
 
     test("should return UNAUTHORIZED code when the userId provided doesn't match the authorised user", async () => {
@@ -40,9 +45,15 @@ describe("s3", () => {
         contentType: "fake-content-type",
       });
 
-      await expect(callPromise).rejects.toStrictEqual(
-        expect.objectContaining({ code: "UNAUTHORIZED" })
-      );
+      await assert.rejects(callPromise, (err: TRPCError) => {
+        assert.strictEqual(err.name, "TRPCError");
+        assert.strictEqual(
+          err.message,
+          "User not authorized to create presigned url for this user"
+        );
+        assert.strictEqual(err.code, "UNAUTHORIZED");
+        return true;
+      });
     });
 
     test("should return the signed url when the userId provided matches the authorised user", async () => {
@@ -59,13 +70,14 @@ describe("s3", () => {
         contentType: "fake-content-type",
       });
 
-      expect(response.method).toBe("PUT");
-      expect(response.signedImageUrl).toMatch(
+      assert.equal(response.method, "PUT");
+      assert.match(
+        response.signedImageUrl,
         new RegExp(
           `^https:\/\/evergreendocs-image-repository-development.s3.eu-west-1.amazonaws.com\/${fakeUser.id}\/fake-object-key.*&x-id=PutObject.*`
         )
       );
-      expect(response.imageKey).toMatch(new RegExp(`^${fakeUser.id}\/fake-object-key$`));
+      assert.match(response.imageKey, new RegExp(`^${fakeUser.id}\/fake-object-key$`));
     });
   });
 });

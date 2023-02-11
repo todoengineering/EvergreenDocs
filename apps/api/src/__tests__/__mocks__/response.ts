@@ -1,30 +1,34 @@
+// TODO: fix when thi is merged: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63892
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { mock } from "node:test";
+
 import type { FastifyReply } from "fastify";
-import { vi } from "vitest";
 
 const fakeResponse: FastifyReply = {
-  code: vi.fn(),
-  header: vi.fn(),
-  send: vi.fn(),
-  serializer: vi.fn(),
-  type: vi.fn(),
-  getHeader: vi.fn(),
-  hasHeader: vi.fn(),
-  removeHeader: vi.fn(),
-  callNotFound: vi.fn(),
+  code: mock.fn(),
+  header: mock.fn(),
+  send: mock.fn(),
+  serializer: mock.fn(),
+  type: mock.fn(),
+  getHeader: mock.fn(),
+  hasHeader: mock.fn(),
+  removeHeader: mock.fn(),
+  callNotFound: mock.fn(),
   statusCode: 200,
   sent: false,
-  status: vi.fn(),
-  headers: vi.fn(),
-  getHeaders: vi.fn(),
-  hijack: vi.fn(),
-  getResponseTime: vi.fn(),
-  serialize: vi.fn(),
-  compileSerializationSchema: vi.fn(),
-  then: vi.fn(),
+  status: mock.fn(),
+  headers: mock.fn(),
+  getHeaders: mock.fn(),
+  hijack: mock.fn(),
+  getResponseTime: mock.fn(),
+  serialize: mock.fn(),
+  compileSerializationSchema: mock.fn(),
+  then: mock.fn(),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  redirect: vi.fn() as any,
+  redirect: mock.fn() as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getSerializationFunction: vi.fn() as any,
+  getSerializationFunction: mock.fn() as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   raw: {} as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,7 +40,7 @@ const fakeResponse: FastifyReply = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   server: {} as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  serializeInput: vi.fn() as any,
+  serializeInput: mock.fn() as any,
 };
 
 export default fakeResponse;

@@ -1,5 +1,9 @@
+// TODO: fix when thi is merged: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63892
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { mock } from "node:test";
+
 import type { FastifyRequest } from "fastify";
-import { vi } from "vitest";
 
 const fakeRequest: FastifyRequest = {
   id: "fake-request-id",
@@ -8,21 +12,21 @@ const fakeRequest: FastifyRequest = {
   hostname: "fake-hostname",
   log: {
     level: "info",
-    child: vi.fn(),
+    child: mock.fn(),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: vi.fn() as any,
+    error: mock.fn() as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fatal: vi.fn() as any,
+    fatal: mock.fn() as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    info: vi.fn() as any,
+    info: mock.fn() as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    trace: vi.fn() as any,
+    trace: mock.fn() as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    warn: vi.fn() as any,
+    warn: mock.fn() as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    debug: vi.fn() as any,
+    debug: mock.fn() as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    silent: vi.fn() as any,
+    silent: mock.fn() as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   },
   method: "GET",
@@ -37,7 +41,7 @@ const fakeRequest: FastifyRequest = {
   routerPath: "fake-router-path",
   routerMethod: "fake-router-method",
   is404: false,
-  compileValidationSchema: vi.fn(),
+  compileValidationSchema: mock.fn(),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   socket: {} as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,9 +49,9 @@ const fakeRequest: FastifyRequest = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   req: {} as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getValidationFunction: vi.fn() as any,
+  getValidationFunction: mock.fn() as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  validateInput: vi.fn() as any,
+  validateInput: mock.fn() as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   connection: {} as any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
