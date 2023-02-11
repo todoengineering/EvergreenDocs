@@ -51,7 +51,6 @@
     "eslint-config-evergreendocs": "*",
     "jsdom": "^21.0.0",
     "msw": "^1.0.0",
-    "typescript": "^4.5.3",
-    "vitest": "^0.27.2"
+    "typescript": "^4.5.3"
   }
 }
