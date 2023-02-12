@@ -79,7 +79,7 @@ class GithubRepositoryService extends Octokit {
     return fileWithContents;
   }
 
-  async createBranch(branchName: string) {
+  async createBranch(branchProps: { branchName: string }) {
     const getBranchResponse = await this.request("GET /repos/{owner}/{repo}/branches/{branch}", {
       owner: this.repoOwner,
       repo: this.repoName,
@@ -89,13 +89,13 @@ class GithubRepositoryService extends Octokit {
     const createBranchResponse = await this.request("POST /repos/{owner}/{repo}/git/refs", {
       owner: this.repoOwner,
       repo: this.repoName,
-      ref: `refs/heads/${branchName}`,
+      ref: `refs/heads/${branchProps.branchName}`,
       sha: getBranchResponse.data["commit"]["sha"],
     });
 
     console.log("Created branch", {
       repository: `${this.repoOwner}/${this.repoName}`,
-      branchName,
+      branchName: branchProps.branchName,
     });
 
     return createBranchResponse.data;
@@ -136,19 +136,19 @@ class GithubRepositoryService extends Octokit {
     return updateFileResponse.data;
   }
 
-  async createPullRequest(branchName: string, title: string) {
+  async createPullRequest(pullRequestProps: { branchName: string; title: string }) {
     const createPullRequestResponse = await this.request("POST /repos/{owner}/{repo}/pulls", {
       owner: this.repoOwner,
       repo: this.repoName,
-      title,
-      head: branchName,
+      title: pullRequestProps.title,
+      head: pullRequestProps.branchName,
       base: "main",
     });
 
     console.log("Created pull request", {
       repository: `${this.repoOwner}/${this.repoName}`,
-      title,
-      branchName,
+      title: pullRequestProps.title,
+      branchName: pullRequestProps.branchName,
     });
 
     return createPullRequestResponse.data;
