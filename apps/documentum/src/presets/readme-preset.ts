@@ -18,19 +18,46 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
     return this.files;
   }
 
+  cleanDependencyList(dependencies: string[]): string[] {
+    const groupedDependenciesWithSubPackages: Record<string, string[]> = {};
+
+    for (const dependency of dependencies) {
+      const [group, name] = dependency.split("/");
+      if (!groupedDependenciesWithSubPackages[group]) {
+        groupedDependenciesWithSubPackages[group] = [];
+      }
+
+      if (name) {
+        groupedDependenciesWithSubPackages[group].push(name);
+      }
+    }
+
+    const groupedDependencies = Object.entries(groupedDependenciesWithSubPackages).map(
+      ([group, names]) => {
+        if (names.length === 1) {
+          return `${group}/${names[0]}`;
+        } else {
+          return group;
+        }
+      }
+    );
+
+    return groupedDependencies;
+  }
+
   extractWorkspacesPackageJsons(
     _workspaces: JSONSchemaForNPMPackageJsonFiles["workspaces"]
   ): JSONSchemaForNPMPackageJsonFiles[] {
     if (!this.files) {
       return [];
     }
+
     const workspaces = Array.isArray(_workspaces) ? _workspaces : _workspaces?.packages || [];
 
     // We assume that any workspace that ends with "/*"" can be converted to a glob by adding a trailing *
     const workspacesGlobs = workspaces.map((workspace) =>
       workspace.endsWith("/*") ? `${workspace}*` : workspace
     );
-
     const workspacePackageJsonFiles: JSONSchemaForNPMPackageJsonFiles[] = [];
 
     for (const file of this.files) {
@@ -48,9 +75,28 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
   }
 
   buildRootPrompt(packageJson: JSONSchemaForNPMPackageJsonFiles): string {
-    const { name, description, keywords, engines, license } = packageJson;
+    const { name, description, keywords, engines, license, packageManager } = packageJson;
 
-    let prompt = `Developer: Hello, I'm glad I could work with a copywriter so experienced. I have a GitHub repository called ${name} and it is described as "${description}". Other details about the repository are:`;
+    let prompt = `Please help me populate the following Github project introduction into a complete Github README. I want the following constraints to be applied when writing the README:
+ - The README should be written in markdown format
+ - The README should list as few dependencies as possible
+ - The README should use emojis as appropriate`;
+
+    if (this.presetConfig.sections?.length) {
+      prompt += `\n - The README should contain the following sections: ${this.presetConfig.sections
+        .map((section) => section.name)
+        .join(", ")}`;
+    }
+
+    prompt += "\n\nHere is an overview of the project:";
+
+    if (name) {
+      prompt += `\n - Name: ${name}`;
+    }
+
+    if (description) {
+      prompt += `\n - Description: ${description}`;
+    }
 
     if (keywords) {
       prompt += `\n - Keywords: ${keywords.join(", ")}`;
@@ -60,16 +106,12 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
       prompt += `\n - License: ${license}`;
     }
 
-    if (engines?.node) {
+    if (engines) {
       prompt += `\n - Node version: ${engines.node}`;
     }
 
-    if (packageJson.packageManager) {
-      prompt += `\n - Package manager: ${packageJson.packageManager}`;
-    }
-
-    if (packageJson.workspaces) {
-      prompt += `\n - Workspaces:`;
+    if (packageManager) {
+      prompt += `\n - Package manager: ${packageManager}`;
     }
 
     return prompt;
@@ -92,29 +134,35 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
       return "";
     }
 
-    const dependenciesList = { ...dependencies, ...devDependencies, ...peerDependencies };
+    const dependenciesList = this.cleanDependencyList(
+      Object.keys({
+        ...dependencies,
+        ...devDependencies,
+        ...peerDependencies,
+      })
+    );
 
     let prompt = ` - ${name}`;
 
-    if (description) {
-      prompt += `\n - Description: ${description}`;
+    if (description?.length) {
+      prompt += `\n   - Description: ${description}`;
     }
 
-    if (keywords) {
-      prompt += `\n - Keywords: ${keywords.join(", ")}`;
+    if (keywords?.length) {
+      prompt += `\n   - Keywords: ${keywords.join(", ")}`;
     }
 
-    if (license) {
-      prompt += `\n - License: ${license}`;
+    if (license?.length) {
+      prompt += `\n   - License: ${license}`;
     }
 
-    if (dependenciesList) {
-      prompt += `\n - Dependencies: ${Object.keys(dependenciesList).join(", ")}`;
+    if (dependenciesList.length) {
+      prompt += `\n   - Dependencies: ${dependenciesList.join(", ")}`;
     }
 
-    if (scripts) {
-      prompt += `\n - Scripts: ${Object.entries(scripts || {})
-        .map(([key, value]) => `      - ${key}: ${value}`)
+    if (Object.keys(scripts || {}).length) {
+      prompt += `\n   - Scripts: ${Object.entries(scripts || {})
+        .map(([key, value]) => `      - ${key}: "${value}"`)
         .join("\n")}`;
     }
 
@@ -134,12 +182,11 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
     if (!rootPackageJsonFile?.content) {
       throw new Error("package.json not found");
     }
-
     const rootPackageJson: JSONSchemaForNPMPackageJsonFiles = JSON.parse(
       rootPackageJsonFile.content
     );
 
-    const workspacePackageJsons = this.extractWorkspacesPackageJsons(rootPackageJson);
+    const workspacePackageJsons = this.extractWorkspacesPackageJsons(rootPackageJson.workspaces);
 
     let prompt = this.buildRootPrompt(rootPackageJson);
 
@@ -147,8 +194,7 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
       prompt += `\n${this.buildWorkspacePrompt(workspacePackageJson)}`;
     }
 
-    prompt += `\nCould you please generate me a README.md in your next message?
-You:`;
+    prompt += `\nREADME.md:\n`;
 
     return prompt.replace(/\r?\n/g, "\n");
   }

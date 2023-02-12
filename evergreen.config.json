@@ -5,7 +5,13 @@
     {
       "preset": "readme",
       "path": "README.md",
-      "sections": [{ "name": "Getting Started" }]
+      "sections": [
+        { "name": "Overview" },
+        { "name": "Installation" },
+        { "name": "Features" },
+        { "name": "Contribution" },
+        { "name": "License" }
+      ]
     }
   ]
 }

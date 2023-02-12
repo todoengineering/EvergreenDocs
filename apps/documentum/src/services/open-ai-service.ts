@@ -14,15 +14,15 @@ const createCompletion = async (prompt: string) => {
   const response = await openai.createCompletion({
     model: config.openAi.model,
     prompt,
-    temperature: 0.5,
-    max_tokens: 2048 - prompt.length,
+    temperature: 0,
+    max_tokens: 2048,
     top_p: 1,
-    frequency_penalty: 0.5,
+    frequency_penalty: 0,
     presence_penalty: 0,
   });
 
   if (!response.data.choices[0].text) {
-    throw new Error("No generated test");
+    throw new Error("No generated text");
   }
 
   // TODO: Less logging here. Maybe we should save in dynamo or something
