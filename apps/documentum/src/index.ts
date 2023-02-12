@@ -13,7 +13,6 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     return true;
   }
 
-  console.log(111111111);
   console.log("Received event", {
     repository: body.repository?.full_name,
     ref: body.ref,

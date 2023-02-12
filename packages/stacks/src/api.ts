@@ -46,7 +46,7 @@ async function apiStack({ stack }: StackContext) {
     },
     environment: {
       OPENAI_API_KEY: process.env["OPENAI_API_KEY"] as string,
-      OPENAI_MODEL: "code-davinci-002",
+      OPENAI_MODEL: "text-davinci-003",
     },
     initialPolicy: [
       new PolicyStatement({

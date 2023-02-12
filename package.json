@@ -1,5 +1,6 @@
 {
   "name": "evergreendocs",
+  "description": "Evergreen Docs is a Github App that automatically updates your documentation when you push to your main branch. You manage your integration through a web app and a config file in your repository.",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
