@@ -17,7 +17,7 @@ const PresetConfigSchema = z.union([ReadmePresetConfigSchema, CodeCommentPresetC
 
 const EvergreenConfigSchema = z.object({
   name: z.string().min(1),
-  description: z.string().min(1),
+  description: z.string().min(1).optional(),
   generates: z.array(PresetConfigSchema),
 });
 
