@@ -6,8 +6,6 @@
   "types": "main.mts",
   "type": "module",
   "scripts": {
-    "deploy": "sst deploy  --stage $SST_STAGE",
-    "dev:disabled": "sst dev --stage $SST_STAGE",
     "build": "tsc",
     "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
     "console": "sst console"
@@ -19,8 +17,6 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "constructs": "10.1.156",
-    "sst": "2.0.14",
     "zod": "^3.20.2"
   }
 }

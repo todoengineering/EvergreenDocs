@@ -4620,9 +4620,7 @@ __metadata:
   dependencies:
     "@evergreendocs/tsconfig": "*"
     "@types/node": ^18.11.15
-    constructs: 10.1.156
     eslint-config-evergreendocs: "*"
-    sst: 2.0.14
     typescript: ^4.9.4
     zod: ^3.20.2
   languageName: unknown
@@ -9407,7 +9405,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "evergreendocs@workspace:."
   dependencies:
+    constructs: 10.1.156
     prettier: latest
+    sst: 2.0.17
     turbo: latest
   languageName: unknown
   linkType: soft
@@ -14252,9 +14252,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sst@npm:2.0.14":
-  version: 2.0.14
-  resolution: "sst@npm:2.0.14"
+"sst@npm:2.0.17":
+  version: 2.0.17
+  resolution: "sst@npm:2.0.17"
   dependencies:
     "@aws-cdk/aws-apigatewayv2-alpha": ^2.62.2-alpha.0
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha": ^2.62.2-alpha.0
@@ -14330,7 +14330,7 @@ __metadata:
       optional: true
   bin:
     sst: cli/sst.js
-  checksum: 7473827e708fe47adeb6e4def513766e42249c6767935b5d7453363f8db39851cda654885d57d98ac746993ccfabf6d50e3552946cc4c9e93c8afff15a1c3045
+  checksum: bc5d0de4f002d82680c45baf2edafdc988d519c0adebc71d2177f1e0458e52d105ebe0c5b72ad075e627c4a9063ca0c29da4171818c3459748d93ab685de274a
   languageName: node
   linkType: hard
 

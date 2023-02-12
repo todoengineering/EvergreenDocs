@@ -12,10 +12,14 @@
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint --parallel",
     "test": "turbo run test --parallel",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "deploy": "sst deploy  --stage $SST_STAGE",
+    "sst:dev": "sst dev --stage $SST_STAGE"
   },
   "devDependencies": {
+    "constructs": "10.1.156",
     "prettier": "latest",
+    "sst": "2.0.17",
     "turbo": "latest"
   },
   "engines": {

@@ -16,7 +16,7 @@ async function apiStack({ stack }: StackContext) {
 
   if (stack.stage === "production") {
     sunrise = new Function(stack, "sunrise", {
-      handler: "../../apps/sunrise/src/index.handler",
+      handler: "apps/sunrise/src/index.handler",
       functionName: `sunrise-${stack.stage}`,
       timeout: "15 seconds",
       url: true,
@@ -38,7 +38,7 @@ async function apiStack({ stack }: StackContext) {
   }
 
   const documentum = new Function(stack, "documentum", {
-    handler: "../../apps/documentum/src/index.handler",
+    handler: "apps/documentum/src/index.handler",
     functionName: `documentum-${stack.stage}`,
     timeout: "5 minutes",
     nodejs: {
