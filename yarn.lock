@@ -4664,7 +4664,7 @@ __metadata:
     "@mantine/core": ^5.10.2
     "@mantine/dropzone": ^5.9.6
     "@mantine/form": ^5.10.1
-    "@mantine/hooks": ^5.10.1
+    "@mantine/hooks": ^5.10.3
     "@mantine/next": ^5.10.1
     "@mantine/nprogress": ^5.9.3
     "@next/font": ^13.1.2
@@ -4967,12 +4967,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/hooks@npm:^5.10.1":
-  version: 5.10.1
-  resolution: "@mantine/hooks@npm:5.10.1"
+"@mantine/hooks@npm:^5.10.3":
+  version: 5.10.3
+  resolution: "@mantine/hooks@npm:5.10.3"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 9b01c87ba8709bfd3bc7990b3bca5beb6d82ce66c089a39fcd63a4abf9dd64a5e85caee98ac22a68e0755a9ae815491561f5bc4fa5693d011a04bb22d8f211d1
+  checksum: 629554658e910dec1c14ecbdaf8e48c1ce2af022044269e73ff069d719a4f9b68428bb75ade5108ace40bd29253658e663c594a237e080226de28705c10c871e
   languageName: node
   linkType: hard
 
