@@ -4666,7 +4666,7 @@ __metadata:
     "@mantine/form": ^5.10.1
     "@mantine/hooks": ^5.10.3
     "@mantine/next": ^5.10.1
-    "@mantine/nprogress": ^5.9.3
+    "@mantine/nprogress": ^5.10.3
     "@next/font": ^13.1.2
     "@tabler/icons": ^1.116.1
     "@tanstack/react-query": ^4.22.0
@@ -4990,17 +4990,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/nprogress@npm:^5.9.3":
-  version: 5.10.0
-  resolution: "@mantine/nprogress@npm:5.10.0"
+"@mantine/nprogress@npm:^5.10.3":
+  version: 5.10.3
+  resolution: "@mantine/nprogress@npm:5.10.3"
   dependencies:
-    "@mantine/utils": 5.10.0
+    "@mantine/utils": 5.10.3
   peerDependencies:
-    "@mantine/core": 5.10.0
-    "@mantine/hooks": 5.10.0
+    "@mantine/core": 5.10.3
+    "@mantine/hooks": 5.10.3
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 89ad99474b6f8e929ec5b6ff810a5e528153a21571303a941b634fb069301b61f7ec9badca4a6cd7859a915d73b15f266a8490312049a7db617ab4b399acd684
+  checksum: 3db403c272c075db5a46ae3b41b287870ce7f258af99aae0cb18415ac0fa2ce0fc9d06b954512a48af9eb6d92726e6ff5df14e4246b21ef139f85309b00c364d
   languageName: node
   linkType: hard
 
@@ -5062,6 +5062,15 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
   checksum: 6d1acdcd58020c26b646adfacd8082a03d17348ab921d741c6dae48312264bfd03afe9b91cb827c48cbc2f0480054a7b3aae808ec39240d0e4067b413cf19ea8
+  languageName: node
+  linkType: hard
+
+"@mantine/utils@npm:5.10.3":
+  version: 5.10.3
+  resolution: "@mantine/utils@npm:5.10.3"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 063237e49f3c52e3bbcd99e7a8383ac881718d9e1e039d32249231370a463a19e070cea7f90c3c0fea2933c3c162f5509a0f2add015db2aeb90f7945cd954a12
   languageName: node
   linkType: hard
 
