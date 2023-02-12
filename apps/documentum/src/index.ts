@@ -1,32 +1,30 @@
-import { EventBridgeHandler, APIGatewayProxyResultV2 } from "aws-lambda";
+import { EventBridgeHandler } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
 
-import { createGenerateReadmePrompt, generate } from "./open-ai.js";
-import GithubRepositoryService from "./github-service.js";
+import { createCompletion } from "./services/open-ai-service.js";
+import presetFactory from "./presets/preset-factory.js";
+import GithubRepositoryService from "./services/github-repository-service.js";
+import EvergreenConfig from "./schema/evergreen-config.js";
 
-const handler: EventBridgeHandler<"push", PushEvent, APIGatewayProxyResultV2> = async (event) => {
+const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) => {
   const body = event?.detail;
 
   if (!body?.commits?.length || body?.ref !== "refs/heads/main") {
-    return {
-      statusCode: 200,
-    };
+    return true;
   }
 
-  console.info("Received request", event, body);
+  console.log("Received event", {
+    repository: body.repository?.full_name,
+    ref: body.ref,
+    commits: body.commits.map((commit) => commit.id),
+  });
 
   const repoOwner = body.repository?.owner?.login;
   const repoName = body.repository?.name;
   const installationId = body.installation?.id;
 
   if (!repoOwner || !repoName || !installationId) {
-    return {
-      statusCode: 400,
-      headers: {},
-      body: "Missing required parameters",
-      isBase64Encoded: false,
-      cookies: [],
-    };
+    return false;
   }
 
   const githubRepositoryService = new GithubRepositoryService({
@@ -35,33 +33,61 @@ const handler: EventBridgeHandler<"push", PushEvent, APIGatewayProxyResultV2> = 
     installationId,
   });
 
-  const files = await githubRepositoryService.fetchFiles(["package.json"]);
+  const [config] = await githubRepositoryService.fetchFiles(["evergreen.config.json"]);
 
-  const prompt = createGenerateReadmePrompt("next-saas-starter", files[0]);
+  const parsedConfig = EvergreenConfig.parse(JSON.parse(config.content));
 
-  const generatedReadme = await generate(prompt);
+  for (const generate of parsedConfig.generates) {
+    const preset = presetFactory(generate, githubRepositoryService);
 
-  if (!generatedReadme) {
-    return {
-      statusCode: 500,
-      body: "Failed to generate readme",
-    };
+    const hasUpdates = await preset.hasUpdates();
+
+    if (!hasUpdates) {
+      continue;
+    }
+
+    console.log("Found updates for preset", {
+      preset: generate.preset,
+      repository: body.repository?.full_name,
+      ref: body.ref,
+      commits: body.commits.map((commit) => commit.id),
+    });
+
+    await preset.fetchFiles();
+    const prompt = preset.createPrompt();
+
+    const output = await createCompletion(prompt);
+
+    // TODO: Make this smarter/configurable
+    await githubRepositoryService.createBranch({ branchName: preset.branchName });
+    await githubRepositoryService.commitFile({
+      branchName: preset.branchName,
+      path: generate.path,
+      content: output,
+      // TODO: Make this smarter/configurable
+      message: "Update readme",
+    });
+    // TODO: Make this smarter/configurable
+    await githubRepositoryService.createPullRequest({
+      branchName: preset.branchName,
+      title: preset.branchName,
+    });
+
+    console.log("Updated preset", {
+      preset: generate.path,
+      repository: body.repository?.full_name,
+      ref: body.ref,
+      commits: body.commits.map((commit) => commit.id),
+    });
   }
 
-  const branchName = "this-is-generated-from-my-lambda";
-  await githubRepositoryService.createBranch(branchName);
-  await githubRepositoryService.commitFile(branchName, "README.md", generatedReadme);
-  await githubRepositoryService.createPullRequest(branchName);
+  console.log("Processed event", {
+    repository: body.repository?.full_name,
+    ref: body.ref,
+    commits: body.commits.map((commit) => commit.id),
+  });
 
-  console.info("Processed request", event);
-
-  return {
-    statusCode: 200,
-    headers: {},
-    body: generatedReadme,
-    isBase64Encoded: false,
-    cookies: [],
-  };
+  return true;
 };
 
 export { handler };

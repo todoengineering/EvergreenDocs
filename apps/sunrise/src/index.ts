@@ -51,7 +51,8 @@ const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     const jsonPayload = getJsonPayload(event);
 
-    console.info("Received request", event, jsonPayload);
+    // TODO: Less logging
+    console.log("Received request", event, jsonPayload);
 
     const headers = event.headers;
 
@@ -62,17 +63,6 @@ const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
       return { statusCode: 401, body: "Invalid Signature" };
     }
-
-    console.log({
-      Entries: [
-        {
-          EventBusName: "default",
-          Source: "github.com",
-          DetailType: detailType,
-          Detail: jsonPayload,
-        },
-      ],
-    });
 
     const response = await eventBridgeClient.send(
       new PutEventsCommand({

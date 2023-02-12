@@ -1,5 +1,6 @@
 {
   "name": "@evergreendocs/stacks",
+  "description": "Used to deploy the Evergreen Docs stacks",
   "version": "1.0.0",
   "main": "dist/main.mjs",
   "types": "main.mts",
