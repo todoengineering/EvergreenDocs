@@ -7,8 +7,8 @@ With its highly configurable settings via a evergreen.config.json file, Evergree
 ## Features (Current & Planned)
 
 - [x] Automatically generate updated documentation for your repository using Chat GPT and open a Pull Request with the changes
-- [] Generate comments on your code using Chat GPT and open a Pull Request with the updated code
-- [] Use a chat bot assistant for answering questions about your repository
+- [ ] Generate comments on your code using Chat GPT and open a Pull Request with the updated code
+- [ ] Use a chat bot assistant for answering questions about your repository
 
 ## Getting Started With The GitHub App
 
@@ -85,6 +85,27 @@ To deploy the app, you must have the [Serverless Stack CLI](https://serverless-s
 
 ```sh
 yarn deploy
+```
+
+## Architecture
+
+```mermaid
+graph LR
+  subgraph GitHub
+    githubRepo[GitHub Repository]
+  end
+
+  subgraph AWS
+    ingest[Ingest Lambda]
+    defaultEventBridge[Default EventBridge]
+    documentum[Documentum Lambda]
+  end
+
+  openAi[Open AI]
+
+
+  githubRepo -- via GitHub app webhook --> ingest --> defaultEventBridge -- filtered using rule --> documentum <--> openAi
+  documentum -- create pull requests, commit files --> githubRepo
 ```
 
 ## License
