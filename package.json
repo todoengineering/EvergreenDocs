@@ -1,6 +1,6 @@
 {
   "name": "evergreendocs",
-  "description": "Evergreen Docs is a Github App that automatically updates your documentation when you push to your main branch. You manage your integration through a web app and a config file in your repository.",
+  "description": "Evergreen Docs is a Github App designed to keep your documentation up-to-date, accurate, and comprehensive, using the context of your repository and the advanced language capabilities of Chat GPT. With its integration with Github, Evergreen Docs has access to all relevant information in your repository, including code, issues, and pull requests, allowing it to automatically update your documentation as your code evolves.",
   "version": "0.0.0",
   "private": true,
   "workspaces": [

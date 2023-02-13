@@ -1,75 +1,113 @@
-# evergreendocs
+# Evergreen Docs
 
-:evergreen_tree: Evergreen Docs is a Github App that automatically updates your documentation when you push to your main branch. You manage your integration through a web app and a config file in your repository.
+Evergreen Docs is a Github App that streamlines the process of keeping your repository's documentation accurate, comprehensive, and up-to-date. By leveraging the advanced language capabilities of Chat GPT and integrating with Github, Evergreen Docs can automatically update your documentation as your code evolves.
 
-## Overview
+With its highly configurable settings via a evergreen.config.json file, Evergreen Docs can be tailored to your specific needs. Our team is also working on a web application that will allow you to further customize the app, as well as ask questions about your repository and receive answers.
 
-Evergreen Docs is a Github App that automatically updates your documentation when you push to your main branch. You manage your integration through a web app and a config file in your repository.
+## Features (Current & Planned)
 
-## Installation
+- [x] Automatically generate updated documentation for your repository using Chat GPT and open a Pull Request with the changes
+- [ ] Generate comments on your code using Chat GPT and open a Pull Request with the updated code
+- [ ] Use a chat bot assistant for answering questions about your repository
 
-To install evergreendocs, you will need Node version >=18.0.0 and yarn@3.4.1.
+## Getting Started With The GitHub App
 
-## Features
+### Installing
 
-- @evergreendocs/api
-  - Evergreen Docs API used for the Evergreen Docs web app and the Evergreen Docs CLI
-  - Dependencies: @aws-sdk, @prisma/client, @trpc/server, zod, @evergreendocs/tsconfig, @faker-js/faker, @tsconfig/node16-strictest-esm, @types/node, aws-sdk-client-mock, eslint-config-evergreendocs, prisma, ts-node, tsc-watch, typescript
-  - Scripts:
-    - dev: "tsc-watch --onSuccess "node ./dist/main.mjs""
-    - build: "tsc"
-    - start: "node dist/main.mjs"
-    - test: "AWS_ACCESS_KEY_ID=fake AWS_SECRET_ACCESS_KEY=fake node --loader ts-node/esm --test ./**/users.test.ts"
-    - test:watch: "node --test --watch"
-    - lint: "../../node_modules/.bin/eslint . --ext .ts,.mts"
-    - prisma:generate: "prisma generate"
-    - prisma:push: "prisma db push"
-    - prisma:migrate: "prisma migrate dev"
-    - prisma:seed: "prisma db seed"
-- @evergreendocs/documentum
-  - Documentum is a README.md file generator for GitHub repositories. It uses the GitHub API to fetch information about the repository and uses OpenAI's GPT-3 API to generate a README.md file
-  - Dependencies: @octokit, minimatch, openai, zod, @aws-sdk/client-secrets-manager, @evergreendocs/tsconfig, @types, aws-lambda, eslint-config-evergreendocs, tsc-watch, typescript, vitest
-  - Scripts:
-    - build: "tsc"
-    - start: "node dist/main.mjs"
-    - test: "vitest run"
-    - test:watch: "vitest watch"
-    - lint: "../../node_modules/.bin/eslint . --ext .ts,.mts"
-- @evergreendocs/sunrise
-  - Sunrise ia lambda function with an endpoint that is called by the Evergreen Docs Github App webhook and a webhook event message on the EventBridge bus
-  - Dependencies: zod, @aws-sdk, @evergreendocs/tsconfig, @types, aws-lambda, eslint-config-evergreendocs, tsc-watch, typescript, vitest
-  - Scripts:
-    - build: "tsc"
-    - start: "node dist/main.mjs"
-    - test: "vitest run"
-    - test:watch: "vitest watch"
-    - lint: "../../node_modules/.bin/eslint . --ext .ts,.mts"
-- @evergreendocs/web
-  - Evergreen Docs web app. Allows users to manage and customise the Evergreen GitHub app
-  - Dependencies: @emotion, @mantine, @next/font, @tabler/icons, @tanstack, @trpc, cookie, fastify, next, react, react-dom, @babel/core, @evergreendocs, @testing-library, @types, @typescript-eslint/eslint-plugin, @vitejs/plugin-react, @vitest/ui, cross-fetch, eslint-config-evergreendocs, jsdom, msw, typescript, vitest
-  - Scripts:
-    - dev: "next dev"
-    - build: "next build"
-    - start: "next start"
-    - test: "vitest run"
-    - test:watch: "vitest watch"
-    - lint: "next lint"
-- eslint-config-evergreendocs
-  - License: MIT
-  - Dependencies: eslint, eslint-config-next, eslint-config-prettier, eslint-config-turbo, eslint-plugin-import, eslint-plugin-prettier, eslint-plugin-react, eslint-plugin-unicorn
-- @evergreendocs/stacks
-  - Used to deploy the Evergreen Docs stacks
-  - Dependencies: zod, @evergreendocs/tsconfig, @types/node, eslint-config-evergreendocs, typescript
-  - Scripts:
-    - build: "tsc"
-    - lint: "../../node_modules/.bin/eslint . --ext .ts,.mts"
-    - console: "sst console"
-- @evergreendocs/tsconfig
+To install Evergreen Docs, simply visit the [GitHub Marketplace](https://github.com/apps/evergreen-docs) and click the "Install" button. From there, you can choose the repositories you want to install the app on and complete the installation process.
 
-## Contribution
+### Preparing Your Repository
 
-We welcome contributions to evergreendocs! Please read our [contribution guidelines](CONTRIBUTING.md) for more information.
+#### `evergreeen.config.json` File
+
+Before you can use Evergreen Docs, you'll need to create a evergreen.config.json file in the root of your repository. This file contains the configuration settings for the app, such as the repository's name, description, and the sections of the documentation to be generated.
+
+Here's an example of a evergreen.config.json file:
+
+```json
+{
+  "name": "Evergreen Docs",
+  "description": "Your description here",
+  "generates": [
+    {
+      "preset": "readme",
+      "path": "README.md",
+      "sections": [
+        { "name": "Overview" }
+        // ...
+      ]
+    }
+  ]
+}
+```
+
+Once you've created the evergreen.config.json file, simply commit it to your repository in the main branch. The app will automatically generate a Pull Request with your updated documentation within 10 minutes.
+
+## Running Locally
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/)
+
+### Installation
+
+1. Clone the repo
+
+```sh
+git clone https://github.com/EvergreenDocs/EvergreenDocs
+```
+
+2. Install NPM packages
+
+```sh
+yarn install
+```
+
+3. Set environment variables (make sure your aws cli environment is configured)
+
+```sh
+export OPENAI_API_KEY=<your OpenAI API key>
+export SST_STAG=<one of the development stages>
+```
+
+4. Run the app
+
+```sh
+yarn sst:dev
+```
+
+5. Trigger GitHub events
+
+## Deployment
+
+To deploy the app, you must have the [Serverless Stack CLI](https://serverless-stack.com/) installed. Once you have the CLI installed, you can deploy the app by running the following command:
+
+```sh
+yarn deploy
+```
+
+## Architecture
+
+```mermaid
+graph LR
+  subgraph GitHub
+    githubRepo[GitHub Repository]
+  end
+
+  subgraph AWS
+    ingest[Ingest Lambda]
+    defaultEventBridge[Default EventBridge]
+    documentum[Documentum Lambda]
+  end
+
+  openAi[Open AI]
+
+
+  githubRepo -- via GitHub app webhook --> ingest --> defaultEventBridge -- filtered using rule --> documentum <--> openAi
+  documentum -- create pull requests, commit files --> githubRepo
+```
 
 ## License
 
-evergreendocs is released under the MIT license. See [LICENSE](LICENSE) for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
