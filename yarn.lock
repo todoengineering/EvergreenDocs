@@ -4660,7 +4660,7 @@ __metadata:
     "@evergreendocs/api": "*"
     "@evergreendocs/tsconfig": "*"
     "@mantine/core": ^5.10.2
-    "@mantine/dropzone": ^5.9.6
+    "@mantine/dropzone": ^5.10.3
     "@mantine/form": ^5.10.1
     "@mantine/hooks": ^5.10.3
     "@mantine/next": ^5.10.1
@@ -4938,18 +4938,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/dropzone@npm:^5.9.6":
-  version: 5.10.0
-  resolution: "@mantine/dropzone@npm:5.10.0"
+"@mantine/dropzone@npm:^5.10.3":
+  version: 5.10.3
+  resolution: "@mantine/dropzone@npm:5.10.3"
   dependencies:
-    "@mantine/utils": 5.10.0
+    "@mantine/utils": 5.10.3
     react-dropzone: 14.2.3
   peerDependencies:
-    "@mantine/core": 5.10.0
-    "@mantine/hooks": 5.10.0
+    "@mantine/core": 5.10.3
+    "@mantine/hooks": 5.10.3
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: d461c3beddcf962534f447fd3d022a912d87969f8065f6c6735dc1e5c08391dc6dd0d8a1a79a2bbe3d983c171cd3d26a9edf1d963ae817c4c37deed539bdcf67
+  checksum: 550bf8a282220adb3f7564e2ffa7c617480a5ab9d2556c50072b614450ca1d7fc526e8755a635936c4cb76f9a090f91686f690b7e7704320972dd282e00ab1d6
   languageName: node
   linkType: hard
 
@@ -5042,15 +5042,6 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: c7c6b785399b9414bf3933673266bbff205884639639d2e2e44ad0152af4d7e40e82c10d27043aac80d426144fc73876b877146218de8a970e2f729b4fa66276
-  languageName: node
-  linkType: hard
-
-"@mantine/utils@npm:5.10.0":
-  version: 5.10.0
-  resolution: "@mantine/utils@npm:5.10.0"
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: 7fece92e1356af1237154c60b7179c2ce422502df2c968f6ff670f6eba757f2742400aebc7c07f1dd71668dc6c8f87f9036a7c1f0e02fdad48db05ab895cf506
   languageName: node
   linkType: hard
 
