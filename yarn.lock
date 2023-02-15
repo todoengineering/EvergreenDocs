@@ -4660,7 +4660,7 @@ __metadata:
     "@evergreendocs/api": "*"
     "@evergreendocs/tsconfig": "*"
     "@mantine/core": ^5.10.2
-    "@mantine/dropzone": ^5.9.6
+    "@mantine/dropzone": ^5.10.4
     "@mantine/form": ^5.10.1
     "@mantine/hooks": ^5.10.3
     "@mantine/next": ^5.10.1
@@ -4938,18 +4938,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/dropzone@npm:^5.9.6":
-  version: 5.10.0
-  resolution: "@mantine/dropzone@npm:5.10.0"
+"@mantine/dropzone@npm:^5.10.4":
+  version: 5.10.4
+  resolution: "@mantine/dropzone@npm:5.10.4"
   dependencies:
-    "@mantine/utils": 5.10.0
+    "@mantine/utils": 5.10.4
     react-dropzone: 14.2.3
   peerDependencies:
-    "@mantine/core": 5.10.0
-    "@mantine/hooks": 5.10.0
+    "@mantine/core": 5.10.4
+    "@mantine/hooks": 5.10.4
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: d461c3beddcf962534f447fd3d022a912d87969f8065f6c6735dc1e5c08391dc6dd0d8a1a79a2bbe3d983c171cd3d26a9edf1d963ae817c4c37deed539bdcf67
+  checksum: 0b837b5bc7c982ad9832142c880c1b0f2827de5c2163b76895cac2dbe6204f7c67e466468a3fb00f72482bad957c4b1209820025c4dfc2c25650734df79e208b
   languageName: node
   linkType: hard
 
@@ -5045,15 +5045,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/utils@npm:5.10.0":
-  version: 5.10.0
-  resolution: "@mantine/utils@npm:5.10.0"
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: 7fece92e1356af1237154c60b7179c2ce422502df2c968f6ff670f6eba757f2742400aebc7c07f1dd71668dc6c8f87f9036a7c1f0e02fdad48db05ab895cf506
-  languageName: node
-  linkType: hard
-
 "@mantine/utils@npm:5.10.2":
   version: 5.10.2
   resolution: "@mantine/utils@npm:5.10.2"
@@ -5069,6 +5060,15 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
   checksum: 063237e49f3c52e3bbcd99e7a8383ac881718d9e1e039d32249231370a463a19e070cea7f90c3c0fea2933c3c162f5509a0f2add015db2aeb90f7945cd954a12
+  languageName: node
+  linkType: hard
+
+"@mantine/utils@npm:5.10.4":
+  version: 5.10.4
+  resolution: "@mantine/utils@npm:5.10.4"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 96e2602f8500c29b5979d4fe0b3456c8de911ff1bd2ef216d960b23a5370ff6828871aa859538a4004ad095fb63d7e0e76cdfb365bdb930f70f8076d730302c1
   languageName: node
   linkType: hard
 
