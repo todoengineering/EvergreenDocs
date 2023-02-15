@@ -20,7 +20,7 @@
   "devDependencies": {
     "constructs": "10.1.156",
     "prettier": "latest",
-    "sst": "2.0.17",
+    "sst": "2.0.23",
     "turbo": "latest"
   },
   "engines": {
