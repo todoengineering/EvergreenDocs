@@ -2,7 +2,7 @@ import { TranslatePresetConfig } from "../schema/presets/index.js";
 
 import { BasePreset } from "./base.js";
 
-class ReadmePreset extends BasePreset<TranslatePresetConfig> {
+class TranslatePreset extends BasePreset<TranslatePresetConfig> {
   async hasUpdates(): Promise<boolean> {
     return true;
   }
@@ -34,4 +34,4 @@ Please translate the above text to the ISO 639-1 code ${this.presetConfig.langua
   }
 }
 
-export default ReadmePreset;
+export default TranslatePreset;
