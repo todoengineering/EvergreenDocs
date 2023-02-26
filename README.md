@@ -24,7 +24,7 @@ Before you can use Evergreen Docs, you'll need to create a evergreen.config.json
 
 Here's an example of a evergreen.config.json file:
 
-```json
+```jsonc
 {
   "name": "Evergreen Docs",
   "description": "Your description here",
