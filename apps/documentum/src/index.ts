@@ -38,7 +38,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   const parsedConfig = EvergreenConfig.parse(JSON.parse(config.content));
 
   for (const generate of parsedConfig.generates) {
-    const preset = presetFactory(generate, githubRepositoryService);
+    const preset = presetFactory(generate, body, githubRepositoryService);
 
     const hasUpdates = await preset.hasUpdates();
 

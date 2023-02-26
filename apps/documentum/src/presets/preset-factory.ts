@@ -1,3 +1,5 @@
+import { PushEvent } from "@octokit/webhooks-types";
+
 import GithubRepositoryService from "../services/github-repository-service.js";
 import type { EvergreenConfig } from "../schema/evergreen-config.js";
 
@@ -11,17 +13,18 @@ const unknownPresetError = (input: never) =>
 
 function presetFactory(
   generates: EvergreenConfig["generates"][number],
+  githubEvent: PushEvent,
   githubRepositoryService: GithubRepositoryService
 ): BasePreset {
   switch (generates.preset) {
     case "readme":
-      return new ReadmePreset(generates, githubRepositoryService);
+      return new ReadmePreset(generates, githubEvent, githubRepositoryService);
 
     case "translate":
-      return new TranslatePreset(generates, githubRepositoryService);
+      return new TranslatePreset(generates, githubEvent, githubRepositoryService);
 
     case "code-comment":
-      return new CodeCommentPreset(generates, githubRepositoryService);
+      return new CodeCommentPreset(generates, githubEvent, githubRepositoryService);
 
     default:
       throw unknownPresetError(generates);

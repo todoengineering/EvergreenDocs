@@ -80,6 +80,16 @@ class GithubRepositoryService extends Octokit {
     return fileWithContents;
   }
 
+  async fetchCommit(commitSha: string) {
+    const getCommitResponse = await this.request("GET /repos/{owner}/{repo}/commits/{ref}", {
+      owner: this.repoOwner,
+      repo: this.repoName,
+      ref: commitSha,
+    });
+
+    return getCommitResponse.data;
+  }
+
   async createBranch(branchProps: { branchName: string }) {
     const getBranchResponse = await this.request("GET /repos/{owner}/{repo}/branches/{branch}", {
       owner: this.repoOwner,
