@@ -1,6 +1,7 @@
 import { createAppAuth } from "@octokit/auth-app";
 import { Octokit } from "@octokit/core";
 import minimatch from "minimatch";
+import { operations as Operations } from "@octokit/openapi-types";
 
 import { DocumentumFile } from "../types/index.js";
 import config from "../config.js";
@@ -118,24 +119,45 @@ class GithubRepositoryService extends Octokit {
     content: string;
     message: string;
   }) {
-    const getCurrentFileResponse = await this.request("GET /repos/{owner}/{repo}/contents/{path}", {
-      owner: this.repoOwner,
-      repo: this.repoName,
-      path: commitFileProps.path,
-      ref: commitFileProps.branchName,
-    });
-
-    const sha = "sha" in getCurrentFileResponse.data ? getCurrentFileResponse.data.sha : "";
-
-    const updateFileResponse = await this.request("PUT /repos/{owner}/{repo}/contents/{path}", {
+    const updateFileOptions: Operations["repos/create-or-update-file-contents"]["requestBody"]["content"]["application/json"] &
+      Operations["repos/create-or-update-file-contents"]["parameters"]["path"] = {
       owner: this.repoOwner,
       repo: this.repoName,
       path: commitFileProps.path,
       branch: commitFileProps.branchName,
       message: commitFileProps.message,
       content: Buffer.from(commitFileProps.content).toString("base64"),
-      sha,
-    });
+    };
+
+    try {
+      const getCurrentFileResponse = await this.request(
+        "GET /repos/{owner}/{repo}/contents/{path}",
+        {
+          owner: this.repoOwner,
+          repo: this.repoName,
+          path: commitFileProps.path,
+          ref: commitFileProps.branchName,
+        }
+      );
+
+      updateFileOptions.sha =
+        "sha" in getCurrentFileResponse.data ? getCurrentFileResponse.data.sha : "";
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("Not Found")) {
+        console.log("File does not exist, creating new file", {
+          repository: `${this.repoOwner}/${this.repoName}`,
+          branchName: commitFileProps.branchName,
+          path: commitFileProps.path,
+        });
+      } else {
+        throw error;
+      }
+    }
+
+    const updateFileResponse = await this.request(
+      "PUT /repos/{owner}/{repo}/contents/{path}",
+      updateFileOptions
+    );
 
     console.log("Committed file to repo", {
       repository: `${this.repoOwner}/${this.repoName}`,
