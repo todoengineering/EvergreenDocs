@@ -86,19 +86,30 @@ class GithubRepositoryService extends Octokit {
       branch: "main",
     });
 
-    const createBranchResponse = await this.request("POST /repos/{owner}/{repo}/git/refs", {
-      owner: this.repoOwner,
-      repo: this.repoName,
-      ref: `refs/heads/${branchProps.branchName}`,
-      sha: getBranchResponse.data["commit"]["sha"],
-    });
+    try {
+      const createBranchResponse = await this.request("POST /repos/{owner}/{repo}/git/refs", {
+        owner: this.repoOwner,
+        repo: this.repoName,
+        ref: `refs/heads/${branchProps.branchName}`,
+        sha: getBranchResponse.data["commit"]["sha"],
+      });
 
-    console.log("Created branch", {
-      repository: `${this.repoOwner}/${this.repoName}`,
-      branchName: branchProps.branchName,
-    });
+      console.log("Created branch", {
+        repository: `${this.repoOwner}/${this.repoName}`,
+        branchName: branchProps.branchName,
+      });
 
-    return createBranchResponse.data;
+      return createBranchResponse.data;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("Reference already exists")) {
+        console.log("Branch already exists", {
+          repository: `${this.repoOwner}/${this.repoName}`,
+          branchName: branchProps.branchName,
+        });
+      } else {
+        throw error;
+      }
+    }
   }
 
   async commitFile(commitFileProps: {
@@ -137,21 +148,33 @@ class GithubRepositoryService extends Octokit {
   }
 
   async createPullRequest(pullRequestProps: { branchName: string; title: string }) {
-    const createPullRequestResponse = await this.request("POST /repos/{owner}/{repo}/pulls", {
-      owner: this.repoOwner,
-      repo: this.repoName,
-      title: pullRequestProps.title,
-      head: pullRequestProps.branchName,
-      base: "main",
-    });
+    try {
+      const createPullRequestResponse = await this.request("POST /repos/{owner}/{repo}/pulls", {
+        owner: this.repoOwner,
+        repo: this.repoName,
+        title: pullRequestProps.title,
+        head: pullRequestProps.branchName,
+        base: "main",
+      });
 
-    console.log("Created pull request", {
-      repository: `${this.repoOwner}/${this.repoName}`,
-      title: pullRequestProps.title,
-      branchName: pullRequestProps.branchName,
-    });
+      console.log("Created pull request", {
+        repository: `${this.repoOwner}/${this.repoName}`,
+        title: pullRequestProps.title,
+        branchName: pullRequestProps.branchName,
+      });
 
-    return createPullRequestResponse.data;
+      return createPullRequestResponse.data;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("A pull request already exists")) {
+        console.log("Pull request already exists", {
+          repository: `${this.repoOwner}/${this.repoName}`,
+          title: pullRequestProps.title,
+          branchName: pullRequestProps.branchName,
+        });
+      } else {
+        throw error;
+      }
+    }
   }
 }
 
