@@ -62,7 +62,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     await githubRepositoryService.createBranch({ branchName: preset.branchName });
     await githubRepositoryService.commitFile({
       branchName: preset.branchName,
-      path: "path" in generate ? generate.path : generate.outputPath,
+      path: "path" in generate ? generate.path : generate.inputPath,
       content: output,
       message: "Update readme",
     });
