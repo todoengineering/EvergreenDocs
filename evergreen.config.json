@@ -12,6 +12,12 @@
         { "name": "Contribution" },
         { "name": "License" }
       ]
+    },
+    {
+      "preset": "translate",
+      "inputPath": "README.md",
+      "outputPath": "README.fr.md",
+      "language": "fr"
     }
   ]
 }

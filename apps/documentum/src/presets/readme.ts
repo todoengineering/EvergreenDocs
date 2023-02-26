@@ -1,9 +1,9 @@
 import minimatch from "minimatch";
 
-import { ReadmePresetConfig } from "../schema/evergreen-config";
+import { ReadmePresetConfig } from "../schema/presets/index.js";
 import { JSONSchemaForNPMPackageJsonFiles } from "../types/index.js";
 
-import { BasePreset } from "./base-preset.js";
+import { BasePreset } from "./base.js";
 
 const packageJsonGlob = "**/package.json";
 

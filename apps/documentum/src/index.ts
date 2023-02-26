@@ -62,9 +62,8 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     await githubRepositoryService.createBranch({ branchName: preset.branchName });
     await githubRepositoryService.commitFile({
       branchName: preset.branchName,
-      path: generate.path,
+      path: "path" in generate ? generate.path : generate.outputPath,
       content: output,
-      // TODO: Make this smarter/configurable
       message: "Update readme",
     });
     // TODO: Make this smarter/configurable
@@ -74,7 +73,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     });
 
     console.log("Updated preset", {
-      preset: generate.path,
+      preset: generate.preset,
       repository: body.repository?.full_name,
       ref: body.ref,
       commits: body.commits.map((commit) => commit.id),

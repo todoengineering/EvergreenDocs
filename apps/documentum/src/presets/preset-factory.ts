@@ -1,8 +1,8 @@
 import GithubRepositoryService from "../services/github-repository-service.js";
 import type { EvergreenConfig } from "../schema/evergreen-config.js";
 
-import { BasePreset } from "./base-preset.js";
-import ReadmePreset from "./readme-preset.js";
+import { BasePreset } from "./base.js";
+import ReadmePreset from "./readme.js";
 
 function presetFactory(
   generates: EvergreenConfig["generates"][number],
