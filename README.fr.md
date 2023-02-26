@@ -83,7 +83,7 @@ yarn sst:dev
 
 ## Déploiement
 
-Pour déployer l'application, vous devez avoir installé le [CLI Serverless Stack](https://serverless-stack.com/). Une fois que vous avez installé le CLI, vous pouvez déployer l'application en exécutant la commande suivante:
+Pour déployer l'application, vous devez avoir installé le [Serverless Stack CLI](https://serverless-stack.com/). Une fois que vous avez installé le CLI, vous pouvez déployer l'application en exécutant la commande suivante:
 
 ```sh
 yarn deploy
