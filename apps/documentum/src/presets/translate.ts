@@ -23,10 +23,7 @@ class TranslatePreset extends BasePreset<TranslatePresetConfig> {
       this.presetConfig.inputPath.split("/")[this.presetConfig.inputPath.split("/").length - 1];
     this._branchName = `evergreen-translate-${fileName}-${this.presetConfig.language}`;
 
-    const prompt = `
-${"```"}
-${this.files[0].content}
-${"```"}
+    const prompt = `${this.files[0].content}
 
 Please translate the above text to the ISO 639-1 code ${this.presetConfig.language}:`;
 
