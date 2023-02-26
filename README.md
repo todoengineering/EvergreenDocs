@@ -1,28 +1,31 @@
+
+
+```
 # Evergreen Docs
 
-Evergreen Docs is a Github App that streamlines the process of keeping your repository's documentation accurate, comprehensive, and up-to-date. By leveraging the advanced language capabilities of Chat GPT and integrating with Github, Evergreen Docs can automatically update your documentation as your code evolves.
+Evergreen Docs est une application Github qui facilite le processus de mise à jour de la documentation de votre dépôt. En utilisant les capacités linguistiques avancées de Chat GPT et en s'intégrant à Github, Evergreen Docs peut mettre à jour automatiquement votre documentation à mesure que votre code évolue.
 
-With its highly configurable settings via a evergreen.config.json file, Evergreen Docs can be tailored to your specific needs. Our team is also working on a web application that will allow you to further customize the app, as well as ask questions about your repository and receive answers.
+Avec ses paramètres hautement configurables via un fichier evergreen.config.json, Evergreen Docs peut être adapté à vos besoins spécifiques. Notre équipe travaille également sur une application web qui vous permettra de personnaliser davantage l'application, ainsi que de poser des questions sur votre dépôt et de recevoir des réponses.
 
-## Features (Current & Planned)
+## Fonctionnalités (actuelles et prévues)
 
-- [x] Automatically generate updated documentation for your repository using Chat GPT and open a Pull Request with the changes
-- [ ] Generate comments on your code using Chat GPT and open a Pull Request with the updated code
-- [ ] Use a chat bot assistant for answering questions about your repository
+- [x] Générer automatiquement une documentation mise à jour pour votre dépôt en utilisant Chat GPT et ouvrir une Pull Request avec les modifications
+- [ ] Générer des commentaires sur votre code en utilisant Chat GPT et ouvrir une Pull Request avec le code mis à jour
+- [ ] Utiliser un assistant de chat bot pour répondre aux questions sur votre dépôt
 
-## Getting Started With The GitHub App
+## Commencer avec l'application GitHub
 
-### Installing
+### Installation
 
-To install Evergreen Docs, simply visit the [GitHub Marketplace](https://github.com/apps/evergreen-docs) and click the "Install" button. From there, you can choose the repositories you want to install the app on and complete the installation process.
+Pour installer Evergreen Docs, rendez-vous simplement sur le [GitHub Marketplace](https://github.com/apps/evergreen-docs) et cliquez sur le bouton "Installer". De là, vous pouvez choisir les dépôts sur lesquels vous souhaitez installer l'application et terminer le processus d'installation.
 
-### Preparing Your Repository
+### Préparer votre dépôt
 
-#### `evergreeen.config.json` File
+#### Fichier `evergreeen.config.json`
 
-Before you can use Evergreen Docs, you'll need to create a evergreen.config.json file in the root of your repository. This file contains the configuration settings for the app, such as the repository's name, description, and the sections of the documentation to be generated.
+Avant de pouvoir utiliser Evergreen Docs, vous devez créer un fichier evergreen.config.json à la racine de votre dépôt. Ce fichier contient les paramètres de configuration de l'application, tels que le nom du dépôt, la description et les sections de la documentation à générer.
 
-Here's an example of a evergreen.config.json file:
+Voici un exemple de fichier evergreen.config.json:
 
 ```jsonc
 {
@@ -41,47 +44,47 @@ Here's an example of a evergreen.config.json file:
 }
 ```
 
-Once you've created the evergreen.config.json file, simply commit it to your repository in the main branch. The app will automatically generate a Pull Request with your updated documentation within 10 minutes.
+Une fois que vous avez créé le fichier evergreen.config.json, il vous suffit de le commiter dans votre dépôt dans la branche principale. L'application générera automatiquement une Pull Request avec votre documentation mise à jour dans les 10 minutes.
 
-## Running Locally
+## Exécution locale
 
-### Prerequisites
+### Prérequis
 
 - [Node.js](https://nodejs.org/en/)
 - [Yarn](https://yarnpkg.com/)
 
 ### Installation
 
-1. Clone the repo
+1. Clonez le repo
 
 ```sh
 git clone https://github.com/EvergreenDocs/EvergreenDocs
 ```
 
-2. Install NPM packages
+2. Installez les packages NPM
 
 ```sh
 yarn install
 ```
 
-3. Set environment variables (make sure your aws cli environment is configured)
+3. Définissez les variables d'environnement (assurez-vous que votre environnement cli aws est configuré)
 
 ```sh
 export OPENAI_API_KEY=<your OpenAI API key>
 export SST_STAG=<one of the development stages>
 ```
 
-4. Run the app
+4. Exécutez l'application
 
 ```sh
 yarn sst:dev
 ```
 
-5. Trigger GitHub events
+5. Déclenchez les événements GitHub
 
-## Deployment
+## Déploiement
 
-To deploy the app, you must have the [Serverless Stack CLI](https://serverless-stack.com/) installed. Once you have the CLI installed, you can deploy the app by running the following command:
+Pour déployer l'application, vous devez avoir installé le [Serverless Stack CLI](https://serverless-stack.com/). Une fois que vous avez installé le CLI, vous pouvez déployer l'application en exécutant la commande suivante:
 
 ```sh
 yarn deploy
@@ -108,6 +111,78 @@ graph LR
   documentum -- create pull requests, commit files --> githubRepo
 ```
 
-## License
+## Licence
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
+```
+
+## Translate a file
+
+```
+$ evergreen translate --file README.md --target fr
+```
+
+## Translate a directory
+
+```
+$ evergreen translate --dir docs --target fr
+```
+
+## Translate a directory with a custom config
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json
+```
+
+## Translate a directory with a custom config and custom output directory
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension and custom output file name
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md --name README-fr
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension and custom output file name and custom output file name
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md --name README-fr --preset readme
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension and custom output file name and custom output file name and custom output file name
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md --name README-fr --preset readme --sections Overview,Getting Started
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension and custom output file name and custom output file name and custom output file name
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md --name README-fr --preset readme --sections Overview,Getting Started --exclude Overview
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension and custom output file name and custom output file name and custom output file name
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md --name README-fr --preset readme --sections Overview,Getting Started --exclude Overview --exclude Getting Started
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension and custom output file name and custom output file name and custom output file name
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md --name README-fr --preset readme --sections Overview,Getting Started --exclude Overview --exclude Getting Started --exclude Contributing
+```
+
+## Translate a directory with a custom config and custom output directory and custom output file extension and custom output file name and custom output file name and custom output file name
+
+```
+$ evergreen translate --dir docs --target fr --config evergreen.config.json --output docs-fr --extension .md --name README-fr --preset readme --sections Overview,Getting Started --exclude Overview --exclude Getting Started
