@@ -43,6 +43,13 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     const hasUpdates = await preset.hasUpdates();
 
     if (!hasUpdates) {
+      console.log("No updates for preset", {
+        preset: generate.preset,
+        repository: body.repository?.full_name,
+        ref: body.ref,
+        commits: body.commits.map((commit) => commit.id),
+      });
+
       continue;
     }
 

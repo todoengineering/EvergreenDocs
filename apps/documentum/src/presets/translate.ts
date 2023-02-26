@@ -6,7 +6,11 @@ class TranslatePreset extends BasePreset<TranslatePresetConfig> {
   async hasUpdates(): Promise<boolean> {
     const response = await this.githubRepositoryService.fetchCommit(this.pushEvent.after);
 
-    return response.files?.some((file) => file.filename === this.presetConfig.inputPath) ?? false;
+    return (
+      response.files?.some(
+        (file) => file.filename.toLowerCase() === this.presetConfig.inputPath.toLowerCase()
+      ) ?? false
+    );
   }
 
   async fetchFiles() {
