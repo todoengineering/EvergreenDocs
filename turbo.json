@@ -14,8 +14,14 @@
     "prisma:generate": {
       "cache": false
     },
+    "dev:sst": {
+      "cache": false
+    },
+    "dev:next": {
+      "cache": false
+    },
     "dev": {
-      "dependsOn": ["prisma:generate"],
+      "dependsOn": ["prisma:generate", "dev:sst", "dev:next"],
       "cache": false
     }
   }
