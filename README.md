@@ -1,9 +1,5 @@
 # Evergreen Docs
 
-Evergreen Docs is a Github App that streamlines the process of keeping your repository's documentation accurate, comprehensive, and up-to-date. By leveraging the advanced language capabilities of Chat GPT and integrating with Github, Evergreen Docs can automatically update your documentation as your code evolves.
-
-With its highly configurable settings via a evergreen.config.json file, Evergreen Docs can be tailored to your specific needs. Our team is also working on a web application that will allow you to further customize the app, as well as ask questions about your repository and receive answers.
-
 ## Features (Current & Planned)
 
 - [x] Automatically generate updated documentation for your repository using Chat GPT and open a Pull Request with the changes
