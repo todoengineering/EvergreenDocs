@@ -1,5 +1,6 @@
 // import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { ReactNode } from "react";
 
 import useScroll from "../../hooks/use-scroll";
@@ -31,6 +32,7 @@ export default function Layout({ meta, children }: LayoutProps) {
       >
         <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
           <Link href="/" className="font-display flex items-center text-2xl font-bold">
+            <Image src="/images/logo.svg" alt="Evergreen Docs" width={32} height={32} />
             <p>Evergreen Docs</p>
           </Link>
           <div className="flex gap-1">
