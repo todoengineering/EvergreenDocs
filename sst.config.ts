@@ -1,3 +1,6 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import { SSTConfig } from "sst";
 
 import apiStack from "./packages/stacks/src/api.js";

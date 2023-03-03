@@ -47,3 +47,6 @@ yarn-error.log*
 .sst.config.*.mjs
 .build
 .open-next
+
+# other
+.env

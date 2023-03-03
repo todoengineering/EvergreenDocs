@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "constructs": "10.1.156",
+    "dotenv": "^16.0.3",
     "prettier": "latest",
     "sst": "2.0.31",
     "turbo": "latest"

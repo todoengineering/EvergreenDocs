@@ -4149,6 +4149,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emotion/is-prop-valid@npm:^0.8.2":
+  version: 0.8.8
+  resolution: "@emotion/is-prop-valid@npm:0.8.8"
+  dependencies:
+    "@emotion/memoize": 0.7.4
+  checksum: bb7ec6d48c572c540e24e47cc94fc2f8dec2d6a342ae97bc9c8b6388d9b8d283862672172a1bb62d335c02662afe6291e10c71e9b8642664a8b43416cdceffac
+  languageName: node
+  linkType: hard
+
+"@emotion/memoize@npm:0.7.4":
+  version: 0.7.4
+  resolution: "@emotion/memoize@npm:0.7.4"
+  checksum: 4e3920d4ec95995657a37beb43d3f4b7d89fed6caa2b173a4c04d10482d089d5c3ea50bbc96618d918b020f26ed6e9c4026bbd45433566576c1f7b056c3271dc
+  languageName: node
+  linkType: hard
+
 "@esbuild/android-arm64@npm:0.16.13":
   version: 0.16.13
   resolution: "@esbuild/android-arm64@npm:0.16.13"
@@ -4523,7 +4539,7 @@ __metadata:
     aws-lambda: ^1.0.7
     eslint-config-evergreendocs: "*"
     minimatch: ^6.1.6
-    openai: ^3.1.0
+    openai: ^ 3.2.1
     tsc-watch: ^6.0.0
     typescript: ^4.5.3
     vitest: ^0.28.4
@@ -4584,6 +4600,7 @@ __metadata:
     autoprefixer: ^10.4.13
     classnames: ^2.3.2
     eslint-config-evergreendocs: "*"
+    framer-motion: ^10.0.1
     next: ^13.1.1
     postcss: ^8.4.21
     prettier-plugin-tailwindcss: ^0.2.3
@@ -8325,6 +8342,7 @@ __metadata:
   resolution: "evergreendocs@workspace:."
   dependencies:
     constructs: 10.1.156
+    dotenv: ^16.0.3
     prettier: latest
     sst: 2.0.31
     turbo: latest
@@ -8562,6 +8580,22 @@ __metadata:
   version: 4.2.0
   resolution: "fraction.js@npm:4.2.0"
   checksum: 8c76a6e21dedea87109d6171a0ac77afa14205794a565d71cb10d2925f629a3922da61bf45ea52dbc30bce4d8636dc0a27213a88cbd600eab047d82f9a3a94c5
+  languageName: node
+  linkType: hard
+
+"framer-motion@npm:^10.0.1":
+  version: 10.0.1
+  resolution: "framer-motion@npm:10.0.1"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    tslib: ^2.4.0
+  peerDependencies:
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: 37081c26f949b8e3e86ad6268ed44661c64b20de3da118677375f8e77f3b04a762085d467d328cb8866e5667e03ad2397be18b9c29a1aeca4be223c8971fe826
   languageName: node
   linkType: hard
 
@@ -10997,13 +11031,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openai@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "openai@npm:3.1.0"
+"openai@npm:^ 3.2.1, openai@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "openai@npm:3.2.1"
   dependencies:
     axios: ^0.26.0
     form-data: ^4.0.0
-  checksum: 2277d9e2b419b0ba17fb5ee7187bcff285a2a90120990c8da9658b8a8c8d4a927c95cec6cdc5503aa33108b4933288ef1f3756cc09033c33700d4bb2025138c0
+  checksum: ef3942e9b527cf27273c4355bb8fb9ebd94ae3a88c12eec0ac51c4ef0ad8c18864683759471597390816bcd822bdc9f2f1cea7a3eb1e432c9101f568f7c6d19a
   languageName: node
   linkType: hard
 
