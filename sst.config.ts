@@ -4,7 +4,6 @@ dotenv.config();
 import { SSTConfig } from "sst";
 
 import apiStack from "./packages/stacks/src/api.js";
-import frontendStack from "./packages/stacks/src/frontend.js";
 
 const validStages = ["isaac-development", "dan-development", "production"];
 
@@ -29,6 +28,5 @@ export default {
     }
 
     app.stack(apiStack);
-    app.stack(frontendStack);
   },
 } satisfies SSTConfig;
