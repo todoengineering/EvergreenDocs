@@ -13,7 +13,10 @@ yarn add evergreendocs
 
 -   🔥 Blazing fast
 -   💪 Strongly typed
--   💅 Styled with Tailwind CSS
+-   🔌 Plugins
+-   🔧 Configurable
+-   🔬 Tested
+-   📖 Well documented
 
 ## Contribution
 
