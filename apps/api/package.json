@@ -25,12 +25,14 @@
     "@aws-sdk/s3-request-presigner": "^3.241.0",
     "@prisma/client": "^4.7.1",
     "@trpc/server": "^10.9.0",
+    "fastify": "^4.14.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
     "@evergreendocs/tsconfig": "*",
     "@faker-js/faker": "^7.6.0",
     "@tsconfig/node16-strictest-esm": "^1.0.3",
+    "@types/cookie": "^0.5.1",
     "@types/node": "^18.13.0",
     "aws-sdk-client-mock": "^2.0.1",
     "eslint-config-evergreendocs": "*",
