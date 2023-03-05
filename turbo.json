@@ -3,7 +3,8 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build", "^prisma:generate"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**"],
+      "cache": false
     },
     "lint": {
       "outputs": []
@@ -14,14 +15,11 @@
     "prisma:generate": {
       "cache": false
     },
-    "dev:sst": {
-      "cache": false
-    },
-    "dev:next": {
+    "//#dev:sst": {
       "cache": false
     },
     "dev": {
-      "dependsOn": ["prisma:generate", "dev:sst", "dev:next"],
+      "dependsOn": ["prisma:generate", "^//#dev:sst"],
       "cache": false
     }
   }
