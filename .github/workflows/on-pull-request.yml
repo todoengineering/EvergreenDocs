@@ -50,6 +50,9 @@ jobs:
 
       - name: Build
         run: yarn build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_API_KEY: ${{ secrets.CLERK_PUBLISHABLE_API_KEY }}
 
       - name: Run Tests
         # env:
