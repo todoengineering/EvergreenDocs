@@ -11031,7 +11031,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openai@npm:^ 3.2.1, openai@npm:^3.2.1":
+"openai@npm:^ 3.2.1":
   version: 3.2.1
   resolution: "openai@npm:3.2.1"
   dependencies:
