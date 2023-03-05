@@ -5,36 +5,15 @@ Evergreen Docs is a Github App designed to keep your documentation up-to-date, a
 
 ## Installation
 
-```
-yarn add @evergreendocs/api
+```sh
+yarn add evergreendocs
 ```
 
 ## Features
 
--   [@evergreendocs/api](#evergreendocsapi)
-    -   [Description](#description)
-    -   [Dependencies](#dependencies)
-    -   [Scripts](#scripts)
--   [@evergreendocs/documentum](#evergreendocsdocumentum)
-    -   [Description](#description-1)
-    -   [Dependencies](#dependencies-1)
-    -   [Scripts](#scripts-1)
--   [@evergreendocs/sunrise](#evergreendocssunrise)
-    -   [Description](#description-2)
-    -   [Dependencies](#dependencies-2)
-    -   [Scripts](#scripts-2)
--   [@evergreendocs/web](#evergreendocsweb)
-    -   [Description](#description-3)
-    -   [Dependencies](#dependencies-3)
-    -   [Scripts](#scripts-3)
--   [eslint-config-evergreendocs](#eslint-config-evergreendocs)
-    -   [License](#license)
-    -   [Dependencies](#dependencies-4)
--   [@evergreendocs/stacks](#evergreendocsstacks)
-    -   [Description](#description-4)
-    -   [Dependencies](#dependencies-5)
-    -   [Scripts](#scripts-4)
--   [@evergreendocs/tsconfig](#evergreendocstsconfig)
+-   🔥 Blazing fast
+-   💪 Strongly typed
+-   💅 Styled with Tailwind CSS
 
 ## Contribution
 
