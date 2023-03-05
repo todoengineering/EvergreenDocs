@@ -2,6 +2,8 @@ import Balancer from "react-wrap-balancer";
 import cx from "classnames";
 import { motion } from "framer-motion";
 
+import Layout from "../components/layouts/index";
+
 const features = [
   {
     title: "Translate",
@@ -81,52 +83,54 @@ const FADE_IN_VARIANT = {
 
 function Index() {
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="show"
-      animate="show"
-      viewport={{ once: true }}
-      variants={{
-        hidden: {},
-        show: {
-          transition: {
-            staggerChildren: 0.15,
+    <Layout>
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        animate="show"
+        viewport={{ once: true }}
+        variants={{
+          hidden: {},
+          show: {
+            transition: {
+              staggerChildren: 0.15,
+            },
           },
-        },
-      }}
-    >
-      <Section className="flex w-screen justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
-        <motion.h1
-          className=" text-center text-4xl font-bold text-black drop-shadow-sm md:text-7xl"
-          variants={FADE_IN_VARIANT}
-        >
-          <Balancer>Keep your documentation green and fresh</Balancer>
-        </motion.h1>
-        <motion.p
-          className="mt-6 text-center text-gray-500 drop-shadow-sm md:text-xl"
-          variants={FADE_IN_VARIANT}
-        >
-          <Balancer>
-            Effortlessly manage and maintain documentation with Evergreen Docs - the Github App that
-            automates updates, generates READMEs, translates docs, and keeps a changelog, all based
-            on contextual data from your repository.
-          </Balancer>
-        </motion.p>
+        }}
+      >
+        <Section className="flex w-screen justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
+          <motion.h1
+            className=" text-center text-4xl font-bold text-black drop-shadow-sm md:text-7xl"
+            variants={FADE_IN_VARIANT}
+          >
+            <Balancer>Keep your documentation green and fresh</Balancer>
+          </motion.h1>
+          <motion.p
+            className="mt-6 text-center text-gray-500 drop-shadow-sm md:text-xl"
+            variants={FADE_IN_VARIANT}
+          >
+            <Balancer>
+              Effortlessly manage and maintain documentation with Evergreen Docs - the Github App
+              that automates updates, generates READMEs, translates docs, and keeps a changelog, all
+              based on contextual data from your repository.
+            </Balancer>
+          </motion.p>
 
-        <motion.div
-          className="mx-auto mt-6 flex items-center justify-center space-x-5"
-          variants={FADE_IN_VARIANT}
-        >
-          <button className="flex max-w-fit items-center justify-center space-x-2 rounded-full bg-emerald-500 px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-emerald-600">
-            <p>Get Started</p>
-          </button>
-        </motion.div>
-      </Section>
+          <motion.div
+            className="mx-auto mt-6 flex items-center justify-center space-x-5"
+            variants={FADE_IN_VARIANT}
+          >
+            <button className="flex max-w-fit items-center justify-center space-x-2 rounded-full bg-emerald-500 px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-emerald-600">
+              <p>Get Started</p>
+            </button>
+          </motion.div>
+        </Section>
 
-      {features.map((feature) => (
-        <FeatureSection key={feature.title} feature={feature} />
-      ))}
-    </motion.div>
+        {features.map((feature) => (
+          <FeatureSection key={feature.title} feature={feature} />
+        ))}
+      </motion.div>
+    </Layout>
   );
 }
 
