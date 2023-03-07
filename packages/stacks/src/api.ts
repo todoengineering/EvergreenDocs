@@ -1,4 +1,4 @@
-import { StackContext, Function, EventBus } from "sst/constructs";
+import { StackContext, Function, EventBus, Table } from "sst/constructs";
 import { EventBus as CdkEventBus } from "aws-cdk-lib/aws-events";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
 
@@ -37,6 +37,23 @@ async function apiStack({ stack }: StackContext) {
     });
   }
 
+  new Table(stack, "workflow-logs", {
+    primaryIndex: { partitionKey: "pk", sortKey: "sk" },
+    fields: {
+      pk: "string",
+      sk: "string",
+      gsi1pk: "string",
+      gsi1sk: "string",
+    },
+    globalIndexes: {
+      "gsi1pk-gsi1sk-index": {
+        partitionKey: "gsi1pk",
+        sortKey: "gsi1sk",
+        projection: "all",
+      },
+    },
+  });
+
   const documentum = new Function(stack, "documentum", {
     handler: "apps/documentum/src/index.handler",
     functionName: `documentum-${stack.stage}`,
@@ -46,7 +63,7 @@ async function apiStack({ stack }: StackContext) {
     },
     environment: {
       OPENAI_API_KEY: process.env["OPENAI_API_KEY"] as string,
-      OPENAI_MODEL: "code-davinci-002",
+      OPENAI_MODEL: "text-davinci-003",
     },
     initialPolicy: [
       new PolicyStatement({

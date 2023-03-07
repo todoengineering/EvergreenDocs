@@ -1,4 +1,3 @@
 import { AppRouter } from "./router.js";
-import type { Types } from "./types.js";
 
-export type { AppRouter, Types as EvergreenDocsTypes };
+export type { AppRouter };

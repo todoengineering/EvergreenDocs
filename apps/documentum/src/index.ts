@@ -1,5 +1,6 @@
 import { EventBridgeHandler } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
+import workflowLoggingService from "@evergreendocs/workflow-logging-service";
 
 import { createCompletion } from "./services/open-ai-service.js";
 import presetFactory from "./presets/preset-factory.js";
@@ -22,10 +23,15 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   const repoOwner = body.repository?.owner?.login;
   const repoName = body.repository?.name;
   const installationId = body.installation?.id;
+  const headCommit = body.head_commit?.id;
 
-  if (!repoOwner || !repoName || !installationId) {
+  if (!repoOwner || !repoName || !installationId || !headCommit) {
     return false;
   }
+
+  await workflowLoggingService.entities.workflow
+    .create({ headCommit, userId: "user_2Me1X3b3B8eUs13yfN23kvfVMX0", status: "in_progress" })
+    .go();
 
   const githubRepositoryService = new GithubRepositoryService({
     repoOwner,
@@ -38,54 +44,99 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   const parsedConfig = EvergreenConfig.parse(JSON.parse(config.content));
 
   for (const generate of parsedConfig.generates) {
-    const preset = presetFactory(generate, body, githubRepositoryService);
+    try {
+      const preset = presetFactory(generate, body, githubRepositoryService);
 
-    const hasUpdates = await preset.hasUpdates();
+      await workflowLoggingService.entities.task
+        .create({
+          headCommit,
+          preset: generate.preset,
+          status: "in_progress",
+        })
+        .go();
 
-    if (!hasUpdates) {
-      console.log("No updates for preset", {
+      const hasUpdates = await preset.hasUpdates();
+
+      if (!hasUpdates) {
+        console.log("No updates for preset", {
+          preset: generate.preset,
+          repository: body.repository?.full_name,
+          ref: body.ref,
+          commits: body.commits.map((commit) => commit.id),
+        });
+
+        await workflowLoggingService.entities.task
+          .patch({ headCommit, preset: generate.preset })
+          .set({ status: "skipped" })
+          .go();
+
+        continue;
+      }
+
+      console.log("Found updates for preset", {
         preset: generate.preset,
         repository: body.repository?.full_name,
         ref: body.ref,
         commits: body.commits.map((commit) => commit.id),
       });
 
-      continue;
+      await preset.fetchFiles();
+      const prompt = preset.createPrompt();
+
+      const output = await createCompletion(prompt);
+
+      // TODO: Make this smarter/configurable
+      await githubRepositoryService.createBranch({ branchName: preset.branchName });
+      await githubRepositoryService.commitFile({
+        branchName: preset.branchName,
+        path: "path" in generate ? generate.path : generate.outputPath,
+        content: output,
+        message: "Update readme",
+      });
+      // TODO: Make this smarter/configurable
+      await githubRepositoryService.createPullRequest({
+        branchName: preset.branchName,
+        title: preset.branchName,
+      });
+
+      await workflowLoggingService.entities.task
+        .patch({
+          headCommit,
+          preset: generate.preset,
+        })
+        .set({
+          status: "success",
+        })
+        .go();
+
+      console.log("Updated preset", {
+        preset: generate.preset,
+        repository: body.repository?.full_name,
+        ref: body.ref,
+        commits: body.commits.map((commit) => commit.id),
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.error(error);
+      console.error("Failed to update preset", {
+        error: errorMessage,
+        preset: generate.preset,
+        repository: body.repository?.full_name,
+        ref: body.ref,
+        commits: body.commits.map((commit) => commit.id),
+      });
+
+      await workflowLoggingService.entities.task
+        .patch({ headCommit, preset: generate.preset })
+        .set({ status: "failed" })
+        .go();
     }
-
-    console.log("Found updates for preset", {
-      preset: generate.preset,
-      repository: body.repository?.full_name,
-      ref: body.ref,
-      commits: body.commits.map((commit) => commit.id),
-    });
-
-    await preset.fetchFiles();
-    const prompt = preset.createPrompt();
-
-    const output = await createCompletion(prompt);
-
-    // TODO: Make this smarter/configurable
-    await githubRepositoryService.createBranch({ branchName: preset.branchName });
-    await githubRepositoryService.commitFile({
-      branchName: preset.branchName,
-      path: "path" in generate ? generate.path : generate.outputPath,
-      content: output,
-      message: "Update readme",
-    });
-    // TODO: Make this smarter/configurable
-    await githubRepositoryService.createPullRequest({
-      branchName: preset.branchName,
-      title: preset.branchName,
-    });
-
-    console.log("Updated preset", {
-      preset: generate.preset,
-      repository: body.repository?.full_name,
-      ref: body.ref,
-      commits: body.commits.map((commit) => commit.id),
-    });
   }
+
+  await workflowLoggingService.entities.workflow
+    .patch({ headCommit })
+    .set({ status: "success" })
+    .go();
 
   console.log("Processed event", {
     repository: body.repository?.full_name,

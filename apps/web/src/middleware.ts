@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Set the paths that don't require the user to be signed in
-const publicPaths = ["/", "/login*", "/signup*"];
+const appPathRegex = new RegExp(`^\/app`);
 
 const isPublic = (path: string) => {
-  return publicPaths.find((x) => path.match(new RegExp(`^${x}$`.replace("*$", "($|/)"))));
+  return !appPathRegex.test(path);
 };
 
 export default withClerkMiddleware((request: NextRequest) => {

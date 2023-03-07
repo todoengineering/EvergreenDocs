@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.mjs",
@@ -14,8 +14,11 @@
     "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@evergreendocs/workflow-logging-service": "*",
     "@octokit/auth-app": "^4.0.9",
     "@octokit/core": "^4.2.0",
+    "electrodb": "^2.4.2",
     "minimatch": "^6.1.6",
     "openai": "^ 3.2.1",
     "zod": "^3.20.2"

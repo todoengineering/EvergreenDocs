@@ -3,8 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "es2022",
-    "target": "es2021"
+    "target": "es2021",
+    "skipLibCheck": true
   },
-  "include": ["main.ts", "src/index.ts"],
+  "include": ["src/index.ts"],
   "exclude": ["node_modules", "dist"]
 }

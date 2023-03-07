@@ -19,11 +19,95 @@ function Header() {
   );
 }
 
+type TableConfig = {
+  name: string;
+  getter?: (item: (typeof data)[0]) => React.ReactNode;
+};
+
+const tableConfig = [
+  {
+    name: "0 Workflow Runs",
+    getter: (item: (typeof data)[0]) => item.name,
+  },
+  {
+    name: "Status",
+    getter: (item: (typeof data)[0]) => item.status,
+  },
+  {
+    name: "Actions",
+    getter: (item: (typeof data)[0]) => item.actions,
+  },
+] satisfies TableConfig[];
+
+const data = [
+  {
+    name: 'Apple MacBook Pro 17"',
+    status: "running",
+    actions: "2",
+  },
+  {
+    name: 'Apple MacBook Pro 17"',
+    status: "running",
+    actions: "2",
+  },
+  {
+    name: 'Apple MacBook Pro 17"',
+    status: "running",
+    actions: "2",
+  },
+  {
+    name: 'Apple MacBook Pro 17"',
+    status: "failed",
+    actions: "2",
+  },
+  {
+    name: 'Apple MacBook Pro 17"',
+    status: "cancelled",
+    actions: "2",
+  },
+  {
+    name: 'Apple MacBook Pro 17"',
+    status: "success",
+    actions: "2",
+  },
+  {
+    name: 'Apple MacBook Pro 17"',
+    status: "success",
+    actions: "2",
+  },
+];
+
 function AppPage() {
   return (
     <Layout header={<Header />} footer={null}>
       <div className="absolute top-0 flex h-screen h-max w-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32">
-        <div className="flex flex-col items-center">Some stuff is gonna go in here</div>
+        <div className="flex flex-col items-center">
+          <div className="overflow-x-auto rounded shadow-md">
+            <table className="text-left text-sm text-white ">
+              <thead className=" bg-gray-200 text-xs uppercase text-black">
+                <tr>
+                  {tableConfig.map((config) => (
+                    <th scope="col" className="px-6 py-3" key={config.name}>
+                      {config.name}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+
+              <tbody>
+                {data.map((item) => (
+                  <tr className="border-b bg-white text-black " key={item.name}>
+                    {tableConfig.map((config) => (
+                      <td className="px-6 py-4" key={config.name}>
+                        {config.getter ? config.getter(item) : "unknown"}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </Layout>
   );
