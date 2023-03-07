@@ -8,6 +8,8 @@ import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { Provider as RWBProvider } from "react-wrap-balancer";
 
+import { trpc } from "../trpc";
+
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
   variable: "--font-sf",
@@ -18,7 +20,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export default function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
     <ClerkProvider {...pageProps}>
       <RWBProvider>
@@ -29,3 +31,5 @@ export default function MyApp({ Component, pageProps: { ...pageProps } }: AppPro
     </ClerkProvider>
   );
 }
+
+export default trpc.withTRPC(MyApp);

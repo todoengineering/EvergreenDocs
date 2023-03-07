@@ -3,6 +3,7 @@ import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 
 import Layout from "../../components/layouts";
+import { trpc } from "../../trpc";
 
 function Header() {
   return (
@@ -78,6 +79,9 @@ const data = [
 ];
 
 function AppPage() {
+  const { data: workflowLogs } = trpc.workflowLog.getLoggedInUserWorkflowLogs.useQuery();
+
+  console.log(workflowLogs);
   return (
     <Layout header={<Header />} footer={null}>
       <div className="absolute top-0 flex h-screen h-max w-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32">

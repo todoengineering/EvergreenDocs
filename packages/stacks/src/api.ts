@@ -37,7 +37,7 @@ async function apiStack({ stack }: StackContext) {
     });
   }
 
-  new Table(stack, "workflow-logs", {
+  const workflowLogsTable = new Table(stack, "workflow-logs", {
     primaryIndex: { partitionKey: "pk", sortKey: "sk" },
     fields: {
       pk: "string",
@@ -53,6 +53,34 @@ async function apiStack({ stack }: StackContext) {
       },
     },
   });
+
+  const api = new Function(stack, "api", {
+    handler: "apps/api/main.handler",
+    functionName: `api-${stack.stage}`,
+    timeout: "30 seconds",
+    environment: {
+      CLERK_SECRET_KEY: process.env["CLERK_SECRET_KEY"] as string,
+    },
+    url: {
+      cors: {
+        allowCredentials: true,
+        allowHeaders: ["*"],
+        allowMethods: ["*"],
+        allowOrigins: ["http://localhost:3000"],
+      },
+    },
+    initialPolicy: [
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ["secretsmanager:GetSecretValue"],
+        resources: [
+          `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/clerk`,
+        ],
+      }),
+    ],
+  });
+
+  api.attachPermissions([workflowLogsTable]);
 
   const documentum = new Function(stack, "documentum", {
     handler: "apps/documentum/src/index.handler",
@@ -91,6 +119,12 @@ async function apiStack({ stack }: StackContext) {
       eventBus: defaultEventBus,
     },
   });
+
+  if (api.url) {
+    stack.addOutputs({
+      apiFunctionUrl: api.url,
+    });
+  }
 
   if (sunrise?.url) {
     stack.addOutputs({
