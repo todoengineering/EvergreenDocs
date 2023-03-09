@@ -31,12 +31,10 @@ const createContext = async ({ event }: CreateAWSLambdaContextOptions<APIGateway
   try {
     const decoded = jwt.verify(authHeader, publicKey);
     if (typeof decoded !== "object") {
-      console.log(decoded);
       return {};
     }
 
     if (!decoded.sub || !decoded.sid) {
-      console.log(decoded);
       return {};
     }
 

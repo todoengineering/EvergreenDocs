@@ -79,7 +79,7 @@ const data = [
 ];
 
 function AppPage() {
-  const { data: workflowLogs } = trpc.workflowLog.getLoggedInUserWorkflowLogs.useQuery();
+  const { data: workflowLogs } = trpc.workflowLog.getLoggedInUserWorkflowLogs.useQuery({});
 
   console.log(workflowLogs);
   return (

@@ -1,8 +1,24 @@
 import { StackContext, Function, EventBus, Table } from "sst/constructs";
 import { EventBus as CdkEventBus } from "aws-cdk-lib/aws-events";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
+import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 
 import banner from "./banner.js";
+
+const secretsManagerClient = new SecretsManagerClient({
+  region: "eu-west-1",
+});
+
+const clerkSecretsResponse = await secretsManagerClient.send(
+  new GetSecretValueCommand({
+    SecretId: "development/evergreendocs/clerk",
+  })
+);
+const clerkSecrets = JSON.parse(clerkSecretsResponse.SecretString || "{}");
+
+if (!clerkSecrets.secretKey) {
+  throw new Error("Missing clerk secret key");
+}
 
 async function apiStack({ stack }: StackContext) {
   const defaultEventBus = CdkEventBus.fromEventBusArn(
@@ -59,7 +75,7 @@ async function apiStack({ stack }: StackContext) {
     functionName: `api-${stack.stage}`,
     timeout: "30 seconds",
     environment: {
-      CLERK_SECRET_KEY: process.env["CLERK_SECRET_KEY"] as string,
+      CLERK_SECRET_KEY: clerkSecrets.secretKey,
     },
     url: {
       cors: {

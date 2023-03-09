@@ -15,7 +15,7 @@ const workflow = new Entity(
         type: "string",
         required: true,
       },
-      userId: {
+      repositoryFullName: {
         type: "string",
       },
       status: {
@@ -23,15 +23,16 @@ const workflow = new Entity(
         required: true,
       },
       startedAt: {
-        type: "number",
+        type: "string",
         readOnly: true,
-        default: () => Date.now(),
+        required: true,
+        default: () => new Date().toISOString(),
       },
       completedAt: {
-        type: "number",
+        type: "string",
         watch: ["status"],
         set: (_, { status }) =>
-          status === "success" || status === "failed" ? Date.now() : undefined,
+          status === "success" || status === "failed" ? new Date().toISOString() : undefined,
       },
     },
     indexes: {
@@ -46,11 +47,11 @@ const workflow = new Entity(
           composite: [],
         },
       },
-      byUser: {
+      byRepositoryName: {
         index: "gsi1pk-gsi1sk-index",
         pk: {
           field: "gsi1pk",
-          composite: ["userId"],
+          composite: ["repositoryFullName"],
         },
         sk: {
           field: "gsi1sk",

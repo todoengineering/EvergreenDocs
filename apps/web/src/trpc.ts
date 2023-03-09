@@ -6,8 +6,6 @@ import type { inferProcedureOutput } from "@trpc/server";
 import { NextPageContext } from "next";
 import superjson from "superjson";
 
-// NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
 /**
  * A set of strongly-typed React hooks from your `AppRouter` type signature with `createReactQueryHooks`.
  * @link https://trpc.io/docs/react#3-create-trpc-hooks
@@ -32,7 +30,8 @@ export const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, ne
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `https://v5gmnhbywzku5hzf6llxg77ote0ebcxz.lambda-url.eu-west-1.on.aws`,
+          // TODO: move to config file
+          url: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"] as string,
           async headers() {
             const token = await window.Clerk.session?.getToken();
 

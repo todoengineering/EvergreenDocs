@@ -22,7 +22,6 @@ function SignupPage() {
                   "after:content-['EvergreenDocs'] after:flex after:items-center after:text-2xl font-bold flex justify-center",
               },
             }}
-            afterSignInUrl="/app"
             redirectUrl="/app"
           />
         </div>
