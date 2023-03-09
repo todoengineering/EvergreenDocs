@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "@aws-sdk/client-eventbridge": "^3.267.0",
-    "@aws-sdk/client-secrets-manager": "^3.267.0",
     "@evergreendocs/tsconfig": "*",
     "@types/aws-lambda": "^8.10.109",
     "@types/node": "^18.0.12",

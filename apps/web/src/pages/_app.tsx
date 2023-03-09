@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 import "../styles/globals.css";
 
-import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 import cx from "classnames";
 import localFont from "next/font/local";
@@ -22,13 +21,11 @@ const inter = Inter({
 
 function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
-    <ClerkProvider {...pageProps}>
-      <RWBProvider>
-        <div className={cx(sfPro.variable, inter.variable)}>
-          <Component {...pageProps} />
-        </div>
-      </RWBProvider>
-    </ClerkProvider>
+    <RWBProvider>
+      <div className={cx(sfPro.variable, inter.variable)}>
+        <Component {...pageProps} />
+      </div>
+    </RWBProvider>
   );
 }
 

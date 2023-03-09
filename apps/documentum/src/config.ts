@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-import secretsManagerService from "./services/secrets-manager-service.js";
+import { secretsManagerService } from "@evergreendocs/services";
 
 declare global {
   namespace NodeJS {

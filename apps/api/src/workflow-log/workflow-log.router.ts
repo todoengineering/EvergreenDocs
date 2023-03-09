@@ -1,4 +1,4 @@
-import workflowLoggingService from "@evergreendocs/workflow-logging-service";
+import { workflowLoggingService } from "@evergreendocs/services";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Octokit } from "@octokit/core";
@@ -32,7 +32,7 @@ const workflowLogRouter = router({
             "You must have a GitHub account linked to your account to view your workflow logs",
         });
       }
-      
+
       const octokit = new Octokit({ auth: githubAccessToken });
       const userRepositoriesResponse = await octokit.request("GET /user/repos");
 

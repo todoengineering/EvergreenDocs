@@ -3,19 +3,11 @@ import { CreateAWSLambdaContextOptions } from "@trpc/server/adapters/aws-lambda"
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 import jwt from "jsonwebtoken";
 import clerk from "@clerk/clerk-sdk-node";
-import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
+import { secretsManagerService } from "@evergreendocs/services";
 
-const secretsManagerClient = new SecretsManagerClient({
-  region: "eu-west-1",
-});
-
-const clerkSecretsResponse = await secretsManagerClient.send(
-  new GetSecretValueCommand({
-    SecretId: "development/evergreendocs/clerk",
-  })
+const clerkSecrets = await secretsManagerService.getSecretJson<{ jwtVerificationKey: string }>(
+  "development/evergreendocs/clerk"
 );
-
-const clerkSecrets = JSON.parse(clerkSecretsResponse.SecretString || "{}");
 
 const createContext = async ({ event }: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>) => {
   const authHeader = event.headers["authorization"];

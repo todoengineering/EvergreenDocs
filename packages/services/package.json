@@ -1,5 +1,5 @@
 {
-  "name": "@evergreendocs/workflow-logging-service",
+  "name": "@evergreendocs/services",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,13 +12,12 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@aws-sdk/client-secrets-manager": "^3.267.0",
     "electrodb": "^2.4.2"
   },
   "devDependencies": {
     "@evergreendocs/tsconfig": "*",
-    "@types/aws-lambda": "^8.10.109",
     "@types/node": "^18.0.12",
-    "aws-lambda": "^1.0.7",
     "eslint-config-evergreendocs": "*",
     "typescript": "^4.5.3"
   }

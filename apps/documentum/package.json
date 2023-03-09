@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.284.0",
-    "@evergreendocs/workflow-logging-service": "*",
+    "@evergreendocs/services": "*",
     "@octokit/auth-app": "^4.0.9",
     "@octokit/core": "^4.2.0",
     "electrodb": "^2.4.2",
@@ -24,7 +24,6 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.267.0",
     "@evergreendocs/tsconfig": "*",
     "@octokit/webhooks-types": "^6.10.0",
     "@types/aws-lambda": "^8.10.109",

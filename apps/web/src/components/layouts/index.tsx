@@ -1,10 +1,9 @@
-// import Image from "next/image";
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 import useScroll from "../../hooks/use-scroll";
+import RenderIf from "../render-if";
 
 import Meta from "./meta";
 
@@ -30,16 +29,16 @@ function DefaultHeader() {
         </Link>
 
         <div className="flex gap-1">
-          <SignedIn>
+          <RenderIf condition={false}>
             <Link
               href="/app"
               className="flex max-w-fit items-center justify-center space-x-2 rounded-full bg-emerald-500 px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-emerald-600"
             >
               Go to app
             </Link>
-          </SignedIn>
+          </RenderIf>
 
-          <SignedOut>
+          <RenderIf condition={true}>
             <Link
               href="/login"
               className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-white hover:text-black"
@@ -53,7 +52,7 @@ function DefaultHeader() {
             >
               Sign up
             </Link>
-          </SignedOut>
+          </RenderIf>
         </div>
       </div>
     </div>

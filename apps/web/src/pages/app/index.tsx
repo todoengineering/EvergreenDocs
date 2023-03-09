@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { UserButton } from "@clerk/nextjs";
 
 import Layout from "../../components/layouts";
 import { trpc } from "../../trpc";
@@ -14,7 +13,7 @@ function Header() {
           <p>Evergreen Docs</p>
         </Link>
 
-        <UserButton afterSignOutUrl="/" />
+        <button>User Button</button>
       </div>
     </div>
   );

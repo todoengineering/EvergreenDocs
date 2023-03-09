@@ -1,20 +1,13 @@
 import { StackContext, Function, EventBus, Table } from "sst/constructs";
 import { EventBus as CdkEventBus } from "aws-cdk-lib/aws-events";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
-import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
+import { secretsManagerService } from "@evergreendocs/services";
 
 import banner from "./banner.js";
 
-const secretsManagerClient = new SecretsManagerClient({
-  region: "eu-west-1",
-});
-
-const clerkSecretsResponse = await secretsManagerClient.send(
-  new GetSecretValueCommand({
-    SecretId: "development/evergreendocs/clerk",
-  })
+const clerkSecrets = await secretsManagerService.getSecretJson<{ secretKey: string }>(
+  "development/evergreendocs/clerk"
 );
-const clerkSecrets = JSON.parse(clerkSecretsResponse.SecretString || "{}");
 
 if (!clerkSecrets.secretKey) {
   throw new Error("Missing clerk secret key");

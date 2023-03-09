@@ -1,6 +1,6 @@
 import { EventBridgeHandler } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
-import workflowLoggingService from "@evergreendocs/workflow-logging-service";
+import { workflowLoggingService } from "@evergreendocs/services";
 
 import { createCompletion } from "./services/open-ai-service.js";
 import presetFactory from "./presets/preset-factory.js";
@@ -24,13 +24,18 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   const repoName = body.repository?.name;
   const installationId = body.installation?.id;
   const headCommit = body.head_commit?.id;
+  const repositoryFullName = body.repository?.full_name;
 
   if (!repoOwner || !repoName || !installationId || !headCommit) {
     return false;
   }
 
   await workflowLoggingService.entities.workflow
-    .create({ headCommit, userId: "user_2Me1X3b3B8eUs13yfN23kvfVMX0", status: "in_progress" })
+    .create({
+      headCommit,
+      repositoryFullName,
+      status: "in_progress",
+    })
     .go();
 
   const githubRepositoryService = new GithubRepositoryService({

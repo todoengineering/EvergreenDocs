@@ -848,50 +848,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-secrets-manager@npm:^3.282.0":
-  version: 3.282.0
-  resolution: "@aws-sdk/client-secrets-manager@npm:3.282.0"
-  dependencies:
-    "@aws-crypto/sha256-browser": 3.0.0
-    "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.282.0
-    "@aws-sdk/config-resolver": 3.282.0
-    "@aws-sdk/credential-provider-node": 3.282.0
-    "@aws-sdk/fetch-http-handler": 3.282.0
-    "@aws-sdk/hash-node": 3.272.0
-    "@aws-sdk/invalid-dependency": 3.272.0
-    "@aws-sdk/middleware-content-length": 3.282.0
-    "@aws-sdk/middleware-endpoint": 3.282.0
-    "@aws-sdk/middleware-host-header": 3.282.0
-    "@aws-sdk/middleware-logger": 3.272.0
-    "@aws-sdk/middleware-recursion-detection": 3.282.0
-    "@aws-sdk/middleware-retry": 3.282.0
-    "@aws-sdk/middleware-serde": 3.272.0
-    "@aws-sdk/middleware-signing": 3.282.0
-    "@aws-sdk/middleware-stack": 3.272.0
-    "@aws-sdk/middleware-user-agent": 3.282.0
-    "@aws-sdk/node-config-provider": 3.272.0
-    "@aws-sdk/node-http-handler": 3.282.0
-    "@aws-sdk/protocol-http": 3.282.0
-    "@aws-sdk/smithy-client": 3.279.0
-    "@aws-sdk/types": 3.272.0
-    "@aws-sdk/url-parser": 3.272.0
-    "@aws-sdk/util-base64": 3.208.0
-    "@aws-sdk/util-body-length-browser": 3.188.0
-    "@aws-sdk/util-body-length-node": 3.208.0
-    "@aws-sdk/util-defaults-mode-browser": 3.279.0
-    "@aws-sdk/util-defaults-mode-node": 3.282.0
-    "@aws-sdk/util-endpoints": 3.272.0
-    "@aws-sdk/util-retry": 3.272.0
-    "@aws-sdk/util-user-agent-browser": 3.282.0
-    "@aws-sdk/util-user-agent-node": 3.282.0
-    "@aws-sdk/util-utf8": 3.254.0
-    tslib: ^2.3.1
-    uuid: ^8.3.2
-  checksum: 2f5d933876c9d38a9633dff2b9205b3651b4768073aa04e02eb9a6ca78440082e1dfca8838ed6b9548a68cace6f129ab25976a1e77d2779d9e00de21404c42ea
-  languageName: node
-  linkType: hard
-
 "@aws-sdk/client-ssm@npm:^3.279.0":
   version: 3.282.0
   resolution: "@aws-sdk/client-ssm@npm:3.282.0"
@@ -3057,22 +3013,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@clerk/backend@npm:^0.11.0":
-  version: 0.11.0
-  resolution: "@clerk/backend@npm:0.11.0"
-  dependencies:
-    "@clerk/types": ^3.28.5
-    "@peculiar/webcrypto": 1.4.1
-    "@types/node": 16.18.6
-    deepmerge: 4.2.2
-    node-fetch-native: 1.0.1
-    rfc4648: 1.5.2
-    snakecase-keys: 5.4.4
-    tslib: 2.4.1
-  checksum: 13e688da753d3a4956b50bdb5eca9b2639737c7649ad79bbc0855693a78dc2af3483c72de6e2ff350b7efc92e1cd021e7d620c31764852569aa33a1b8446698b
-  languageName: node
-  linkType: hard
-
 "@clerk/backend@npm:^0.12.0":
   version: 0.12.0
   resolution: "@clerk/backend@npm:0.12.0"
@@ -3086,38 +3026,6 @@ __metadata:
     snakecase-keys: 5.4.4
     tslib: 2.4.1
   checksum: 079f32640b98b8efc7c10e4fb73f9e218ffca14e96d6e11744bdbfb99da2c649da150a7cbf9b7dcd00ab06272bf6817018f9f0e3d43852aba6e90f17d9fefa17
-  languageName: node
-  linkType: hard
-
-"@clerk/clerk-react@npm:^4.12.1":
-  version: 4.12.1
-  resolution: "@clerk/clerk-react@npm:4.12.1"
-  dependencies:
-    "@clerk/shared": ^0.12.3
-    "@clerk/types": ^3.28.5
-    swr: 1.3.0
-    tslib: 2.4.1
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 1ed62a8ad5facdf5a5e3636dc813c0b8c12b2fdecf041c82860a576b43096136cfabfab19d8ad305c3ded2a3bba87889e540c121b8726286f262fc70e6061a4e
-  languageName: node
-  linkType: hard
-
-"@clerk/clerk-sdk-node@npm:^4.7.8":
-  version: 4.7.8
-  resolution: "@clerk/clerk-sdk-node@npm:4.7.8"
-  dependencies:
-    "@clerk/backend": ^0.11.0
-    "@clerk/types": ^3.28.5
-    "@types/cookies": 0.7.7
-    "@types/express": 4.17.14
-    "@types/node-fetch": 2.6.2
-    camelcase-keys: 6.2.2
-    cookie: 0.5.0
-    snakecase-keys: 3.2.1
-    tslib: 2.4.1
-  checksum: 45e8c8a8b1d001cf7c4aeb5c26ef45ea1e683150ad168949267148cde7ffac7fc1e9e1dca4518b7d24a929c1dc8993ec0c66e6e2059ed3729acae4cbfe0b92b8
   languageName: node
   linkType: hard
 
@@ -3135,42 +3043,6 @@ __metadata:
     snakecase-keys: 3.2.1
     tslib: 2.4.1
   checksum: b13a919f18a17f8b5b4ff0f8290a08e9234bf6d87463974b24852fc1e3089338a83f18a37daf7eb5fa7d1a9a65df61806bc5cd9c9782aad28a4cea730598ab1d
-  languageName: node
-  linkType: hard
-
-"@clerk/nextjs@npm:^4.11.3":
-  version: 4.11.3
-  resolution: "@clerk/nextjs@npm:4.11.3"
-  dependencies:
-    "@clerk/backend": ^0.11.0
-    "@clerk/clerk-react": ^4.12.1
-    "@clerk/clerk-sdk-node": ^4.7.8
-    "@clerk/types": ^3.28.5
-    tslib: 2.4.1
-  peerDependencies:
-    next: ">=10"
-    react: ^17.0.2 || ^18.0.0-0
-    react-dom: ^17.0.2 || ^18.0.0-0
-  checksum: 64dce99cea59b8075cd0aa7db27ebe14f5e99ab08c1f3cc3cfac00b3000b3286fdeb0a5ce4dface8d0fef5e25cf89792eb550392e1144a472ef1f051c77571f7
-  languageName: node
-  linkType: hard
-
-"@clerk/shared@npm:^0.12.3":
-  version: 0.12.3
-  resolution: "@clerk/shared@npm:0.12.3"
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 342ca32ace81af9c4120cbc15d37e2c9571ce3aef37addfd056ab7bb37039f9d1e6b1ebabe75b409340a5d5d0d8e85a6bfd53d8bcdc233a4c95c7c923e3b2568
-  languageName: node
-  linkType: hard
-
-"@clerk/types@npm:^3.28.5":
-  version: 3.28.5
-  resolution: "@clerk/types@npm:3.28.5"
-  dependencies:
-    csstype: 3.1.1
-  checksum: 9d853edb8211a2a06dcf0cdd37079486f5aac8e882258f522947ad4bda3e49a1bd41f7cb8a87845b9266bf728dfbb15259d9b63631bbd8c260fab1221866a483
   languageName: node
   linkType: hard
 
@@ -3539,10 +3411,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@evergreendocs/api@workspace:apps/api"
   dependencies:
-    "@aws-sdk/client-secrets-manager": ^3.282.0
     "@clerk/clerk-sdk-node": ^4.7.9
+    "@evergreendocs/services": "*"
     "@evergreendocs/tsconfig": "*"
-    "@evergreendocs/workflow-logging-service": "*"
     "@trpc/server": 10.9.0
     "@tsconfig/node16-strictest-esm": ^1.0.3
     "@types/node": ^18.13.0
@@ -3560,9 +3431,8 @@ __metadata:
   resolution: "@evergreendocs/documentum@workspace:apps/documentum"
   dependencies:
     "@aws-sdk/client-dynamodb": ^3.284.0
-    "@aws-sdk/client-secrets-manager": ^3.267.0
+    "@evergreendocs/services": "*"
     "@evergreendocs/tsconfig": "*"
-    "@evergreendocs/workflow-logging-service": "*"
     "@octokit/auth-app": ^4.0.9
     "@octokit/core": ^4.2.0
     "@octokit/webhooks-types": ^6.10.0
@@ -3577,6 +3447,20 @@ __metadata:
     typescript: ^4.5.3
     vitest: ^0.28.4
     zod: ^3.20.2
+  languageName: unknown
+  linkType: soft
+
+"@evergreendocs/services@*, @evergreendocs/services@workspace:packages/services":
+  version: 0.0.0-use.local
+  resolution: "@evergreendocs/services@workspace:packages/services"
+  dependencies:
+    "@aws-sdk/client-dynamodb": ^3.284.0
+    "@aws-sdk/client-secrets-manager": ^3.267.0
+    "@evergreendocs/tsconfig": "*"
+    "@types/node": ^18.0.12
+    electrodb: ^2.4.2
+    eslint-config-evergreendocs: "*"
+    typescript: ^4.5.3
   languageName: unknown
   linkType: soft
 
@@ -3597,7 +3481,6 @@ __metadata:
   resolution: "@evergreendocs/sunrise@workspace:apps/sunrise"
   dependencies:
     "@aws-sdk/client-eventbridge": ^3.267.0
-    "@aws-sdk/client-secrets-manager": ^3.267.0
     "@evergreendocs/tsconfig": "*"
     "@types/aws-lambda": ^8.10.109
     "@types/node": ^18.0.12
@@ -3621,7 +3504,6 @@ __metadata:
   resolution: "@evergreendocs/web@workspace:apps/web"
   dependencies:
     "@babel/core": ^7.0.0
-    "@clerk/nextjs": ^4.11.3
     "@evergreendocs/api": "*"
     "@evergreendocs/tsconfig": "*"
     "@tabler/icons": ^1.116.1
@@ -3653,21 +3535,6 @@ __metadata:
     tailwindcss: ^3.2.7
     typescript: ^4.5.3
     vitest: ^0.28.4
-  languageName: unknown
-  linkType: soft
-
-"@evergreendocs/workflow-logging-service@*, @evergreendocs/workflow-logging-service@workspace:packages/workflow-logging-service":
-  version: 0.0.0-use.local
-  resolution: "@evergreendocs/workflow-logging-service@workspace:packages/workflow-logging-service"
-  dependencies:
-    "@aws-sdk/client-dynamodb": ^3.284.0
-    "@evergreendocs/tsconfig": "*"
-    "@types/aws-lambda": ^8.10.109
-    "@types/node": ^18.0.12
-    aws-lambda: ^1.0.7
-    electrodb: ^2.4.2
-    eslint-config-evergreendocs: "*"
-    typescript: ^4.5.3
   languageName: unknown
   linkType: soft
 
@@ -13161,15 +13028,6 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 53b1e247e68e05db7b3808b99b892bd36fb096e6fba213a06da7fab22045e97597db425c724f2bbd6c99a3c295e1e73f3e4de78592289f38431049e1277ca0ae
-  languageName: node
-  linkType: hard
-
-"swr@npm:1.3.0":
-  version: 1.3.0
-  resolution: "swr@npm:1.3.0"
-  peerDependencies:
-    react: ^16.11.0 || ^17.0.0 || ^18.0.0
-  checksum: e7a184f0d560e9c8be85c023cc8e65e56a88a6ed46f9394b301b07f838edca23d2e303685319a4fcd620b81d447a7bcb489c7fa0a752c259f91764903c690cdb
   languageName: node
   linkType: hard
 
