@@ -1,43 +1,57 @@
 import * as trpc from "@trpc/server";
 import { CreateAWSLambdaContextOptions } from "@trpc/server/adapters/aws-lambda";
 import { APIGatewayProxyEventV2 } from "aws-lambda";
-import jwt from "jsonwebtoken";
-import clerk from "@clerk/clerk-sdk-node";
-import { secretsManagerService } from "@evergreendocs/services";
 
-const clerkSecrets = await secretsManagerService.getSecretJson<{ jwtVerificationKey: string }>(
-  "development/evergreendocs/clerk"
-);
+type Session = {
+  readonly id: string;
+  readonly userId: string;
+  readonly lastActiveAt: number;
+  readonly expireAt: number;
+  readonly createdAt: number;
+};
 
-const createContext = async ({ event }: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>) => {
-  const authHeader = event.headers["authorization"];
+type User = {
+  readonly id: string;
+  readonly externalId: string | null;
+  readonly provider: string;
+  readonly profileImageUrl: string;
+  readonly birthday: string;
+  readonly emailAddress: string | null;
+  readonly phoneNumber: string | null;
+  readonly gender: string;
+  readonly firstName: string | null;
+  readonly lastName: string | null;
+  readonly createdAt: number;
+  readonly updatedAt: number;
+  readonly lastSignInAt: number | null;
+};
 
-  if (!authHeader) {
-    return {};
-  }
+const createContext = async ({}: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>) => {
+  const user: User = {
+    id: "1",
+    externalId: null,
+    provider: "oauth_github",
+    profileImageUrl: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+    birthday: "1991-01-01",
+    emailAddress: "",
+    phoneNumber: null,
+    gender: "",
+    firstName: "John",
+    lastName: "Doe",
+    createdAt: 0,
+    updatedAt: 0,
+    lastSignInAt: 0,
+  };
 
-  const splitPem = clerkSecrets.jwtVerificationKey.match(/.{1,64}/g);
-  const publicKey =
-    "-----BEGIN PUBLIC KEY-----\n" + splitPem?.join("\n") + "\n-----END PUBLIC KEY-----";
+  const session: Session = {
+    id: "1",
+    userId: "1",
+    lastActiveAt: 0,
+    expireAt: 0,
+    createdAt: 0,
+  };
 
-  try {
-    const decoded = jwt.verify(authHeader, publicKey);
-    if (typeof decoded !== "object") {
-      return {};
-    }
-
-    if (!decoded.sub || !decoded.sid) {
-      return {};
-    }
-
-    const user = await clerk.users.getUser(decoded.sub);
-    const session = await clerk.sessions.getSession(decoded.sid);
-
-    return { user, session };
-  } catch (error) {
-    console.error(error);
-    return {};
-  }
+  return { user, session };
 };
 
 type Context = trpc.inferAsyncReturnType<typeof createContext>;

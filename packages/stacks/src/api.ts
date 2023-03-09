@@ -1,17 +1,8 @@
 import { StackContext, Function, EventBus, Table } from "sst/constructs";
 import { EventBus as CdkEventBus } from "aws-cdk-lib/aws-events";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
-import { secretsManagerService } from "@evergreendocs/services";
 
 import banner from "./banner.js";
-
-const clerkSecrets = await secretsManagerService.getSecretJson<{ secretKey: string }>(
-  "development/evergreendocs/clerk"
-);
-
-if (!clerkSecrets.secretKey) {
-  throw new Error("Missing clerk secret key");
-}
 
 async function apiStack({ stack }: StackContext) {
   const defaultEventBus = CdkEventBus.fromEventBusArn(
@@ -67,9 +58,6 @@ async function apiStack({ stack }: StackContext) {
     handler: "apps/api/main.handler",
     functionName: `api-${stack.stage}`,
     timeout: "30 seconds",
-    environment: {
-      CLERK_SECRET_KEY: clerkSecrets.secretKey,
-    },
     url: {
       cors: {
         allowCredentials: true,
@@ -78,15 +66,6 @@ async function apiStack({ stack }: StackContext) {
         allowOrigins: ["http://localhost:3000"],
       },
     },
-    initialPolicy: [
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: ["secretsmanager:GetSecretValue"],
-        resources: [
-          `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/clerk`,
-        ],
-      }),
-    ],
   });
 
   api.attachPermissions([workflowLogsTable]);

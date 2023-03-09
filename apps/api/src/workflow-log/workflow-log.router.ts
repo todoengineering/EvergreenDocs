@@ -2,7 +2,6 @@ import { workflowLoggingService } from "@evergreendocs/services";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Octokit } from "@octokit/core";
-import clerk from "@clerk/clerk-sdk-node";
 
 import { router, publicProcedure } from "../trpc.js";
 
@@ -22,16 +21,7 @@ const workflowLogRouter = router({
         });
       }
 
-      const githubTokens = await clerk.users.getUserOauthAccessToken(ctx.user.id, "oauth_github");
-      const githubAccessToken = githubTokens?.[0]?.token;
-      console.log("githubAccessToken", githubAccessToken);
-      if (!githubAccessToken) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message:
-            "You must have a GitHub account linked to your account to view your workflow logs",
-        });
-      }
+      const githubAccessToken = "";
 
       const octokit = new Octokit({ auth: githubAccessToken });
       const userRepositoriesResponse = await octokit.request("GET /user/repos");
@@ -66,15 +56,7 @@ const workflowLogRouter = router({
       });
     }
 
-    const githubTokens = await clerk.users.getUserOauthAccessToken(ctx.user.id, "oauth_github");
-    const githubAccessToken = githubTokens?.[0]?.token;
-
-    if (!githubAccessToken) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "You must have a GitHub account linked to your account to view your workflow logs",
-      });
-    }
+    const githubAccessToken = "";
 
     const octokit = new Octokit({ auth: githubAccessToken });
     const userRepositoriesResponse = await octokit.request("GET /user/repos");
