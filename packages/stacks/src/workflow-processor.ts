@@ -26,7 +26,7 @@ async function workflowProcessorStack({ stack }: StackContext) {
 
   const workflowProcessorLambda = new Function(stack, "workflow-processor", {
     handler: "apps/workflow-processor/src/index.handler",
-    functionName: `workflow-processor`,
+    functionName: `workflow-processor-${stack.stage}`,
     timeout: "5 minutes",
     nodejs: {
       banner,

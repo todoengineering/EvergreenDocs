@@ -12,7 +12,7 @@ async function githubWebhookIngestStack({ stack }: StackContext) {
   if (stack.stage === "production") {
     const githubWebhookIngestLambda = new Function(stack, "github-webhook-ingest", {
       handler: "apps/github-webhook-ingest/src/index.handler",
-      functionName: `github-webhook-ingest`,
+      functionName: `github-webhook-ingest-${stack.stage}`,
       timeout: "15 seconds",
       url: true,
       initialPolicy: [

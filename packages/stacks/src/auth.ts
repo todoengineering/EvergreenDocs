@@ -8,7 +8,7 @@ async function authStack({ stack }: StackContext) {
 
   const authLambda = new Function(stack, "auth-lambda", {
     handler: "apps/auth/src/index.handler",
-    functionName: `auth`,
+    functionName: `auth-${stack.stage}`,
     environment: {
       CACHE_TABLE_NAME: cacheTable.tableName,
     },

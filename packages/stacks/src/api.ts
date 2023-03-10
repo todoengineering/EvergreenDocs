@@ -14,7 +14,7 @@ async function apiStack({ stack }: StackContext) {
       "GET /{proxy+}": {
         function: {
           handler: "apps/api/main.handler",
-          functionName: `api`,
+          functionName: `api-${stack.stage}`,
           bind: [authApi],
           environment: {
             CACHE_TABLE_NAME: cacheTable.tableName,
