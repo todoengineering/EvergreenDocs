@@ -1,6 +1,6 @@
 const config = {
   // TODO: env var
-  tableName: "isaac-development-evergreendocs-workflow-logs",
+  tableName: process.env["WORKFLOW_LOGS_TABLE_NAME"],
 };
 
 export default config;

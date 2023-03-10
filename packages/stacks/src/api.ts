@@ -16,6 +16,10 @@ async function apiStack({ stack }: StackContext) {
           handler: "apps/api/main.handler",
           functionName: `api`,
           bind: [authApi],
+          environment: {
+            CACHE_TABLE_NAME: cacheTable.tableName,
+            WORKFLOW_LOGS_TABLE_NAME: workflowLogsTable.tableName,
+          },
         },
       },
     },

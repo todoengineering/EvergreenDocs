@@ -9,6 +9,9 @@ async function authStack({ stack }: StackContext) {
   const authLambda = new Function(stack, "auth-lambda", {
     handler: "apps/auth/src/index.handler",
     functionName: `auth`,
+    environment: {
+      CACHE_TABLE_NAME: cacheTable.tableName,
+    },
   });
 
   authLambda.attachPermissions([cacheTable]);

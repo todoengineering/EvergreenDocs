@@ -34,6 +34,7 @@ async function workflowProcessorStack({ stack }: StackContext) {
     environment: {
       OPENAI_API_KEY: process.env["OPENAI_API_KEY"] as string,
       OPENAI_MODEL: "text-davinci-003",
+      WORKFLOW_LOGS_TABLE_NAME: workflowLogsTable.tableName,
     },
     initialPolicy: [
       new PolicyStatement({
