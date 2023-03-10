@@ -1,0 +1,24 @@
+{
+  "name": "@evergreendocs/services",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc -w --preserveWatchOutput",
+    "build": "tsc",
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
+  },
+  "dependencies": {
+    "electrodb": "^2.4.2"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@aws-sdk/client-secrets-manager": "^3.267.0",
+    "@evergreendocs/tsconfig": "*",
+    "@types/node": "^18.0.12",
+    "eslint-config-evergreendocs": "*",
+    "typescript": "^4.5.3"
+  }
+}

@@ -3,7 +3,7 @@
   "description": "Used to deploy the Evergreen Docs stacks",
   "version": "1.0.0",
   "main": "dist/main.mjs",
-  "types": "main.mts",
+  "types": "main.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",

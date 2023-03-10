@@ -1,15 +1,9 @@
-import usersRouter from "./users/users.router.js";
-import authenticationRouter from "./auth/auth.router.js";
-import s3Router from "./s3/s3.router.js";
 import { router } from "./trpc.js";
-
-type AppRouter = typeof appRouter;
+import workflowLogRouter from "./workflow-log/workflow-log.router.js";
 
 const appRouter = router({
-  users: usersRouter,
-  auth: authenticationRouter,
-  s3: s3Router,
+  workflowLog: workflowLogRouter,
 });
 
 export default appRouter;
-export type { AppRouter };
+export type AppRouter = typeof appRouter;

@@ -94,14 +94,14 @@ graph LR
   subgraph AWS
     ingest[Ingest Lambda]
     defaultEventBridge[Default EventBridge]
-    documentum[Documentum Lambda]
+    workflowProcessor[Workflow Processor Lambda]
   end
 
   openAi[Open AI]
 
 
   githubRepo -- via GitHub app webhook --> ingest --> defaultEventBridge -- filtered using rule --> documentum <--> openAi
-  documentum -- create pull requests, commit files --> githubRepo
+  workflowProcessor -- create pull requests, commit files --> githubRepo
 ```
 
 ## License

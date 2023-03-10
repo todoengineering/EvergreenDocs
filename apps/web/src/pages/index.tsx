@@ -23,7 +23,7 @@ const features = [
       "With our code comment preset, you can easily create code comments for your programming language of choice. This powerful tool automatically generates documentation for your code, helping you save time and effort.",
     generates: {
       preset: "code-comment",
-      path: "./apps/documentum/src/presets/code-comment.ts",
+      path: "./apps/workflow-processor/src/presets/code-comment.ts",
       type: "class",
       name: "CodeCommentPreset",
     },

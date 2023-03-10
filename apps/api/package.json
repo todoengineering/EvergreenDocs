@@ -4,41 +4,25 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "dist/src/index.js",
+  "main": "dist/main.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "dev": "tsc -w --preserveWatchOutput",
     "build": "tsc",
     "start": "node dist/main.mjs",
-    "test": "AWS_ACCESS_KEY_ID=fake AWS_SECRET_ACCESS_KEY=fake node --loader ts-node/esm --test ./**/users.test.ts",
-    "test:watch": "node --test --watch",
-    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
-    "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:seed": "prisma db seed"
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
   },
-  "prisma": {},
   "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.252.0",
-    "@aws-sdk/client-s3": "^3.241.0",
-    "@aws-sdk/credential-providers": "^3.241.0",
-    "@aws-sdk/s3-request-presigner": "^3.241.0",
-    "@prisma/client": "^4.7.1",
-    "@trpc/server": "^10.9.0",
-    "fastify": "^4.14.0",
-    "zod": "^3.20.2"
+    "@evergreendocs/services": "*",
+    "@trpc/server": "10.9.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@evergreendocs/tsconfig": "*",
-    "@faker-js/faker": "^7.6.0",
     "@tsconfig/node16-strictest-esm": "^1.0.3",
-    "@types/cookie": "^0.5.1",
     "@types/node": "^18.13.0",
-    "aws-sdk-client-mock": "^2.0.1",
+    "aws-lambda": "^1.0.7",
     "eslint-config-evergreendocs": "*",
-    "prisma": "^4.7.1",
-    "ts-node": "^10.9.1",
-    "tsc-watch": "^6.0.0",
     "typescript": "^4.5.3"
   }
 }
