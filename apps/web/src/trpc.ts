@@ -33,9 +33,13 @@ export const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, ne
           // TODO: move to config file
           url: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"] as string,
           async headers() {
-            const token = "";
+            const cookies = document.cookie.split(";").reduce((acc, cookie) => {
+              const [key, value] = cookie.split("=");
+              return { ...acc, [key.trim()]: value };
+            }, {} as Record<string, string>);
+            const accessToken = cookies["accessToken"];
 
-            return token ? { Authorization: token } : {};
+            return accessToken ? { Authorization: `bearer ${accessToken}` } : {};
           },
         }),
       ],

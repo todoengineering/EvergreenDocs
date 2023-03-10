@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Octokit } from "@octokit/core";
 
 import { router, publicProcedure } from "../trpc.js";
+import { isAuthorisedSession } from "../context/session.js";
 
 const workflowLogRouter = router({
   getLoggedInUserWorkflowLogs: publicProcedure
@@ -14,16 +15,16 @@ const workflowLogRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      if (!ctx.user) {
+      if (!isAuthorisedSession(ctx.session)) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "You must be logged in to view your workflow logs",
         });
       }
 
-      const githubAccessToken = "";
+      const accessToken = await ctx.session.getAccessToken();
 
-      const octokit = new Octokit({ auth: githubAccessToken });
+      const octokit = new Octokit({ auth: accessToken });
       const userRepositoriesResponse = await octokit.request("GET /user/repos");
 
       const workflowLogs = (
@@ -43,22 +44,21 @@ const workflowLogRouter = router({
       );
 
       return {
-        githubAccessToken,
         items: workflowLogs.slice(0, input.limit),
       };
     }),
 
   getWorkflowLogByCommit: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    if (!ctx.user) {
+    if (!isAuthorisedSession(ctx.session)) {
       throw new TRPCError({
         code: "UNAUTHORIZED",
         message: "You must be logged in to view your workflow logs",
       });
     }
 
-    const githubAccessToken = "";
+    const accessToken = await ctx.session.getAccessToken();
 
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const octokit = new Octokit({ auth: accessToken });
     const userRepositoriesResponse = await octokit.request("GET /user/repos");
 
     const workflowLogResponse = await workflowLoggingService.entities.workflow.query

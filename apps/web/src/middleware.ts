@@ -16,7 +16,6 @@ function middleware(request: NextRequest) {
   // if the user is not signed in redirect them to the sign in page.
   const res = { userId: 1234 };
 
-  // console.log(userId, request);
   if (!res.userId) {
     // redirect the users to /pages/sign-in/[[...index]].ts
 

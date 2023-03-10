@@ -1,35 +1,30 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import Image from "next/image";
 
 import Github from "../components/icons/github";
 import Layout from "../components/layouts/index";
 
-function getGitHubUrl(from: string) {
-  const rootURl = "https://github.com/login/oauth/authorize";
-
-  const options = {
+function getGitHubUrl() {
+  const params = new URLSearchParams({
     client_id: "Iv1.57a1bcccc340ebe9",
-    redirect_uri: "http://localhost:3000/api/login/callback",
-    scope: "read:user,user:email",
-    state: from,
-  };
+    response_type: "token",
+    provider: "github",
+    redirect_uri: `http://localhost:3000/app`,
+  });
 
-  const qs = new URLSearchParams(options);
+  const qs = new URLSearchParams(params);
 
-  return `${rootURl}?${qs.toString()}`;
+  return `${process.env["NEXT_PUBLIC_EVERGREEN_AUTH_URL"]}/authorize?${qs.toString()}`;
 }
 
 function LoginPage() {
-  const router = useRouter();
-
   return (
     <Layout header={null} footer={null}>
       <div className="absolute top-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32">
         <div className="flex flex-col items-center gap-10">
           <Link href="/" className="font-display flex items-center text-2xl font-bold">
             <Image src="/images/logo.svg" alt="Evergreen Docs" width={32} height={32} />
-            <p>Evergreen Docs</p>
+            <p className="tracking-wide">EvergreenDocs</p>
           </Link>
 
           <div className="flex w-96 flex-col gap-8 rounded-xl bg-white p-10 shadow-2xl">
@@ -39,7 +34,7 @@ function LoginPage() {
             </div>
             <a
               className="flex items-center gap-5 rounded-lg border border-gray-200 px-7 py-2 text-sm transition duration-150 hover:bg-gray-100"
-              href={getGitHubUrl(router.pathname)}
+              href={getGitHubUrl()}
               role="button"
               data-mdb-ripple="true"
               data-mdb-ripple-color="light"

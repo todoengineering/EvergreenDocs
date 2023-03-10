@@ -6,6 +6,8 @@ import cx from "classnames";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { Provider as RWBProvider } from "react-wrap-balancer";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 import { trpc } from "../trpc";
 
@@ -20,6 +22,25 @@ const inter = Inter({
 });
 
 function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const hash = router.asPath.split("#")[1];
+
+    if (!hash) {
+      return;
+    }
+
+    const accessToken = new URLSearchParams(hash).get("access_token");
+
+    if (!accessToken) {
+      return;
+    }
+
+    document.cookie = `accessToken=${accessToken}; path=/; max-age=31536000; SameSite=Lax;`;
+    router.replace(router.asPath.split("#")[0]);
+  }, [router]);
+
   return (
     <RWBProvider>
       <div className={cx(sfPro.variable, inter.variable)}>

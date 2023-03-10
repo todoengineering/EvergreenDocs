@@ -1,0 +1,20 @@
+{
+  "name": "@evergreendocs/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.mjs",
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
+  },
+  "devDependencies": {
+    "@evergreendocs/services": "*",
+    "@evergreendocs/tsconfig": "*",
+    "@types/node": "^18.0.12",
+    "eslint-config-evergreendocs": "*",
+    "typescript": "^4.5.3"
+  }
+}

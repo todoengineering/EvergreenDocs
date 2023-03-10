@@ -1,0 +1,37 @@
+{
+  "name": "@evergreendocs/workflow-processor",
+  "description": "workflow-processor is a README.md file generator for GitHub repositories. It uses the GitHub API to fetch information about the repository and uses OpenAI's GPT-3 API to generate a README.md file",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@evergreendocs/services": "*",
+    "@octokit/auth-app": "^4.0.9",
+    "@octokit/core": "^4.2.0",
+    "electrodb": "^2.4.2",
+    "minimatch": "^6.1.6",
+    "openai": "^ 3.2.1",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@evergreendocs/tsconfig": "*",
+    "@octokit/webhooks-types": "^6.10.0",
+    "@types/aws-lambda": "^8.10.109",
+    "@types/node": "^18.0.12",
+    "aws-lambda": "^1.0.7",
+    "eslint-config-evergreendocs": "*",
+    "tsc-watch": "^6.0.0",
+    "typescript": "^4.5.3",
+    "vitest": "^0.28.4"
+  }
+}

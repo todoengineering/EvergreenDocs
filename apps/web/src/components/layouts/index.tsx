@@ -25,7 +25,7 @@ function DefaultHeader() {
       <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
         <Link href="/" className="font-display flex items-center text-2xl font-bold">
           <Image src="/images/logo.svg" alt="Evergreen Docs" width={32} height={32} />
-          <p>Evergreen Docs</p>
+          <p className="tracking-wide">EvergreenDocs</p>
         </Link>
 
         <div className="flex gap-1">

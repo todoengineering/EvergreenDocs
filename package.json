@@ -21,7 +21,7 @@
     "constructs": "10.1.156",
     "dotenv": "^16.0.3",
     "prettier": "latest",
-    "sst": "2.1.7",
+    "sst": "2.1.20",
     "turbo": "latest"
   },
   "engines": {
