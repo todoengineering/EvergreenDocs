@@ -14,7 +14,7 @@ To install Evergreen Docs, simply visit the [GitHub Marketplace](https://github.
 
 ### Preparing Your Repository
 
-#### `evergreeen.config.json` File
+#### `evergreeen.config.json` file
 
 Before you can use Evergreen Docs, you'll need to create a evergreen.config.json file in the root of your repository. This file contains the configuration settings for the app, such as the repository's name, description, and the sections of the documentation to be generated.
 
