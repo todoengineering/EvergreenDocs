@@ -9,12 +9,14 @@ async function githubWebhookIngestStack({ stack }: StackContext) {
     `arn:aws:events:${stack.region}:${stack.account}:event-bus/default`
   );
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  let githubWebhookIngestLambda: Function | null = null;
+
   if (stack.stage === "production") {
-    const githubWebhookIngestLambda = new Function(stack, "github-webhook-ingest", {
+    githubWebhookIngestLambda = new Function(stack, "github-webhook-ingest", {
       handler: "apps/github-webhook-ingest/src/index.handler",
       functionName: `github-webhook-ingest-${stack.stage}`,
       timeout: "15 seconds",
-      url: true,
       initialPolicy: [
         new PolicyStatement({
           effect: Effect.ALLOW,
@@ -40,6 +42,7 @@ async function githubWebhookIngestStack({ stack }: StackContext) {
 
   return {
     eventBus: defaultEventBus,
+    githubWebhookIngestLambda,
   };
 }
 

@@ -9,6 +9,7 @@ import githubWebhookIngestStack from "./packages/stacks/src/github-webhook-inges
 import workflowProcessorStack from "./packages/stacks/src/workflow-processor.js";
 import cacheStack from "./packages/stacks/src/cache.js";
 import githubActionsPermissionsStack from "./packages/stacks/src/github-actions-permissions.js";
+import route53Stack from "./packages/stacks/src/route53.js";
 
 const validStages = ["isaac-development", "dan-development", "production"];
 
@@ -33,6 +34,7 @@ export default {
     }
 
     await app.stack(githubActionsPermissionsStack);
+    await app.stack(route53Stack);
     await app.stack(cacheStack);
     await app.stack(githubWebhookIngestStack);
     await app.stack(authStack);
