@@ -42,6 +42,7 @@ jobs:
 
   deploy:
     name: Deploy
+    needs: checks
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
