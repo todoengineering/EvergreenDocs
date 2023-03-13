@@ -8,6 +8,7 @@ import apiStack from "./packages/stacks/src/api.js";
 import githubWebhookIngestStack from "./packages/stacks/src/github-webhook-ingest.js";
 import workflowProcessorStack from "./packages/stacks/src/workflow-processor.js";
 import cacheStack from "./packages/stacks/src/cache.js";
+import githubActionsPermissionsStack from "./packages/stacks/src/github-actions-permissions.js";
 
 const validStages = ["isaac-development", "dan-development", "production"];
 
@@ -31,6 +32,7 @@ export default {
       throw new Error(`Invalid stage: ${app.stage}, must be one of: ${validStages.join(", ")}`);
     }
 
+    await app.stack(githubActionsPermissionsStack);
     await app.stack(cacheStack);
     await app.stack(githubWebhookIngestStack);
     await app.stack(authStack);
