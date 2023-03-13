@@ -45,6 +45,9 @@ jobs:
     needs: checks
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout Code
