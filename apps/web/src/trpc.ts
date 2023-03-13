@@ -1,17 +1,12 @@
 import { AppRouter } from "@evergreendocs/api";
-import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { createTRPCNext } from "@trpc/next";
-import type { inferProcedureOutput } from "@trpc/server";
 import { NextPageContext } from "next";
+import { NextRequest } from "next/server";
 import superjson from "superjson";
+import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 
-/**
- * A set of strongly-typed React hooks from your `AppRouter` type signature with `createReactQueryHooks`.
- * @link https://trpc.io/docs/react#3-create-trpc-hooks
- */
-
-export const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, never>>({
+const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, never>>({
   config() {
     /**
      * If you want to use SSR, you need to use the server's full URL
@@ -59,10 +54,25 @@ export const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, ne
   ssr: false,
 });
 
-// export const transformer = superjson;
-/**
- * This is a helper method to infer the output of a query resolver
- * @example type HelloOutput = inferQueryOutput<'hello'>
- */
-export type inferQueryOutput<TRouteKey extends keyof AppRouter["_def"]["queries"]> =
-  inferProcedureOutput<AppRouter["_def"]["queries"][TRouteKey]>;
+const getTrpcClient = (req: NextRequest) =>
+  createTRPCProxyClient<AppRouter>({
+    links: [
+      loggerLink({
+        enabled: (opts) =>
+          (process.env["NODE_ENV"] === "development" && typeof window !== "undefined") ||
+          (opts.direction === "down" && opts.result instanceof Error),
+      }),
+      httpBatchLink({
+        // TODO: move to config file
+        url: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"] as string,
+        async headers() {
+          const accessToken = req.cookies.get("accessToken");
+
+          return accessToken?.value ? { Authorization: `bearer ${accessToken.value}` } : {};
+        },
+      }),
+    ],
+    transformer: superjson,
+  });
+
+export { trpc, getTrpcClient };

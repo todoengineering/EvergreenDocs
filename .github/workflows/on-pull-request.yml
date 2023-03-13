@@ -13,19 +13,6 @@ jobs:
     name: Build & Unit Test
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    # services:
-    #   postgres:
-    #     image: postgres:10.12-alpine
-    #     env:
-    #       POSTGRES_DB: evergreendocs
-    #       POSTGRES_PASSWORD: postgres
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
-    #     ports:
-    #       - 5432:5432
 
     steps:
       - name: Checkout Code
@@ -43,20 +30,10 @@ jobs:
       - name: Lint
         run: yarn lint
 
-      # - name: Push Prisma Schema
-      #   env:
-      #     DATABASE_URL: postgres://postgres:postgres@localhost:5432/evergreendocs
-      #   run: yarn prisma:push
-
       - name: Build
         run: yarn build
         env:
           NODE_ENV: production
 
       - name: Run Tests
-        # env:
-        #   POSTGRES_SCHEMA_NAME: public
-        #   POSTGRES_DATABASE_NAME: evergreendocs
-        #   POSTGRES_PORT: 5432
-        #   NODE_ENV: development
         run: yarn test
