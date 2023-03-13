@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Deploy to Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+
+concurrency: deploy_production
+
+jobs:
+  checks:
+    name: Build & Unit Test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "yarn"
+
+      - name: Install Dependencies
+        run: yarn install --immutable --immutable-cache
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Build
+        run: yarn build
+        env:
+          NODE_ENV: production
+
+      - name: Run Tests
+        run: yarn test
+
+  deploy:
+    name: Deploy
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "yarn"
+
+      - name: Install Dependencies
+        run: yarn install --immutable --immutable-cache
+
+      - name: Assume role using OIDC
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::283125337632:role/github-ci-role
+          aws-region: eu-west-1
+
+      - name: Deploy
+        run: yarn deploy
+        env:
+          NODE_ENV: production
+          SST_STAGE: production
