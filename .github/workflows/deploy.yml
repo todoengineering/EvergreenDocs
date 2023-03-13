@@ -11,33 +11,33 @@ on:
 concurrency: deploy_production
 
 jobs:
-  # checks:
-  #   name: Unit Test
-  #   timeout-minutes: 5
-  #   runs-on: ubuntu-latest
+  checks:
+    name: Unit Test
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version-file: ".nvmrc"
-  #         cache: "yarn"
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "yarn"
 
-  #     - name: Install Dependencies
-  #       run: yarn install --immutable --immutable-cache
+      - name: Install Dependencies
+        run: yarn install --immutable --immutable-cache
 
-  #     - name: Lint
-  #       run: yarn lint
+      - name: Lint
+        run: yarn lint
 
-  #     - name: Run Tests
-  #       run: yarn test
+      - name: Run Tests
+        run: yarn test
 
   deploy:
     name: Deploy
-    # needs: checks
+    needs: checks
     timeout-minutes: 5
     runs-on: ubuntu-latest
     permissions:

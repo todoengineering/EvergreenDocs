@@ -46,8 +46,8 @@ async function githubActionsPermissionsStack({ stack }: StackContext) {
         statements: [
           new PolicyStatement({
             effect: Effect.ALLOW,
-            actions: ["cloudformation:*"],
-            resources: [`arn:aws:cloudformation:${stack.region}:${stack.account}:stack/*/*`],
+            actions: ["*"],
+            resources: ["*"],
           }),
         ],
       }),
