@@ -1,29 +1,34 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Set the paths that don't require the user to be signed in
-const appPathRegex = new RegExp(`^\/app`);
+import { getTrpcClient } from "./trpc";
 
-const isPublic = (path: string) => {
-  return !appPathRegex.test(path);
+const appPathRegex = new RegExp(`^\/app`);
+const requiresAuthorization = (path: string) => {
+  return appPathRegex.test(path);
 };
 
-function middleware(request: NextRequest) {
-  if (isPublic(request.nextUrl.pathname)) {
+async function middleware(request: NextRequest) {
+  // TODO: Check if the user is signed in on login/signup pages and redirect to app if they are
+  if (!requiresAuthorization(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
-  // if the user is not signed in redirect them to the sign in page.
-  const res = { userId: 1234 };
+  try {
+    const trpcClient = getTrpcClient(request);
+    const user = await trpcClient.user.me.query(undefined);
 
-  if (!res.userId) {
-    // redirect the users to /pages/sign-in/[[...index]].ts
+    if (!user) {
+      throw new Error("User not found");
+    }
 
+    return NextResponse.next();
+  } catch {
     const logInUrl = new URL("/login", request.url);
     logInUrl.searchParams.set("redirect_url", request.url);
+
     return NextResponse.redirect(logInUrl);
   }
-  return NextResponse.next();
 }
 
 const config = { matcher: "/((?!_next/image|_next/static|favicon.ico).*)" };
