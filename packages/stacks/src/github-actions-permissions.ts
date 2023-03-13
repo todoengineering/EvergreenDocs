@@ -9,7 +9,7 @@ import {
 } from "aws-cdk-lib/aws-iam";
 import { Duration } from "aws-cdk-lib";
 
-async function githubActionsPermissionsStack({ stack, app }: StackContext) {
+async function githubActionsPermissionsStack({ stack }: StackContext) {
   if (stack.stage !== "production") {
     return;
   }
@@ -46,14 +46,8 @@ async function githubActionsPermissionsStack({ stack, app }: StackContext) {
         statements: [
           new PolicyStatement({
             effect: Effect.ALLOW,
-            actions: [
-              "cloudformation:CreateChangeSet",
-              "cloudformation:DescribeChangeSet",
-              "cloudformation:ExecuteChangeSet",
-            ],
-            resources: [
-              `arn:aws:cloudformation:${stack.region}:${stack.account}:stack/${app.name}-${stack.stage}/*`,
-            ],
+            actions: ["*"],
+            resources: ["*"],
           }),
         ],
       }),

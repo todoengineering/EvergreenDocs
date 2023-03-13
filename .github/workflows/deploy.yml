@@ -12,7 +12,7 @@ concurrency: deploy_production
 
 jobs:
   checks:
-    name: Build & Unit Test
+    name: Unit Test
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
@@ -32,18 +32,17 @@ jobs:
       - name: Lint
         run: yarn lint
 
-      - name: Build
-        run: yarn build
-        env:
-          NODE_ENV: production
-
       - name: Run Tests
         run: yarn test
 
   deploy:
     name: Deploy
+    needs: checks
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout Code
@@ -63,6 +62,11 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::283125337632:role/github-ci-role
           aws-region: eu-west-1
+
+      - name: Build
+        run: yarn build
+        env:
+          NODE_ENV: production
 
       - name: Deploy
         run: yarn deploy
