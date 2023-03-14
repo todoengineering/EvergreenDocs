@@ -27,13 +27,7 @@ const githubAppPrivateKey = await secretsManagerService.getSecret(
 const configSchema = z.object({
   openAi: z.object({
     key: z.string().min(1),
-    model: z.union([
-      z.literal("text-ada-001"),
-      z.literal("text-babbage-001"),
-      z.literal("text-curie-001"),
-      z.literal("text-davinci-003"),
-      z.literal("code-davinci-002"),
-    ]),
+    model: z.literal("gpt-3.5-turbo-0301"),
   }),
   github: z.object({
     appId: z.string().min(1),

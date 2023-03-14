@@ -33,7 +33,7 @@ async function workflowProcessorStack({ stack }: StackContext) {
     },
     environment: {
       OPENAI_API_KEY: process.env["OPENAI_API_KEY"] as string,
-      OPENAI_MODEL: "text-davinci-003",
+      OPENAI_MODEL: "gpt-3.5-turbo-0301",
       WORKFLOW_LOGS_TABLE_NAME: workflowLogsTable.tableName,
     },
     initialPolicy: [
