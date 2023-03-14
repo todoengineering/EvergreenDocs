@@ -18,6 +18,10 @@ const workflow = new Entity(
       repositoryFullName: {
         type: "string",
       },
+      headCommitMessage: {
+        type: "string",
+        required: true,
+      },
       status: {
         type: ["skipped", "in_progress", "failed", "success", "cancelled"] as const,
         required: true,
@@ -32,7 +36,12 @@ const workflow = new Entity(
         type: "string",
         watch: ["status"],
         set: (_, { status }) =>
-          status === "success" || status === "failed" ? new Date().toISOString() : undefined,
+          status === "success" ||
+          status === "failed" ||
+          status === "skipped" ||
+          status === "cancelled"
+            ? new Date().toISOString()
+            : undefined,
       },
     },
     indexes: {
@@ -47,7 +56,8 @@ const workflow = new Entity(
           composite: [],
         },
       },
-      byRepositoryName: {
+      workflowByRepositoryName: {
+        collection: "workflowTasksByRepositoryName",
         index: "gsi1pk-gsi1sk-index",
         pk: {
           field: "gsi1pk",
@@ -55,7 +65,7 @@ const workflow = new Entity(
         },
         sk: {
           field: "gsi1sk",
-          composite: [],
+          composite: ["headCommit"],
         },
       },
     },

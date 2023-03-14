@@ -19,6 +19,10 @@ const task = new Entity(
         type: "string",
         required: true,
       },
+      repositoryFullName: {
+        type: "string",
+        required: true,
+      },
       status: {
         type: ["skipped", "in_progress", "failed", "success", "cancelled"] as const,
         required: true,
@@ -45,6 +49,18 @@ const task = new Entity(
         sk: {
           field: "sk",
           composite: ["preset"],
+        },
+      },
+      taskByRepositoryName: {
+        collection: "workflowTasksByRepositoryName",
+        index: "gsi1pk-gsi1sk-index",
+        pk: {
+          field: "gsi1pk",
+          composite: ["repositoryFullName"],
+        },
+        sk: {
+          field: "gsi1sk",
+          composite: ["headCommit"],
         },
       },
     },

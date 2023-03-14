@@ -100,7 +100,7 @@ function Index() {
       >
         <Section className="flex w-screen justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
           <motion.h1
-            className=" text-center text-4xl font-bold text-black drop-shadow-sm md:text-7xl"
+            className=" py-10 text-center text-4xl font-bold text-black drop-shadow-sm md:text-7xl"
             variants={FADE_IN_VARIANT}
           >
             <Balancer>Keep your documentation green and fresh</Balancer>

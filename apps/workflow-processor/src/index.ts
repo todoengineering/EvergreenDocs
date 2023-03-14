@@ -34,6 +34,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   await workflowLoggingService.entities.workflow
     .create({
       headCommit,
+      headCommitMessage: body.head_commit?.message || "Unknown commit message",
       repositoryFullName,
       status: "in_progress",
     })
@@ -61,6 +62,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           headCommit,
           preset: generate.preset,
           status: "in_progress",
+          repositoryFullName,
         })
         .go();
 
