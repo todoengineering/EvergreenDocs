@@ -1,4 +1,4 @@
-import { workflowLoggingService } from "@evergreendocs/services";
+import { workflowLoggingService, WorkflowLoggingServiceTypes } from "@evergreendocs/services";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Octokit } from "@octokit/core";
@@ -27,7 +27,8 @@ const workflowLogRouter = router({
       const octokit = new Octokit({ auth: accessToken });
       const userRepositoriesResponse = await octokit.request("GET /user/repos");
 
-      const workflowLogs = (
+      // Can this be done cleaner?
+      const workflowLogs1 = (
         await Promise.all(
           userRepositoriesResponse.data.map(async (repository) => {
             const workflowsResponse = await workflowLoggingService.collections
@@ -41,12 +42,18 @@ const workflowLogRouter = router({
         )
       ).flat();
 
-      const workflows = workflowLogs.slice(0, input.limit).map((workflow) => {
-        return {
-          ...workflow.workflow[0],
-          tasks: workflow.task,
-        };
-      });
+      const workflows: (WorkflowLoggingServiceTypes.Workflow & {
+        tasks: WorkflowLoggingServiceTypes.Task[];
+      })[] = [];
+
+      for (const workflowLogs of workflowLogs1) {
+        for (const workflowLog of workflowLogs.workflow) {
+          workflows.push({
+            ...workflowLog,
+            tasks: workflowLogs.task.filter((task) => task.headCommit === workflowLog.headCommit),
+          });
+        }
+      }
 
       return {
         items: workflows,

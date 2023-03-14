@@ -58,7 +58,7 @@ async function workflowProcessorStack({ stack }: StackContext) {
           pattern: {
             source: ["github.com"],
             detailType: ["push"],
-            detail: { ref: ["refs/heads/main"] },
+            detail: { ref: ["refs/heads/main", "refs/heads/feat_move_to_chat_gpt_api"] },
           },
           targets: { workflowProcessor: workflowProcessorLambda },
         },
