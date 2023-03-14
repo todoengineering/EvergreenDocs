@@ -42,6 +42,7 @@ async function workflowProcessorStack({ stack }: StackContext) {
         actions: ["secretsmanager:GetSecretValue"],
         resources: [
           `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/githubapp*`,
+          `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/openai*`,
         ],
       }),
     ],
