@@ -55,6 +55,8 @@ const workflowLogRouter = router({
         }
       }
 
+      workflows.sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+
       return {
         items: workflows,
       };

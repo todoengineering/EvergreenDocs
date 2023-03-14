@@ -49,25 +49,22 @@ async function workflowProcessorStack({ stack }: StackContext) {
   });
   workflowProcessorLambda.attachPermissions([workflowLogsTable]);
 
-  // To save on costs, we don't want to run this in production for now
-  if (stack.stage !== "production") {
-    // Attach a rule to the event bus provided from the github-webhook-ingest stack
-    new EventBus(stack, "default-event-bus", {
-      rules: {
-        "github-webhook-ingest": {
-          pattern: {
-            source: ["github.com"],
-            detailType: ["push"],
-            detail: { ref: ["refs/heads/main", "refs/heads/feat_move_to_chat_gpt_api"] },
-          },
-          targets: { workflowProcessor: workflowProcessorLambda },
+  // Attach a rule to the event bus provided from the github-webhook-ingest stack
+  new EventBus(stack, "default-event-bus", {
+    rules: {
+      "github-webhook-ingest": {
+        pattern: {
+          source: ["github.com"],
+          detailType: ["push"],
+          detail: { ref: ["refs/heads/main", "refs/heads/feat_move_to_chat_gpt_api"] },
         },
+        targets: { workflowProcessor: workflowProcessorLambda },
       },
-      cdk: {
-        eventBus,
-      },
-    });
-  }
+    },
+    cdk: {
+      eventBus,
+    },
+  });
 
   return {
     workflowLogsTable,
