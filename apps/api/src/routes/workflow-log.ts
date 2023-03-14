@@ -14,7 +14,7 @@ const workflowLogRouter = router({
         cursor: z.string().nullish(),
       })
     )
-    .query(async ({ ctx, input }) => {
+    .query(async ({ ctx }) => {
       if (!isAuthorisedSession(ctx.session)) {
         throw new TRPCError({
           code: "UNAUTHORIZED",

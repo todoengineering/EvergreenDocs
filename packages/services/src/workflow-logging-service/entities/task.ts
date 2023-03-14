@@ -27,6 +27,10 @@ const task = new Entity(
         type: ["skipped", "in_progress", "failed", "success", "cancelled"] as const,
         required: true,
       },
+      outputLinks: {
+        type: "set",
+        items: "string",
+      },
       startedAt: {
         type: "number",
         readOnly: true,
