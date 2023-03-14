@@ -1,5 +1,7 @@
 import { IncomingMessage } from "node:http";
 
+const DEFAULT_HOST = "https://www.ever-green.io";
+
 function absoluteUrl(req?: IncomingMessage, localhostAddress = "localhost:3000") {
   let host = (req?.headers ? req.headers.host : window.location.host) || localhostAddress;
   let protocol = isLocalNetwork(host) ? "http:" : "https:";
@@ -37,4 +39,21 @@ function isLocalNetwork(hostname = window.location.host) {
   );
 }
 
-export { absoluteUrl };
+function getGithubAuthUrl(_origin: string | null) {
+  const origin = typeof window !== "undefined" ? window.location.origin : _origin || DEFAULT_HOST;
+
+  const redirectUri = origin ? `${origin}/app` : `${DEFAULT_HOST}/app`;
+
+  const params = new URLSearchParams({
+    client_id: "Iv1.57a1bcccc340ebe9",
+    response_type: "token",
+    provider: "github",
+    redirect_uri: redirectUri,
+  });
+
+  const qs = new URLSearchParams(params);
+
+  return `${process.env["NEXT_PUBLIC_EVERGREEN_AUTH_URL"]}/authorize?${qs.toString()}`;
+}
+
+export { getGithubAuthUrl, absoluteUrl };
