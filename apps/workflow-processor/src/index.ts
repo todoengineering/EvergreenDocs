@@ -10,7 +10,7 @@ import EvergreenConfig from "./schema/evergreen-config.js";
 const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) => {
   const body = event?.detail;
 
-  if (!body?.commits?.length || body?.ref !== "refs/heads/main") {
+  if (!body?.commits?.length) {
     return true;
   }
 
@@ -25,6 +25,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   const installationId = body.installation?.id;
   const headCommit = body.head_commit?.id;
   const repositoryFullName = body.repository?.full_name;
+  const commitBranch = body.ref.replace("refs/heads/", "");
 
   if (!repoOwner || !repoName || !installationId || !headCommit) {
     return false;
@@ -44,7 +45,10 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     installationId,
   });
 
-  const [config] = await githubRepositoryService.fetchFiles(["evergreen.config.json"]);
+  const [config] = await githubRepositoryService.fetchFiles(
+    ["evergreen.config.json"],
+    commitBranch
+  );
 
   const parsedConfig = EvergreenConfig.parse(JSON.parse(config.content));
 
@@ -68,6 +72,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           repository: body.repository?.full_name,
           ref: body.ref,
           commits: body.commits.map((commit) => commit.id),
+          commitBranch,
         });
 
         await workflowLoggingService.entities.task
@@ -105,13 +110,8 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
       });
 
       await workflowLoggingService.entities.task
-        .patch({
-          headCommit,
-          preset: generate.preset,
-        })
-        .set({
-          status: "success",
-        })
+        .patch({ headCommit, preset: generate.preset })
+        .set({ status: "success" })
         .go();
 
       console.log("Updated preset", {

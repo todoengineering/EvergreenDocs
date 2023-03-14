@@ -14,7 +14,10 @@ class TranslatePreset extends BasePreset<TranslatePresetConfig> {
   }
 
   async fetchFiles() {
-    this.files = await this.githubRepositoryService.fetchFiles([this.presetConfig.inputPath]);
+    this.files = await this.githubRepositoryService.fetchFiles(
+      [this.presetConfig.inputPath],
+      this.pushEvent.ref.replace("refs/heads/", "")
+    );
 
     return this.files;
   }

@@ -13,7 +13,10 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
   }
 
   async fetchFiles() {
-    this.files = await this.githubRepositoryService.fetchFiles([packageJsonGlob]);
+    this.files = await this.githubRepositoryService.fetchFiles(
+      [packageJsonGlob],
+      this.pushEvent.ref.replace("refs/heads/", "")
+    );
 
     return this.files;
   }

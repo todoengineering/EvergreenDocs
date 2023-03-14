@@ -18,7 +18,10 @@ class CodeCommentPreset extends BasePreset<CodeCommentPresetConfig> {
   }
 
   async fetchFiles() {
-    this.files = await this.githubRepositoryService.fetchFiles([this.presetConfig.path]);
+    this.files = await this.githubRepositoryService.fetchFiles(
+      [this.presetConfig.path],
+      this.pushEvent.ref.replace("refs/heads/", "")
+    );
 
     return this.files;
   }
