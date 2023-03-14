@@ -10,15 +10,15 @@
 
 ### Installation
 
-Pour installer Evergreen Docs, visitez simplement le [GitHub Marketplace](https://github.com/apps/evergreen-docs) et cliquez sur le bouton «Installer». Vous pourrez ensuite choisir les référentiels sur lesquels vous souhaitez installer l'application et terminer le processus d'installation.
+Pour installer Evergreen Docs, visitez simplement le [GitHub Marketplace](https://github.com/apps/evergreen-docs) et cliquez sur le bouton "Installer". De là, vous pouvez choisir les référentiels sur lesquels vous souhaitez installer l'application et terminer le processus d'installation.
 
 ### Préparer votre référentiel
 
 #### Fichier `evergreeen.config.json`
 
-Avant de pouvoir utiliser Evergreen Docs, vous devrez créer un fichier evergreen.config.json à la racine de votre référentiel. Ce fichier contient les paramètres de configuration de l'application, tels que le nom du référentiel, sa description et les sections de la documentation à générer.
+Avant de pouvoir utiliser Evergreen Docs, vous devez créer un fichier evergreen.config.json à la racine de votre référentiel. Ce fichier contient les paramètres de configuration de l'application, tels que le nom du référentiel, la description et les sections de la documentation à générer.
 
-Voici un exemple de fichier evergreen.config.json :
+Voici un exemple de fichier evergreen.config.json:
 
 ```jsonc
 {
@@ -37,7 +37,7 @@ Voici un exemple de fichier evergreen.config.json :
 }
 ```
 
-Une fois que vous avez créé le fichier evergreen.config.json, il suffit de le committer dans votre référentiel dans la branche principale. L'application générera automatiquement une demande de tirage avec vos documents mis à jour dans les 10 minutes.
+Une fois que vous avez créé le fichier evergreen.config.json, il suffit de le commettre dans votre référentiel dans la branche principale. L'application générera automatiquement une demande de tirage avec vos documents mis à jour dans les 10 minutes.
 
 ## Exécution locale
 
@@ -77,7 +77,7 @@ yarn sst:dev
 
 ## Déploiement
 
-Pour déployer l'application, vous devez avoir installé le [CLI Serverless Stack](https://serverless-stack.com/). Une fois que vous avez installé le CLI, vous pouvez déployer l'application en exécutant la commande suivante :
+Pour déployer l'application, vous devez avoir installé le [CLI Serverless Stack](https://serverless-stack.com/). Une fois que vous avez installé le CLI, vous pouvez déployer l'application en exécutant la commande suivante:
 
 ```sh
 yarn deploy
@@ -101,7 +101,7 @@ graph LR
 
 
   githubRepo -- via webhook de l'application GitHub --> ingest --> defaultEventBridge -- filtré à l'aide de la règle --> documentum <--> openAi
-  workflowProcessor -- créer des demandes de tirage, des fichiers de commit --> githubRepo
+  workflowProcessor -- créer des demandes de tirage, commettre des fichiers --> githubRepo
 ```
 
 ## Licence
