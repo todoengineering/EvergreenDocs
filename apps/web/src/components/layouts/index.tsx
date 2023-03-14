@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
+import { useTranslation } from "next-i18next";
 
 import useScroll from "../../hooks/use-scroll";
 import RenderIf from "../render-if";
@@ -14,6 +15,7 @@ type LayoutProps = {
 };
 
 function DefaultHeader() {
+  const { t } = useTranslation("common");
   const scrolled = useScroll(50);
 
   return (
@@ -34,7 +36,7 @@ function DefaultHeader() {
               href="/app"
               className="flex max-w-fit items-center justify-center space-x-2 rounded-full bg-emerald-500 px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-emerald-600"
             >
-              Go to app
+              {t("gotoapp-button")}
             </Link>
           </RenderIf>
 
@@ -43,14 +45,14 @@ function DefaultHeader() {
               href="/login"
               className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-white hover:text-black"
             >
-              Login
+              {t("login-button")}
             </Link>
 
             <Link
               href="/signup"
               className="flex max-w-fit items-center justify-center space-x-2 rounded-full bg-emerald-500 px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-emerald-600"
             >
-              Sign up
+              {t("signup-button")}
             </Link>
           </RenderIf>
         </div>
@@ -66,7 +68,6 @@ function DefaultFooter() {
     </div>
   );
 }
-
 export default function Layout({ children, header: _header, footer: _footer }: LayoutProps) {
   const header = _header === undefined ? <DefaultHeader /> : _header;
   const footer = _footer === undefined ? <DefaultFooter /> : _footer;

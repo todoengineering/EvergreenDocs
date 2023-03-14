@@ -7,6 +7,7 @@ import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { Provider as RWBProvider } from "react-wrap-balancer";
 import { useEffect } from "react";
+import { appWithTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 
 import { trpc } from "../trpc";
@@ -50,4 +51,4 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   );
 }
 
-export default trpc.withTRPC(MyApp);
+export default trpc.withTRPC(appWithTranslation(MyApp));

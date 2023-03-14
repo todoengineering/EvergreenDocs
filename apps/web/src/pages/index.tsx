@@ -1,5 +1,7 @@
 import Balancer from "react-wrap-balancer";
 import cx from "classnames";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { motion } from "framer-motion";
 
 import Layout from "../components/layouts/index";
@@ -82,6 +84,8 @@ const FADE_IN_VARIANT = {
 };
 
 function Index() {
+  const { t } = useTranslation("common");
+
   return (
     <Layout>
       <motion.div
@@ -103,17 +107,13 @@ function Index() {
             className=" py-10 text-center text-4xl font-bold text-black drop-shadow-sm md:text-7xl"
             variants={FADE_IN_VARIANT}
           >
-            <Balancer>Keep your documentation green and fresh</Balancer>
+            <Balancer>{t("value-proposition")}</Balancer>
           </motion.h1>
           <motion.p
             className="mt-6 text-center text-gray-500 drop-shadow-sm md:text-xl"
             variants={FADE_IN_VARIANT}
           >
-            <Balancer>
-              Effortlessly manage and maintain documentation with Evergreen Docs - the Github App
-              that automates updates, generates READMEs, translates docs, and keeps a changelog, all
-              based on contextual data from your repository.
-            </Balancer>
+            <Balancer>{t("app-description")}</Balancer>
           </motion.p>
 
           <motion.div
@@ -121,7 +121,7 @@ function Index() {
             variants={FADE_IN_VARIANT}
           >
             <button className="flex max-w-fit items-center justify-center space-x-2 rounded-full bg-emerald-500 px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-emerald-600">
-              <p>Get Started</p>
+              <p>{t("get-started-button")}</p>
             </button>
           </motion.div>
         </Section>
@@ -132,6 +132,15 @@ function Index() {
       </motion.div>
     </Layout>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string } = { locale: "en" }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+      // Will be passed to the page component as props
+    },
+  };
 }
 
 export default Index;
