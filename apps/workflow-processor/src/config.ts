@@ -24,6 +24,11 @@ const githubAppPrivateKey = await secretsManagerService.getSecret(
   "development/evergreendocs/githubapp/privatekey"
 );
 
+const openAiKey =
+  process.env["OPENAI_API_KEY"] ||
+  (await secretsManagerService.getSecretJson<{ key: string }>("development/evergreendocs/openai"))
+    .key;
+
 const configSchema = z.object({
   openAi: z.object({
     key: z.string().min(1),
@@ -39,7 +44,7 @@ const configSchema = z.object({
 
 const config = configSchema.parse({
   openAi: {
-    key: process.env["OPENAI_API_KEY"],
+    key: openAiKey,
     model: process.env["OPENAI_MODEL"],
   },
   github: {
