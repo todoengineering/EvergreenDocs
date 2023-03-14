@@ -1,13 +1,15 @@
 import { StackContext } from "sst/constructs";
-import { RemovalPolicy } from "aws-cdk-lib";
 import { HostedZone, ARecord, RecordTarget, CnameRecord } from "aws-cdk-lib/aws-route53";
 import { Certificate, CertificateValidation } from "aws-cdk-lib/aws-certificatemanager";
 
 async function route53Stack({ stack }: StackContext) {
+  if (stack.stage !== "production") {
+    return;
+  }
+
   const hostedZone = new HostedZone(stack, "HostedZone", {
     zoneName: "ever-green.io",
   });
-  hostedZone.applyRemovalPolicy(RemovalPolicy.DESTROY);
 
   new ARecord(stack, "ARecord", {
     zone: hostedZone,
@@ -20,12 +22,11 @@ async function route53Stack({ stack }: StackContext) {
     domainName: "cname.vercel-dns.com.",
   });
 
-  const certificate = new Certificate(stack, "Certificate", {
+  new Certificate(stack, "Certificate", {
     domainName: "ever-green.io",
     validation: CertificateValidation.fromDns(hostedZone),
     subjectAlternativeNames: ["*.ever-green.io"],
   });
-  certificate.applyRemovalPolicy(RemovalPolicy.DESTROY);
 }
 
 export default route53Stack;

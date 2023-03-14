@@ -26,6 +26,10 @@ export const handler = AuthHandler({
   },
   async onSuccess(input) {
     if (input.provider === "github") {
+      if (!input.tokenset.access_token) {
+        throw new Error("Missing access token");
+      }
+
       const octokit = new Octokit({
         auth: input.tokenset.access_token,
       });
@@ -41,8 +45,8 @@ export const handler = AuthHandler({
         lastName: githubUser.data.name?.split(" ")[1] || null,
       };
 
-      if (!input.tokenset.access_token || !input.tokenset.expires_at) {
-        throw new Error("Missing access token or expires at");
+      if (!input.tokenset.expires_at) {
+        throw new Error("Missing expires_at");
       }
 
       // TODO: tokens should be encrypted
