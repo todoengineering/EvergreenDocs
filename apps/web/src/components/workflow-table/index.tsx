@@ -4,13 +4,13 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import { RouterOutput, trpc } from "../../trpc";
 import RenderIf from "../render-if";
 
-import ActionsTable from "./actions";
-import StatusTable from "./status";
-import CommitTable from "./commit";
-import ProjectTable from "./project";
+import OutputsColumn from "./outputs";
+import StatusColumn from "./status";
+import CommitColumn from "./commit";
+import ProjectColumn from "./project";
 import { Column } from "./types";
 
-const columns: readonly Column[] = [ProjectTable, CommitTable, StatusTable, ActionsTable];
+const columns: readonly Column[] = [ProjectColumn, CommitColumn, StatusColumn, OutputsColumn];
 
 function WorkflowTableBodyRow(props: {
   workflow: RouterOutput["workflowLog"]["getLoggedInUserWorkflowLogs"]["items"][number];

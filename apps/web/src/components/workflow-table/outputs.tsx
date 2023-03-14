@@ -6,11 +6,11 @@ import RenderIf from "../render-if";
 
 import { ColumnBodyProps } from "./types";
 
-function ActionsTableDataHead() {
-  return <>Actions</>;
+function OutputsTableDataHead() {
+  return <>Outputs</>;
 }
 
-function ActionsTableDataBody(props: ColumnBodyProps) {
+function OutputsTableDataBody(props: ColumnBodyProps) {
   if ("workflow" in props) {
     const pullRequests = props.workflow.tasks.reduce<string[]>((acc, task) => {
       const outputLinks = task.outputLinks || [];
@@ -77,9 +77,9 @@ function ActionsTableDataBody(props: ColumnBodyProps) {
   return <></>;
 }
 
-const ActionsColumn = {
-  Head: ActionsTableDataHead,
-  Body: ActionsTableDataBody,
+const OutputsColumn = {
+  Head: OutputsTableDataHead,
+  Body: OutputsTableDataBody,
 };
 
-export default ActionsColumn;
+export default OutputsColumn;
