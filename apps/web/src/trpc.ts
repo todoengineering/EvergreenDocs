@@ -5,6 +5,10 @@ import { NextPageContext } from "next";
 import { NextRequest } from "next/server";
 import superjson from "superjson";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
+import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+
+type RouterInput = inferRouterInputs<AppRouter>;
+type RouterOutput = inferRouterOutputs<AppRouter>;
 
 const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, never>>({
   config() {
@@ -76,3 +80,4 @@ const getTrpcClient = (req: NextRequest) =>
   });
 
 export { trpc, getTrpcClient };
+export type { RouterInput, RouterOutput };

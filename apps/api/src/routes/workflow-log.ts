@@ -30,21 +30,26 @@ const workflowLogRouter = router({
       const workflowLogs = (
         await Promise.all(
           userRepositoriesResponse.data.map(async (repository) => {
-            const workflowsResponse = await workflowLoggingService.entities.workflow.query
-              .byRepositoryName({ repositoryFullName: repository.full_name })
-              .go({ limit: input.limit, cursor: input.cursor ?? null });
+            const workflowsResponse = await workflowLoggingService.collections
+              .workflowTasksByRepositoryName({
+                repositoryFullName: repository.full_name,
+              })
+              .go();
 
-            return workflowsResponse.data;
+            return workflowsResponse.data.workflow.length ? workflowsResponse.data : [];
           })
         )
       ).flat();
 
-      workflowLogs.sort((a, b) =>
-        a.startedAt > b.startedAt ? -1 : a.startedAt < b.startedAt ? 1 : 0
-      );
+      const workflows = workflowLogs.slice(0, input.limit).map((workflow) => {
+        return {
+          ...workflow.workflow[0],
+          tasks: workflow.task,
+        };
+      });
 
       return {
-        items: workflowLogs.slice(0, input.limit),
+        items: workflows,
       };
     }),
 
