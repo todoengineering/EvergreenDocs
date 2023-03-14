@@ -106,14 +106,14 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
         message: "Update readme",
       });
       // TODO: Make this smarter/configurable
-      await githubRepositoryService.createPullRequest({
+      const pullRequest = await githubRepositoryService.createPullRequest({
         branchName: preset.branchName,
         title: preset.branchName,
       });
 
       await workflowLoggingService.entities.task
         .patch({ headCommit, preset: generate.preset })
-        .set({ status: "success" })
+        .set({ status: "success", outputLinks: [pullRequest.html_url] })
         .go();
 
       console.log("Updated preset", {

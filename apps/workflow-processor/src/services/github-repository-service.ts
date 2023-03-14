@@ -203,6 +203,18 @@ class GithubRepositoryService extends Octokit {
           title: pullRequestProps.title,
           branchName: pullRequestProps.branchName,
         });
+
+        const getPullRequestResponse = await this.request("GET /repos/{owner}/{repo}/pulls", {
+          owner: this.repoOwner,
+          repo: this.repoName,
+          head: pullRequestProps.branchName,
+        });
+
+        if (getPullRequestResponse.data.length === 0) {
+          throw new Error("Could not find pull request");
+        }
+
+        return getPullRequestResponse.data[0];
       } else {
         throw error;
       }
