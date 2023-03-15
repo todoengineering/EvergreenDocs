@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import useScroll from "../../hooks/use-scroll";
 import RenderIf from "../render-if";

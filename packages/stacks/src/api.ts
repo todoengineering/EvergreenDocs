@@ -52,8 +52,10 @@ async function apiStack({ stack }: StackContext) {
   });
   api.attachPermissions([workflowLogsTable, cacheTable]);
 
+  const apiEndpoint = `${api.customDomainUrl}/trpc`;
+
   stack.addOutputs({
-    apiEndpoint: `${api.customDomainUrl}/trpc`,
+    apiEndpoint,
   });
 
   if (githubWebhookIngestLambda) {
@@ -61,6 +63,10 @@ async function apiStack({ stack }: StackContext) {
       githubWebhookIngestEndpoint: `${api.customDomainUrl}/github-webhook-ingest`,
     });
   }
+
+  return {
+    apiEndpoint,
+  };
 }
 
 export default apiStack;

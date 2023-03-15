@@ -1,9 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires, unicorn/prefer-module
-const { i18n } = require("./next-i18next.config");
+const nextTranslate = require("next-translate-plugin");
 /** @type {import('next').NextConfig} */
 // eslint-disable-next-line unicorn/prefer-module
-module.exports = {
+module.exports = nextTranslate({
   reactStrictMode: true,
   swcMinify: true,
-  i18n,
-};
+});

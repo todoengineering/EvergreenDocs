@@ -10,6 +10,7 @@ import workflowProcessorStack from "./packages/stacks/src/workflow-processor.js"
 import cacheStack from "./packages/stacks/src/cache.js";
 import githubActionsPermissionsStack from "./packages/stacks/src/github-actions-permissions.js";
 import route53Stack from "./packages/stacks/src/route53.js";
+import websiteStack from "./packages/stacks/src/website.js";
 
 const validStages = ["isaac-development", "dan-development", "production"];
 
@@ -40,5 +41,6 @@ export default {
     await app.stack(authStack);
     await app.stack(workflowProcessorStack);
     await app.stack(apiStack);
+    await app.stack(websiteStack);
   },
 } satisfies SSTConfig;
