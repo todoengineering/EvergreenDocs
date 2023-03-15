@@ -3514,6 +3514,7 @@ __metadata:
     aws-lambda: ^1.0.7
     electrodb: ^2.4.2
     eslint-config-evergreendocs: "*"
+    i18n-locales: ^0.0.5
     minimatch: ^6.1.6
     openai: ^ 3.2.1
     tsc-watch: ^6.0.0

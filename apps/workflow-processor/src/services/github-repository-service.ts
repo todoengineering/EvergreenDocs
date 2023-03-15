@@ -33,7 +33,7 @@ class GithubRepositoryService extends Octokit {
     this.repoName = repoName;
   }
 
-  async fetchFiles(fileGlobs: string[], branch = "main"): Promise<WorkflowProcessorFile[]> {
+  async fetchFiles(fileGlobs: string[], branch = "main") {
     const getBranchResponse = await this.request("GET /repos/{owner}/{repo}/branches/{branch}", {
       owner: this.repoOwner,
       repo: this.repoName,

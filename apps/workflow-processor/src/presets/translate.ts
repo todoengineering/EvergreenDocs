@@ -14,10 +14,7 @@ class TranslatePreset extends BasePreset<TranslatePresetConfig> {
   }
 
   async fetchFiles() {
-    this.files = await this.githubRepositoryService.fetchFiles(
-      [this.presetConfig.inputPath],
-      this.pushEvent.ref.replace("refs/heads/", "")
-    );
+    this.files = await this.githubRepositoryService.fetchFiles([this.presetConfig.inputPath]);
 
     return this.files;
   }
@@ -27,14 +24,21 @@ class TranslatePreset extends BasePreset<TranslatePresetConfig> {
       throw new Error("Files not fetched");
     }
 
-    // TODO: Get ChatGPT to generate branch name
     const fileName =
       this.presetConfig.inputPath.split("/")[this.presetConfig.inputPath.split("/").length - 1];
     this._branchName = `evergreen-translate-${fileName}-${this.presetConfig.language}`;
 
-    const prompt = `${this.files[0].content}
+    if (this.presetConfig.type === "md") {
+      const prompt = `${this.files[0].content}
 
 Please translate the above text to the ISO 639-1 code ${this.presetConfig.language}:`;
+
+      return prompt.replace(/\r?\n/g, "\n");
+    }
+
+    const prompt = `${this.files[0].content}
+
+Please translate the values in the above JSON to the ISO 639-1 code ${this.presetConfig.language}:`;
 
     return prompt.replace(/\r?\n/g, "\n");
   }

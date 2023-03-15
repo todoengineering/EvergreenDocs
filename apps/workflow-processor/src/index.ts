@@ -51,7 +51,27 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     commitBranch
   );
 
-  const parsedConfig = EvergreenConfig.parse(JSON.parse(config.content));
+  if (!config) {
+    await workflowLoggingService.entities.workflow
+      .patch({ headCommit })
+      .set({ status: "skipped", reason: "No config" })
+      .go();
+
+    return true;
+  }
+
+  let parsedConfig;
+
+  try {
+    parsedConfig = EvergreenConfig.parse(JSON.parse(config.content));
+  } catch (error) {
+    await workflowLoggingService.entities.workflow
+      .patch({ headCommit })
+      .set({ status: "failed", reason: "Invalid config" })
+      .go();
+
+    return true;
+  }
 
   for (const generate of parsedConfig.generates) {
     try {
@@ -135,7 +155,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
 
       await workflowLoggingService.entities.task
         .patch({ headCommit, preset: generate.preset })
-        .set({ status: "failed" })
+        .set({ status: "failed", reason: "Internal error" })
         .go();
     }
   }

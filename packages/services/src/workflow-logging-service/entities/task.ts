@@ -31,6 +31,9 @@ const task = new Entity(
         type: "set",
         items: "string",
       },
+      reason: {
+        type: "string",
+      },
       startedAt: {
         type: "number",
         readOnly: true,
