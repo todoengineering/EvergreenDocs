@@ -1,5 +1,12 @@
 import { StackContext } from "sst/constructs";
-import { HostedZone, ARecord, RecordTarget, CnameRecord } from "aws-cdk-lib/aws-route53";
+import {
+  HostedZone,
+  ARecord,
+  RecordTarget,
+  CnameRecord,
+  MxRecord,
+  TxtRecord,
+} from "aws-cdk-lib/aws-route53";
 import { Certificate, CertificateValidation } from "aws-cdk-lib/aws-certificatemanager";
 
 async function route53Stack({ stack }: StackContext) {
@@ -20,6 +27,25 @@ async function route53Stack({ stack }: StackContext) {
     zone: hostedZone,
     recordName: "www",
     domainName: "cname.vercel-dns.com.",
+  });
+
+  new MxRecord(stack, "MxRecord", {
+    zone: hostedZone,
+    values: [
+      { hostName: "mx1.privateemail.com", priority: 10 },
+      { hostName: "mx2.privateemail.com", priority: 10 },
+    ],
+  });
+
+  new TxtRecord(stack, "mail-txt-record", {
+    zone: hostedZone,
+    values: ["v=spf1 include:spf.privateemail.com ~all"],
+  });
+
+  new TxtRecord(stack, "gituhb-txt-record", {
+    zone: hostedZone,
+    recordName: "_github-challenge-EvergreenDocs-org",
+    values: ["e12d84e913"],
   });
 
   new Certificate(stack, "Certificate", {
