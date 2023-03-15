@@ -1,5 +1,6 @@
 import { StackContext, Api, use, ApiProps } from "sst/constructs";
 import { HostedZone } from "aws-cdk-lib/aws-route53";
+import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
 
 import authStack from "./auth.js";
 import cacheStack from "./cache.js";
@@ -22,6 +23,15 @@ async function apiStack({ stack }: StackContext) {
         handler: "apps/api/main.handler",
         functionName: `api-${stack.stage}`,
         bind: [authApi],
+        initialPolicy: [
+          new PolicyStatement({
+            effect: Effect.ALLOW,
+            actions: ["secretsmanager:GetSecretValue"],
+            resources: [
+              `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/githubapp*`,
+            ],
+          }),
+        ],
         environment: {
           CACHE_TABLE_NAME: cacheTable.tableName,
           WORKFLOW_LOGS_TABLE_NAME: workflowLogsTable.tableName,

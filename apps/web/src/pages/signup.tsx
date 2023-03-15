@@ -1,24 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
 import useTranslation from "next-translate/useTranslation";
+import { useEffect, useState } from "react";
 
 import Github from "../components/icons/github";
 import Layout from "../components/layouts/index";
-import { absoluteUrl, getGithubAuthUrl } from "../url";
+import { getGithubAuthUrl } from "../url";
 
-const getServerSideProps: GetServerSideProps<{ origin: string | null }> = async ({ req }) => {
-  const { origin } = absoluteUrl(req, "localhost:3000");
-
-  return {
-    props: {
-      origin,
-    },
-  };
-};
-
-function LoginPage({ origin }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function LoginPage() {
+  // TODO: Can this be passed in as a prop?
+  const [githubUrl, setGithubUrl] = useState("");
   const { t } = useTranslation("common");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setGithubUrl(getGithubAuthUrl(window.location.origin));
+    }
+  }, []);
 
   return (
     <Layout header={null} footer={null}>
@@ -36,7 +34,7 @@ function LoginPage({ origin }: InferGetServerSidePropsType<typeof getServerSideP
             </div>
             <a
               className="flex items-center gap-5 rounded-lg border border-gray-200 px-7 py-2 text-sm transition duration-150 hover:bg-gray-100"
-              href={getGithubAuthUrl(origin)}
+              href={githubUrl}
               role="button"
               data-mdb-ripple="true"
               data-mdb-ripple-color="light"
@@ -52,4 +50,3 @@ function LoginPage({ origin }: InferGetServerSidePropsType<typeof getServerSideP
 }
 
 export default LoginPage;
-export { getServerSideProps };
