@@ -1,7 +1,6 @@
 import Balancer from "react-wrap-balancer";
 import cx from "classnames";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import useTranslation from "next-translate/useTranslation";
 import { motion } from "framer-motion";
 
 import Layout from "../components/layouts/index";
@@ -132,15 +131,6 @@ function Index() {
       </motion.div>
     </Layout>
   );
-}
-
-export async function getStaticProps({ locale }: { locale: string } = { locale: "en" }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      // Will be passed to the page component as props
-    },
-  };
 }
 
 export default Index;

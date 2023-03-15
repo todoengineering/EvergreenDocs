@@ -1,23 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import Github from "../components/icons/github";
 import Layout from "../components/layouts/index";
 import { absoluteUrl, getGithubAuthUrl } from "../url";
 
-const getServerSideProps: GetServerSideProps<{ origin: string | null }> = async ({
-  req,
-  locale,
-}) => {
+const getServerSideProps: GetServerSideProps<{ origin: string | null }> = async ({ req }) => {
   const { origin } = absoluteUrl(req, "localhost:3000");
 
   return {
     props: {
       origin,
-      ...(await serverSideTranslations(locale || "en", ["common"])),
     },
   };
 };

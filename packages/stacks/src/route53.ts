@@ -1,12 +1,5 @@
 import { StackContext } from "sst/constructs";
-import {
-  HostedZone,
-  ARecord,
-  RecordTarget,
-  CnameRecord,
-  MxRecord,
-  TxtRecord,
-} from "aws-cdk-lib/aws-route53";
+import { HostedZone, MxRecord, TxtRecord } from "aws-cdk-lib/aws-route53";
 import { Certificate, CertificateValidation } from "aws-cdk-lib/aws-certificatemanager";
 
 async function route53Stack({ stack }: StackContext) {
@@ -16,17 +9,6 @@ async function route53Stack({ stack }: StackContext) {
 
   const hostedZone = new HostedZone(stack, "HostedZone", {
     zoneName: "ever-green.io",
-  });
-
-  new ARecord(stack, "ARecord", {
-    zone: hostedZone,
-    target: RecordTarget.fromIpAddresses("76.76.21.21"),
-  });
-
-  new CnameRecord(stack, "CnameRecord", {
-    zone: hostedZone,
-    recordName: "www",
-    domainName: "cname.vercel-dns.com.",
   });
 
   new MxRecord(stack, "MxRecord", {
