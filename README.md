@@ -28,14 +28,14 @@ Evergreen Docs includes the following packages:
 
 ## Contribution
 
-We welcome contributions to Evergreen Docs! To contribute, please follow these steps:
+If you would like to contribute to Evergreen Docs, please follow these steps:
 
 1. Fork the repository
 2. Create a new branch for your changes
 3. Make your changes and commit them
 4. Push your changes to your forked repository
-5. Submit a pull request to the main repository
+5. Create a pull request to merge your changes into the main repository
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+The eslint-config-evergreendocs package is licensed under the MIT license. All other packages are licensed under the Apache License, Version 2.0. See the LICENSE file for more information.
