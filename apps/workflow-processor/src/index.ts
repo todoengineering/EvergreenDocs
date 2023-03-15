@@ -101,7 +101,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
 
         await workflowLoggingService.entities.task
           .patch({ headCommit, preset: generate.preset, index: presetIndex })
-          .set({ status: "skipped" })
+          .set({ status: "skipped", reason: "No updates" })
           .go();
 
         continue;
