@@ -73,7 +73,8 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     return true;
   }
 
-  for (const generate of parsedConfig.generates) {
+  for (let presetIndex = 0; presetIndex < parsedConfig.generates.length; presetIndex++) {
+    const generate = parsedConfig.generates[presetIndex];
     try {
       const preset = presetFactory(generate, body, githubRepositoryService);
 
@@ -81,6 +82,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
         .create({
           headCommit,
           preset: generate.preset,
+          index: presetIndex,
           status: "in_progress",
           repositoryFullName,
         })
@@ -98,7 +100,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
         });
 
         await workflowLoggingService.entities.task
-          .patch({ headCommit, preset: generate.preset })
+          .patch({ headCommit, preset: generate.preset, index: presetIndex })
           .set({ status: "skipped" })
           .go();
 
@@ -132,7 +134,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
       });
 
       await workflowLoggingService.entities.task
-        .patch({ headCommit, preset: generate.preset })
+        .patch({ headCommit, preset: generate.preset, index: presetIndex })
         .set({ status: "success", outputLinks: [pullRequest.html_url] })
         .go();
 
@@ -154,7 +156,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
       });
 
       await workflowLoggingService.entities.task
-        .patch({ headCommit, preset: generate.preset })
+        .patch({ headCommit, preset: generate.preset, index: presetIndex })
         .set({ status: "failed", reason: "Internal error" })
         .go();
     }

@@ -11,6 +11,10 @@ const task = new Entity(
       service: "workflowLoggingService",
     },
     attributes: {
+      index: {
+        type: "number",
+        required: true,
+      },
       preset: {
         type: ["code-comment", "readme", "translate"] as const,
         required: true,
@@ -35,20 +39,20 @@ const task = new Entity(
         type: "string",
       },
       startedAt: {
-        type: "number",
+        type: "string",
         readOnly: true,
         required: true,
-        default: () => Date.now(),
+        default: () => new Date().toISOString(),
       },
       completedAt: {
-        type: "number",
+        type: "string",
         watch: ["status"],
         set: (_, { status }) =>
           status === "success" ||
           status === "failed" ||
           status === "skipped" ||
           status === "cancelled"
-            ? Date.now()
+            ? new Date().toISOString()
             : undefined,
       },
     },
@@ -61,7 +65,7 @@ const task = new Entity(
         },
         sk: {
           field: "sk",
-          composite: ["preset"],
+          composite: ["preset", "index"],
         },
       },
       taskByRepositoryName: {
