@@ -1,109 +1,41 @@
-# Evergreen Docs
 
-## Features (Current & Planned)
 
-- [x] Automatically generate updated documentation for your repository using Chat GPT and open a Pull Request with the changes
-- [ ] Generate comments on your code using Chat GPT and open a Pull Request with the updated code
-- [ ] Use a chat bot assistant for answering questions about your repository
+# evergreendocs
 
-## Getting Started With The GitHub App
+Evergreen Docs is a Github App designed to keep your documentation up-to-date, accurate, and comprehensive, using the context of your repository and the advanced language capabilities of Chat GPT. With its integration with Github, Evergreen Docs has access to all relevant information in your repository, including code, issues, and pull requests, allowing it to automatically update your documentation as your code evolves.
 
-### Installing
+## Installation
 
-To install Evergreen Docs, simply visit the [GitHub Marketplace](https://github.com/apps/evergreen-docs) and click the "Install" button. From there, you can choose the repositories you want to install the app on and complete the installation process.
+To use Evergreen Docs, you must have Node version >=18.0.0 and yarn@3.4.1 installed. Once you have these dependencies, you can install the necessary packages by running:
 
-### Preparing Your Repository
-
-#### `evergreeen.config.json` file
-
-Before you can use Evergreen Docs, you'll need to create a evergreen.config.json file in the root of your repository. This file contains the configuration settings for the app, such as the repository's name, description, and the sections of the documentation to be generated.
-
-Here's an example of a evergreen.config.json file:
-
-```jsonc
-{
-  "name": "Evergreen Docs",
-  "description": "Your description here",
-  "generates": [
-    {
-      "preset": "readme",
-      "path": "README.md",
-      "sections": [
-        { "name": "Overview" }
-        // ...
-      ]
-    }
-  ]
-}
 ```
-
-Once you've created the evergreen.config.json file, simply commit it to your repository in the main branch. The app will automatically generate a Pull Request with your updated documentation within 10 minutes.
-
-## Running Locally
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/en/)
-- [Yarn](https://yarnpkg.com/)
-
-### Installation
-
-1. Clone the repo
-
-```sh
-git clone https://github.com/EvergreenDocs/EvergreenDocs
-```
-
-2. Install NPM packages
-
-```sh
 yarn install
 ```
 
-3. Set environment variables (make sure your aws cli environment is configured)
+## Features
 
-```sh
-export OPENAI_API_KEY=<your OpenAI API key>
-export SST_STAG=<one of the development stages>
-```
+Evergreen Docs includes the following packages:
 
-4. Run the app
+- @evergreendocs/api: Evergreen Docs API used for the Evergreen Docs web app and the Evergreen Docs CLI
+- @evergreendocs/auth: Authentication package for Evergreen Docs
+- @evergreendocs/github-webhook-ingest: Lambda function with an endpoint that is called by the Evergreen Docs Github App webhook and a webhook event message on the EventBridge bus
+- @evergreendocs/web: Evergreen Docs web app. Allows users to manage and customise the Evergreen GitHub app
+- @evergreendocs/workflow-processor: README.md file generator for GitHub repositories. It uses the GitHub API to fetch information about the repository and uses OpenAI's GPT-3 API to generate a README.md file
+- eslint-config-evergreendocs: ESLint configuration for Evergreen Docs
+- @evergreendocs/services: Services package for Evergreen Docs
+- @evergreendocs/stacks: Used to deploy the Evergreen Docs stacks
+- @evergreendocs/tsconfig: TypeScript configuration for Evergreen Docs
 
-```sh
-yarn sst:dev
-```
+## Contribution
 
-5. Trigger GitHub events
+We welcome contributions to Evergreen Docs! To contribute, please follow these steps:
 
-## Deployment
-
-To deploy the app, you must have the [Serverless Stack CLI](https://serverless-stack.com/) installed. Once you have the CLI installed, you can deploy the app by running the following command:
-
-```sh
-yarn deploy
-```
-
-## Architecture
-
-```mermaid
-graph LR
-  subgraph GitHub
-    githubRepo[GitHub Repository]
-  end
-
-  subgraph AWS
-    ingest[Ingest Lambda]
-    defaultEventBridge[Default EventBridge]
-    workflowProcessor[Workflow Processor Lambda]
-  end
-
-  openAi[Open AI]
-
-
-  githubRepo -- via GitHub app webhook --> ingest --> defaultEventBridge -- filtered using rule --> documentum <--> openAi
-  workflowProcessor -- create pull requests, commit files --> githubRepo
-```
+1. Fork the repository
+2. Create a new branch for your changes
+3. Make your changes and commit them
+4. Push your changes to your forked repository
+5. Submit a pull request to the main repository
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information
+This project is licensed under the MIT License. See the LICENSE file for details.
