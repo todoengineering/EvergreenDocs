@@ -28,6 +28,20 @@
       "inputPath": "README.md",
       "outputPath": "README.fr.md",
       "language": "fr"
+    },
+    {
+      "preset": "translate",
+      "type": "json",
+      "inputPath": "apps/web/public/locales/en/common.json",
+      "outputPath": "apps/web/public/locales/fr/common.json",
+      "language": "fr"
+    },
+    {
+      "preset": "translate",
+      "type": "json",
+      "inputPath": "apps/web/public/locales/en/common.json",
+      "outputPath": "apps/web/public/locales/de/common.json",
+      "language": "de"
     }
   ]
 }
