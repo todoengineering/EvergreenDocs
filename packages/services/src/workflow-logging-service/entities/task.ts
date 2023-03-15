@@ -34,13 +34,19 @@ const task = new Entity(
       startedAt: {
         type: "number",
         readOnly: true,
+        required: true,
         default: () => Date.now(),
       },
       completedAt: {
         type: "number",
         watch: ["status"],
         set: (_, { status }) =>
-          status === "success" || status === "failed" ? Date.now() : undefined,
+          status === "success" ||
+          status === "failed" ||
+          status === "skipped" ||
+          status === "cancelled"
+            ? Date.now()
+            : undefined,
       },
     },
     indexes: {
