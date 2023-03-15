@@ -1,0 +1,15 @@
+{
+  "value-proposition": "Halten Sie Ihre Dokumentation grün und frisch",
+  "app-description": "Verwalten und pflegen Sie Dokumentation mühelos mit Evergreen Docs - der Github-App, die Aktualisierungen automatisiert, READMEs generiert, Dokumentation übersetzt und ein Changelog führt, alles basierend auf kontextuellen Daten aus Ihrem Repository.",
+  "signup-button": "Registrieren",
+  "login-button": "Anmelden",
+  "gotoapp-button": "Zur App gehen",
+  "get-started-button": "Loslegen",
+  "auth": {
+    "create": {
+      "account1": "Erstellen Sie Ihr Konto",
+      "account2": "um fortzufahren zu"
+    },
+    "continue-with-github": "Weiter mit GitHub"
+  }
+}
