@@ -21,21 +21,21 @@ Evergreen Docs includes the following packages:
 - @evergreendocs/github-webhook-ingest: Lambda function with an endpoint that is called by the Evergreen Docs Github App webhook and a webhook event message on the EventBridge bus
 - @evergreendocs/web: Evergreen Docs web app. Allows users to manage and customise the Evergreen GitHub app
 - @evergreendocs/workflow-processor: README.md file generator for GitHub repositories. It uses the GitHub API to fetch information about the repository and uses OpenAI's GPT-3 API to generate a README.md file
-- eslint-config-evergreendocs: ESLint configuration for Evergreen Docs
+- eslint-config-evergreendocs: A set of ESLint rules for Evergreen Docs
 - @evergreendocs/services: Services package for Evergreen Docs
 - @evergreendocs/stacks: Used to deploy the Evergreen Docs stacks
 - @evergreendocs/tsconfig: TypeScript configuration for Evergreen Docs
 
 ## Contribution
 
-If you would like to contribute to Evergreen Docs, please follow these steps:
+We welcome contributions to Evergreen Docs! To contribute, please follow these steps:
 
 1. Fork the repository
 2. Create a new branch for your changes
 3. Make your changes and commit them
 4. Push your changes to your forked repository
-5. Create a pull request to merge your changes into the main repository
+5. Submit a pull request to the main repository
 
 ## License
 
-The eslint-config-evergreendocs package is licensed under the MIT license. All other packages are licensed under the Apache License, Version 2.0. See the LICENSE file for more information.
+This project is licensed under the MIT License. See the LICENSE file for details.
