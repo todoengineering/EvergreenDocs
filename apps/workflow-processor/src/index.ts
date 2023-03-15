@@ -75,6 +75,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
 
   for (let presetIndex = 0; presetIndex < parsedConfig.generates.length; presetIndex++) {
     const generate = parsedConfig.generates[presetIndex];
+
     try {
       const preset = presetFactory(generate, body, githubRepositoryService);
 
