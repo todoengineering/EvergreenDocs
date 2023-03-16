@@ -73,95 +73,95 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     return true;
   }
 
-  for (let presetIndex = 0; presetIndex < parsedConfig.generates.length; presetIndex++) {
-    const generate = parsedConfig.generates[presetIndex];
+  await Promise.all(
+    parsedConfig.generates.map(async (generate, presetIndex) => {
+      try {
+        const preset = presetFactory(generate, body, githubRepositoryService);
 
-    try {
-      const preset = presetFactory(generate, body, githubRepositoryService);
+        await workflowLoggingService.entities.task
+          .create({
+            headCommit,
+            preset: generate.preset,
+            index: presetIndex,
+            status: "in_progress",
+            repositoryFullName,
+          })
+          .go();
 
-      await workflowLoggingService.entities.task
-        .create({
-          headCommit,
-          preset: generate.preset,
-          index: presetIndex,
-          status: "in_progress",
-          repositoryFullName,
-        })
-        .go();
+        const hasUpdates = await preset.hasUpdates();
 
-      const hasUpdates = await preset.hasUpdates();
+        if (!hasUpdates) {
+          console.log("No updates for preset", {
+            preset: generate.preset,
+            repository: body.repository?.full_name,
+            ref: body.ref,
+            commits: body.commits.map((commit) => commit.id),
+            commitBranch,
+          });
 
-      if (!hasUpdates) {
-        console.log("No updates for preset", {
+          await workflowLoggingService.entities.task
+            .patch({ headCommit, preset: generate.preset, index: presetIndex })
+            .set({ status: "skipped", reason: "No updates" })
+            .go();
+
+          return;
+        }
+
+        console.log("Found updates for preset", {
           preset: generate.preset,
           repository: body.repository?.full_name,
           ref: body.ref,
           commits: body.commits.map((commit) => commit.id),
-          commitBranch,
+        });
+
+        await preset.fetchFiles();
+        const prompt = preset.createPrompt();
+
+        const output = await createCompletion(prompt);
+
+        // TODO: Make this smarter/configurable
+        await githubRepositoryService.createBranch({ branchName: preset.branchName });
+        await githubRepositoryService.commitFile({
+          branchName: preset.branchName,
+          path: "path" in generate ? generate.path : generate.outputPath,
+          content: output,
+          message: "Update readme",
+        });
+        // TODO: Make this smarter/configurable
+        const pullRequest = await githubRepositoryService.createPullRequest({
+          branchName: preset.branchName,
+          title: preset.branchName,
         });
 
         await workflowLoggingService.entities.task
           .patch({ headCommit, preset: generate.preset, index: presetIndex })
-          .set({ status: "skipped", reason: "No updates" })
+          .set({ status: "success", outputLinks: [pullRequest.html_url] })
           .go();
 
-        continue;
+        console.log("Updated preset", {
+          preset: generate.preset,
+          repository: body.repository?.full_name,
+          ref: body.ref,
+          commits: body.commits.map((commit) => commit.id),
+        });
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Internal error";
+
+        console.error("Failed to update preset", {
+          error: errorMessage,
+          preset: generate.preset,
+          repository: body.repository?.full_name,
+          ref: body.ref,
+          commits: body.commits.map((commit) => commit.id),
+        });
+
+        await workflowLoggingService.entities.task
+          .patch({ headCommit, preset: generate.preset, index: presetIndex })
+          .set({ status: "failed", reason: "Internal error" })
+          .go();
       }
-
-      console.log("Found updates for preset", {
-        preset: generate.preset,
-        repository: body.repository?.full_name,
-        ref: body.ref,
-        commits: body.commits.map((commit) => commit.id),
-      });
-
-      await preset.fetchFiles();
-      const prompt = preset.createPrompt();
-
-      const output = await createCompletion(prompt);
-
-      // TODO: Make this smarter/configurable
-      await githubRepositoryService.createBranch({ branchName: preset.branchName });
-      await githubRepositoryService.commitFile({
-        branchName: preset.branchName,
-        path: "path" in generate ? generate.path : generate.outputPath,
-        content: output,
-        message: "Update readme",
-      });
-      // TODO: Make this smarter/configurable
-      const pullRequest = await githubRepositoryService.createPullRequest({
-        branchName: preset.branchName,
-        title: preset.branchName,
-      });
-
-      await workflowLoggingService.entities.task
-        .patch({ headCommit, preset: generate.preset, index: presetIndex })
-        .set({ status: "success", outputLinks: [pullRequest.html_url] })
-        .go();
-
-      console.log("Updated preset", {
-        preset: generate.preset,
-        repository: body.repository?.full_name,
-        ref: body.ref,
-        commits: body.commits.map((commit) => commit.id),
-      });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      console.error(error);
-      console.error("Failed to update preset", {
-        error: errorMessage,
-        preset: generate.preset,
-        repository: body.repository?.full_name,
-        ref: body.ref,
-        commits: body.commits.map((commit) => commit.id),
-      });
-
-      await workflowLoggingService.entities.task
-        .patch({ headCommit, preset: generate.preset, index: presetIndex })
-        .set({ status: "failed", reason: "Internal error" })
-        .go();
-    }
-  }
+    })
+  );
 
   await workflowLoggingService.entities.workflow
     .patch({ headCommit })

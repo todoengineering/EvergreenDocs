@@ -4,6 +4,7 @@ import { BasePreset } from "./base.js";
 
 class TranslatePreset extends BasePreset<TranslatePresetConfig> {
   async hasUpdates(): Promise<boolean> {
+    return true;
     const response = await this.githubRepositoryService.fetchCommit(this.pushEvent.after);
 
     return (

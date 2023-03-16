@@ -32,7 +32,7 @@
     {
       "preset": "translate",
       "type": "json",
-      "inputPath": "apps/web/locales/en/common.",
+      "inputPath": "apps/web/locales/en/common.json",
       "outputPath": "apps/web/locales/fr/common.json",
       "language": "fr"
     },

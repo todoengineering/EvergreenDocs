@@ -23,6 +23,10 @@ class CodeCommentPreset extends BasePreset<CodeCommentPresetConfig> {
       this.pushEvent.ref.replace("refs/heads/", "")
     );
 
+    if (!this.files?.length) {
+      throw new Error(`No files found for ${this.presetConfig.path}`);
+    }
+
     return this.files;
   }
 

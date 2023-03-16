@@ -36,7 +36,6 @@ const githubAppAuth = await secretsManagerService.getSecretJson<GitHubAppAuth>(
 );
 
 async function refreshAccessToken(refreshToken: string, session: AuthorisedSession) {
-  console.log("refreshAccessToken", refreshToken);
   const refreshTokenResponse = await fetch("https://github.com/login/oauth/access_token", {
     method: "POST",
     headers: {
@@ -52,8 +51,6 @@ async function refreshAccessToken(refreshToken: string, session: AuthorisedSessi
   });
 
   const refreshTokenData = (await refreshTokenResponse.json()) as RefreshTokenResponse;
-
-  console.log("refreshTokenData", refreshTokenData);
 
   // TODO: tokens should be encrypted
   const newSession: CacheServiceTypes.Session = {
@@ -71,9 +68,9 @@ async function refreshAccessToken(refreshToken: string, session: AuthorisedSessi
     newSession.ttl = Math.floor(Date.now() / 1000) + refreshTokenData.refresh_token_expires_in;
   }
 
-  const createdSessionResponse = await cacheService.entities.session.upsert(newSession).go();
+  await cacheService.entities.session.upsert(newSession).go();
 
-  return createdSessionResponse.data;
+  return newSession;
 }
 
 function getAccessToken(session: AuthorisedSession) {
