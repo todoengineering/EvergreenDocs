@@ -3491,7 +3491,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-wrap-balancer: ^0.4.0
-    sst: 2.1.31
+    sst: 2.1.35
     superjson: ^1.12.2
     tailwindcss: ^3.2.7
     typescript: ^4.5.3
@@ -7624,7 +7624,7 @@ __metadata:
     constructs: 10.1.156
     dotenv: ^16.0.3
     prettier: latest
-    sst: 2.1.31
+    sst: 2.1.35
     turbo: latest
   languageName: unknown
   linkType: soft
@@ -11978,9 +11978,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sst@npm:2.1.31":
-  version: 2.1.31
-  resolution: "sst@npm:2.1.31"
+"sst@npm:2.1.35":
+  version: 2.1.35
+  resolution: "sst@npm:2.1.35"
   dependencies:
     "@aws-cdk/aws-apigatewayv2-alpha": ^2.62.2-alpha.0
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha": ^2.62.2-alpha.0
@@ -12059,7 +12059,7 @@ __metadata:
       optional: true
   bin:
     sst: cli/sst.js
-  checksum: 108d1a7769b875fde5fd965b4aa99c1c8e5531ac533a506b07872e6d9a8bbbe3fc5094604b4e4e3f87d0f0de00484981b18cc4622b264936b29f446f13e0220a
+  checksum: f6ef498c480ecc7666310552a13df54a769d86686e1be0a7f33cd8aa1cc01282195d9537ff91185507d0bcb7438b67786c774828f5d8d43d3ba624be6ffea252
   languageName: node
   linkType: hard
 
