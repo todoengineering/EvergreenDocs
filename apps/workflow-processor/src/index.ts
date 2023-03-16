@@ -2,30 +2,30 @@ import { EventBridgeHandler } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
 import { workflowLoggingService } from "@evergreendocs/services";
 
-import { createCompletion } from "./services/open-ai-service.js";
-import presetFactory from "./presets/preset-factory.js";
-import GithubRepositoryService from "./services/github-repository-service.js";
+import GithubRepo from "./services/github-repo.js";
 import EvergreenConfig from "./schema/evergreen-config.js";
+import ConfigError from "./config-error.js";
+import Task from "./task.js";
 
 const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) => {
-  const body = event?.detail;
+  const gitEvent = event?.detail;
 
-  if (!body?.commits?.length) {
+  if (!gitEvent?.commits?.length) {
     return true;
   }
 
   console.log("Received event", {
-    repository: body.repository?.full_name,
-    ref: body.ref,
-    commits: body.commits.map((commit) => commit.id),
+    repository: gitEvent.repository?.full_name,
+    ref: gitEvent.ref,
+    commits: gitEvent.commits.map((commit) => commit.id),
   });
 
-  const repoOwner = body.repository?.owner?.login;
-  const repoName = body.repository?.name;
-  const installationId = body.installation?.id;
-  const headCommit = body.head_commit?.id;
-  const repositoryFullName = body.repository?.full_name;
-  const commitBranch = body.ref.replace("refs/heads/", "");
+  const repoOwner = gitEvent.repository?.owner?.login;
+  const repoName = gitEvent.repository?.name;
+  const installationId = gitEvent.installation?.id;
+  const headCommit = gitEvent.head_commit?.id;
+  const repositoryFullName = gitEvent.repository?.full_name;
+  const commitBranch = gitEvent.ref.replace("refs/heads/", "");
 
   if (!repoOwner || !repoName || !installationId || !headCommit) {
     return false;
@@ -34,22 +34,15 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   await workflowLoggingService.entities.workflow
     .create({
       headCommit,
-      headCommitMessage: body.head_commit?.message || "Unknown commit message",
+      headCommitMessage: gitEvent.head_commit?.message || "Unknown commit message",
       repositoryFullName,
       status: "in_progress",
     })
     .go();
 
-  const githubRepositoryService = new GithubRepositoryService({
-    repoOwner,
-    repoName,
-    installationId,
-  });
+  const githubRepo = new GithubRepo({ repoOwner, repoName, installationId });
 
-  const [config] = await githubRepositoryService.fetchFiles(
-    ["evergreen.config.json"],
-    commitBranch
-  );
+  const [config] = await githubRepo.fetchFiles(["evergreen.config.json"], commitBranch);
 
   if (!config) {
     await workflowLoggingService.entities.workflow
@@ -74,96 +67,33 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   }
 
   await Promise.all(
-    parsedConfig.generates.map(async (generate, presetIndex) => {
+    parsedConfig.generates.map(async (presetConfig, presetIndex) => {
+      const task = new Task(presetConfig, presetIndex, gitEvent, githubRepo);
+
       try {
-        const preset = presetFactory(generate, body, githubRepositoryService);
+        await task.run();
+      } catch (error) {
+        let reason = "Unknown error";
 
-        await workflowLoggingService.entities.task
-          .create({
-            headCommit,
-            preset: generate.preset,
-            index: presetIndex,
-            status: "in_progress",
-            repositoryFullName,
-          })
-          .go();
-
-        const hasUpdates = await preset.hasUpdates();
-
-        if (!hasUpdates) {
-          console.log("No updates for preset", {
-            preset: generate.preset,
-            repository: body.repository?.full_name,
-            ref: body.ref,
-            commits: body.commits.map((commit) => commit.id),
-            commitBranch,
+        if (error instanceof Error) {
+          console.error("Failed to update preset", {
+            error,
+            preset: presetConfig.preset,
+            repository: gitEvent.repository?.full_name,
+            ref: gitEvent.ref,
+            commits: gitEvent.commits.map((commit) => commit.id),
           });
 
-          await workflowLoggingService.entities.task
-            .patch({ headCommit, preset: generate.preset, index: presetIndex })
-            .set({ status: "skipped", reason: "No updates" })
-            .go();
-
-          return;
+          if (error instanceof ConfigError) {
+            reason = error.message;
+          } else {
+            reason = "Internal error";
+          }
         }
 
-        console.log("Found updates for preset", {
-          preset: generate.preset,
-          repository: body.repository?.full_name,
-          ref: body.ref,
-          commits: body.commits.map((commit) => commit.id),
-        });
-
-        await preset.fetchFiles();
-        const prompt = preset.createPrompt();
-
-        const output = await createCompletion(prompt);
-
-        // TODO: Make this smarter/configurable
-        await githubRepositoryService.createBranch({ branchName: preset.branchName });
-        const commit = await githubRepositoryService.commitFile({
-          branchName: preset.branchName,
-          path: "path" in generate ? generate.path : generate.outputPath,
-          content: output,
-          message: preset.branchName,
-        });
-        // TODO: Make this smarter/configurable
-        const pullRequest = await githubRepositoryService.createPullRequest({
-          branchName: preset.branchName,
-          title: preset.branchName,
-        });
-
         await workflowLoggingService.entities.task
-          .patch({ headCommit, preset: generate.preset, index: presetIndex })
-          .set({
-            status: "success",
-            outputPullRequestUrl: pullRequest.html_url,
-            outputCommit: commit.commit.sha || "Unknown commit sha",
-            outputCommitMessage: commit.commit.message || "Unknown commit message",
-          })
-          .go();
-
-        console.log("Updated preset", {
-          preset: generate.preset,
-          repository: body.repository?.full_name,
-          ref: body.ref,
-          commits: body.commits.map((commit) => commit.id),
-        });
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : "Internal error";
-
-        console.error("Failed to update preset", {
-          error: errorMessage,
-          preset: generate.preset,
-          repository: body.repository?.full_name,
-          ref: body.ref,
-          commits: body.commits.map((commit) => commit.id),
-        });
-
-        await workflowLoggingService.entities.task
-          .patch({ headCommit, preset: generate.preset, index: presetIndex })
-          // TODO: make this not give away internal errors to the user
-          .set({ status: "failed", reason: errorMessage })
+          .patch({ headCommit, preset: presetConfig.preset, index: presetIndex })
+          .set({ status: "failed", reason })
           .go();
       }
     })
@@ -175,9 +105,9 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     .go();
 
   console.log("Processed event", {
-    repository: body.repository?.full_name,
-    ref: body.ref,
-    commits: body.commits.map((commit) => commit.id),
+    repository: gitEvent.repository?.full_name,
+    ref: gitEvent.ref,
+    commits: gitEvent.commits.map((commit) => commit.id),
   });
 
   return true;

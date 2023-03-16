@@ -1,4 +1,5 @@
 import { CodeCommentPresetConfig } from "../schema/presets/index.js";
+import ConfigError from "../config-error.js";
 
 import { BasePreset } from "./base.js";
 
@@ -24,7 +25,7 @@ class CodeCommentPreset extends BasePreset<CodeCommentPresetConfig> {
     );
 
     if (!this.files?.length) {
-      throw new Error(`No files found for ${this.presetConfig.path}`);
+      throw new ConfigError(`No files found for .path value [${this.presetConfig.path}]`);
     }
 
     return this.files;
@@ -34,7 +35,7 @@ class CodeCommentPreset extends BasePreset<CodeCommentPresetConfig> {
     const file = this.files?.[0];
 
     if (!file) {
-      throw new Error(`No files found for ${this.presetConfig.path}`);
+      throw new ConfigError(`No files found for .path value [${this.presetConfig.path}]`);
     }
 
     const { content } = file;
@@ -49,12 +50,12 @@ class CodeCommentPreset extends BasePreset<CodeCommentPresetConfig> {
       }
     }
 
-    throw new Error(`No function found for ${this.presetConfig.path}`);
+    throw new ConfigError(`No function found for .path value [${this.presetConfig.name}]`);
   }
 
   createPrompt(): string {
     if (!this.files?.[0]) {
-      throw new Error(`No files found for ${this.presetConfig.path}`);
+      throw new ConfigError(`No files found for .path value [${this.presetConfig.path}]`);
     }
 
     return this.files[0].content;

@@ -2,6 +2,7 @@ import minimatch from "minimatch";
 
 import { ReadmePresetConfig } from "../schema/presets/index.js";
 import { JSONSchemaForNPMPackageJsonFiles } from "../types/index.js";
+import ConfigError from "../config-error.js";
 
 import { BasePreset } from "./base.js";
 
@@ -183,7 +184,7 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
     const rootPackageJsonFile = this.files.find((file) => file.path === "package.json");
 
     if (!rootPackageJsonFile?.content) {
-      throw new Error("package.json not found");
+      throw new ConfigError("package.json not found");
     }
     const rootPackageJson: JSONSchemaForNPMPackageJsonFiles = JSON.parse(
       rootPackageJsonFile.content
