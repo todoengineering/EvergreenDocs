@@ -32,7 +32,7 @@ function DefaultHeader() {
 
         <div className="flex-grow font-bold">
           <Link href="/pricing" className="transition-colors hover:text-emerald-800 ">
-            {t("pricing-link")}
+            {t("pricing.title")}
           </Link>
         </div>
 
@@ -69,7 +69,7 @@ function DefaultHeader() {
 
 function DefaultFooter() {
   return (
-    <div className=" relative bottom-0 w-full border-t border-gray-200 bg-white py-5 text-center">
+    <div className=" absolute bottom-0 w-full border-t border-gray-200 bg-white py-5 text-center">
       <p className="text-gray-500">Some stuff in here</p>
     </div>
   );

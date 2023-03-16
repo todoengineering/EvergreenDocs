@@ -1,13 +1,19 @@
 {
   "value-proposition": "Keep your documentation green and fresh",
   "app-description": "Effortlessly manage and maintain documentation with Evergreen Docs - the Github App that automates updates, generates READMEs, translates docs, and keeps a changelog, all based on contextual data from your repository.",
-  "pricing-description": "Users save significant time and effort by automating the writing of documentation, allowing them to focus on more important tasks and minimize the hassle of writing and maintaining documentation.",
   "signup-button": "Sign up",
-  "pricing-link": "Pricing",
   "login-button": "Log in",
   "gotoapp-button": "Go to app",
   "get-started-button": "Get started",
   "install-app-button": "Install App",
+  "month": "month",
+  "pricing": {
+    "title": "Pricing",
+    "value-proposition": "Flat price to help every team keep their projects evergreen",
+    "description": "Users save significant time and effort by automating the writing of documentation, allowing them to focus on more important tasks and minimize the hassle of writing and maintaining documentation.",
+
+    "features": ["Unlimited projects", "Unlimited users", "Translate your", "i18n support"]
+  },
   "auth": {
     "create": {
       "account1": "Create your account",
