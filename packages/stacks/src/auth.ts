@@ -2,6 +2,7 @@ import { Function, StackContext, use } from "sst/constructs";
 import { Auth } from "sst/constructs/future";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
 import { HostedZone } from "aws-cdk-lib/aws-route53";
+import * as cdk from "aws-cdk-lib";
 
 import cacheStack from "./cache";
 import { getStackSubdomain } from "./domain.js";
@@ -48,6 +49,13 @@ async function authStack({ stack }: StackContext) {
 
   stack.addOutputs({
     authEndpoint: auth.url,
+  });
+
+  stack.getAllFunctions().forEach((fn) => {
+    // We assume that the API is in us-east-1, it's an edge lambda and can't be traced
+    if (!fn.functionArn.includes("us-east-1")) {
+      cdk.Tags.of(fn).add("lumigo:auto-trace", "true");
+    }
   });
 
   return {

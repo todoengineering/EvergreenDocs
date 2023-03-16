@@ -1,6 +1,7 @@
 import { StackContext, Api, use, ApiProps } from "sst/constructs";
 import { HostedZone } from "aws-cdk-lib/aws-route53";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
+import * as cdk from "aws-cdk-lib";
 
 import authStack from "./auth.js";
 import cacheStack from "./cache.js";
@@ -73,6 +74,13 @@ async function apiStack({ stack }: StackContext) {
       githubWebhookIngestEndpoint: `${api.customDomainUrl}/github-webhook-ingest`,
     });
   }
+
+  stack.getAllFunctions().forEach((fn) => {
+    // We assume that the API is in us-east-1, it's an edge lambda and can't be traced
+    if (!fn.functionArn.includes("us-east-1")) {
+      cdk.Tags.of(fn).add("lumigo:auto-trace", "true");
+    }
+  });
 
   return {
     apiEndpoint,

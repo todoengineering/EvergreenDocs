@@ -1,5 +1,6 @@
 import { StackContext, Function, EventBus, Table, use } from "sst/constructs";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
+import * as cdk from "aws-cdk-lib";
 
 import banner from "./banner.js";
 import githubWebhookIngestStack from "./github-webhook-ingest.js";
@@ -70,6 +71,13 @@ async function workflowProcessorStack({ stack }: StackContext) {
     cdk: {
       eventBus,
     },
+  });
+
+  stack.getAllFunctions().forEach((fn) => {
+    // We assume that the API is in us-east-1, it's an edge lambda and can't be traced
+    if (!fn.functionArn.includes("us-east-1")) {
+      cdk.Tags.of(fn).add("lumigo:auto-trace", "true");
+    }
   });
 
   return {

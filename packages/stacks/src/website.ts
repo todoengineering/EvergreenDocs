@@ -1,5 +1,6 @@
 import { StackContext, NextjsSite, use } from "sst/constructs";
 import { HostedZone } from "aws-cdk-lib/aws-route53";
+import * as cdk from "aws-cdk-lib";
 
 import apiStack from "./api.js";
 import authStack from "./auth.js";
@@ -26,6 +27,13 @@ async function websiteStack({ stack }: StackContext) {
       NEXT_PUBLIC_EVERGREEN_API_URL: apiEndpoint,
       NEXT_PUBLIC_EVERGREEN_AUTH_URL: authApi.url,
     },
+  });
+
+  stack.getAllFunctions().forEach((fn) => {
+    // We assume that the API is in us-east-1, it's an edge lambda and can't be traced
+    if (!fn.functionArn.includes("us-east-1")) {
+      cdk.Tags.of(fn).add("lumigo:auto-trace", "true");
+    }
   });
 
   stack.addOutputs({
