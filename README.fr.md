@@ -94,9 +94,9 @@ graph LR
   end
 
   subgraph AWS
-    ingest[Lambda d'ingestion]
-    defaultEventBridge[EventBridge par défaut]
-    workflowProcessor[Lambda de traitement de flux de travail]
+    ingest[Ingest Lambda]
+    defaultEventBridge[Default EventBridge]
+    workflowProcessor[Workflow Processor Lambda]
   end
 
   openAi[Open AI]
