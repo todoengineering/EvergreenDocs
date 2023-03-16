@@ -26,6 +26,9 @@ const workflow = new Entity(
         type: ["skipped", "in_progress", "failed", "success", "cancelled"] as const,
         required: true,
       },
+      reason: {
+        type: "string",
+      },
       startedAt: {
         type: "string",
         readOnly: true,

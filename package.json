@@ -12,6 +12,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "dev:sst": "sst dev --stage $SST_STAGE",
+    "remove": "sst remove --stage $SST_STAGE",
     "lint": "turbo run lint --parallel",
     "test": "turbo run test --parallel",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",

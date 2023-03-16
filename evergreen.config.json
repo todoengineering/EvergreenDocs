@@ -3,10 +3,45 @@
   "description": "Evergreen Docs is a GitHub app that helps you keep your documentation up to date. It automatically creates pull requests to update your documentation when your code changes.",
   "generates": [
     {
+      "preset": "readme",
+      "path": "README.md",
+      "sections": [
+        {
+          "name": "Overview"
+        },
+        {
+          "name": "Installation"
+        },
+        {
+          "name": "Features"
+        },
+        {
+          "name": "Contribution"
+        },
+        {
+          "name": "License"
+        }
+      ]
+    },
+    {
       "preset": "translate",
       "inputPath": "README.md",
       "outputPath": "README.fr.md",
       "language": "fr"
+    },
+    {
+      "preset": "translate",
+      "type": "json",
+      "inputPath": "apps/web/locales/en/common.",
+      "outputPath": "apps/web/locales/fr/common.json",
+      "language": "fr"
+    },
+    {
+      "preset": "translate",
+      "type": "json",
+      "inputPath": "apps/web/locales/en/common.json",
+      "outputPath": "apps/web/locales/de/common.json",
+      "language": "de"
     }
   ]
 }
