@@ -1,5 +1,6 @@
 import { StackContext, Function, EventBus, Table, use } from "sst/constructs";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
+import * as cdk from "aws-cdk-lib";
 
 import banner from "./banner.js";
 import githubWebhookIngestStack from "./github-webhook-ingest.js";
@@ -50,14 +51,19 @@ async function workflowProcessorStack({ stack }: StackContext) {
   });
   workflowProcessorLambda.attachPermissions([workflowLogsTable]);
 
-  // Attach a rule to the event bus provided from the github-webhook-ingest stack
+  const branches = new Set(["main", "master"]);
+
+  if (typeof process.env["CURRENT_GIT_BRANCH"] === "string") {
+    branches.add(process.env["CURRENT_GIT_BRANCH"]);
+  }
+  // Attach a rule to the event bus provided from the github-webhook-ingest stack  new EventBus(stack, "default-event-bus", {
   new EventBus(stack, "default-event-bus", {
     rules: {
       "github-webhook-ingest": {
         pattern: {
           source: ["github.com"],
           detailType: ["push"],
-          detail: { ref: ["refs/heads/main", "refs/heads/json-translate-preset"] },
+          detail: { ref: Array.from(branches).map((branch) => `refs/heads/${branch}`) },
         },
         targets: { workflowProcessor: workflowProcessorLambda },
       },
@@ -65,6 +71,13 @@ async function workflowProcessorStack({ stack }: StackContext) {
     cdk: {
       eventBus,
     },
+  });
+
+  stack.getAllFunctions().forEach((fn) => {
+    // We assume that the API is in us-east-1, it's an edge lambda and can't be traced
+    const autoTrace = stack.stage === "production" && !fn.functionArn.includes("us-east-1");
+
+    cdk.Tags.of(fn).add("lumigo:auto-trace", String(autoTrace));
   });
 
   return {

@@ -24,11 +24,17 @@ function DefaultHeader() {
         scrolled ? "border-b border-gray-200 bg-white/50 backdrop-blur-xl" : "bg-white/0"
       } z-20 transition-all`}
     >
-      <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
+      <div className="mx-5 my-2 flex max-w-screen-xl items-end justify-between gap-10 xl:mx-auto">
         <Link href="/" className="font-display flex items-center text-2xl font-bold">
           <Image src="/images/logo.svg" alt="Evergreen Docs" width={32} height={32} />
           <p className="tracking-wide">EvergreenDocs</p>
         </Link>
+
+        <div className="flex-grow font-bold">
+          <Link href="/pricing" className="transition-colors hover:text-emerald-800 ">
+            {t("pricing.title")}
+          </Link>
+        </div>
 
         <div className="flex gap-1">
           <RenderIf condition={false}>
@@ -63,7 +69,7 @@ function DefaultHeader() {
 
 function DefaultFooter() {
   return (
-    <div className=" relative bottom-0 w-full border-t border-gray-200 bg-white py-5 text-center">
+    <div className=" bottom-0 w-full border-t border-gray-200 bg-white py-5 text-center">
       <p className="text-gray-500">Some stuff in here</p>
     </div>
   );

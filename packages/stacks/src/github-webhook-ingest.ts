@@ -1,6 +1,7 @@
 import { StackContext, Function } from "sst/constructs";
 import { EventBus as CdkEventBus } from "aws-cdk-lib/aws-events";
 import { PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
+import * as cdk from "aws-cdk-lib";
 
 async function githubWebhookIngestStack({ stack }: StackContext) {
   const defaultEventBus = CdkEventBus.fromEventBusArn(
@@ -39,6 +40,13 @@ async function githubWebhookIngestStack({ stack }: StackContext) {
       });
     }
   }
+
+  stack.getAllFunctions().forEach((fn) => {
+    // We assume that the API is in us-east-1, it's an edge lambda and can't be traced
+    const autoTrace = stack.stage === "production" && !fn.functionArn.includes("us-east-1");
+
+    cdk.Tags.of(fn).add("lumigo:auto-trace", String(autoTrace));
+  });
 
   return {
     eventBus: defaultEventBus,
