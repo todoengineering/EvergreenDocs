@@ -50,14 +50,19 @@ async function workflowProcessorStack({ stack }: StackContext) {
   });
   workflowProcessorLambda.attachPermissions([workflowLogsTable]);
 
-  // Attach a rule to the event bus provided from the github-webhook-ingest stack
+  const branches = new Set(["main", "master"]);
+
+  if (typeof process.env["CURRENT_GIT_BRANCH"] === "string") {
+    branches.add(process.env["CURRENT_GIT_BRANCH"]);
+  }
+  // Attach a rule to the event bus provided from the github-webhook-ingest stack  new EventBus(stack, "default-event-bus", {
   new EventBus(stack, "default-event-bus", {
     rules: {
       "github-webhook-ingest": {
         pattern: {
           source: ["github.com"],
           detailType: ["push"],
-          detail: { ref: ["refs/heads/main", "refs/heads/feat_move_to_chat_gpt_api"] },
+          detail: { ref: Array.from(branches).map((branch) => `refs/heads/${branch}`) },
         },
         targets: { workflowProcessor: workflowProcessorLambda },
       },
