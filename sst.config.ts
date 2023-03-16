@@ -11,7 +11,6 @@ import cacheStack from "./packages/stacks/src/cache.js";
 import githubActionsPermissionsStack from "./packages/stacks/src/github-actions-permissions.js";
 import route53Stack from "./packages/stacks/src/route53.js";
 import websiteStack from "./packages/stacks/src/website.js";
-import * as cdk from "aws-cdk-lib";
 
 const validStages = ["isaac-development", "dan-development", "production"];
 
