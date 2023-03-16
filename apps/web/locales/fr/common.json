@@ -5,6 +5,15 @@
   "login-button": "Se connecter",
   "gotoapp-button": "Aller à l'application",
   "get-started-button": "Commencer",
+  "install-app-button": "Installer l'application",
+  "month": "mois",
+  "pricing": {
+    "title": "Tarification",
+    "value-proposition": "Prix fixe pour aider chaque équipe à maintenir ses projets à jour",
+    "description": "Les utilisateurs gagnent un temps et un effort considérables en automatisant l'écriture de la documentation, ce qui leur permet de se concentrer sur des tâches plus importantes et de minimiser les tracas liés à l'écriture et à la maintenance de la documentation.",
+
+    "features": ["Projets illimités", "Utilisateurs illimités", "Traduisez votre", "Support i18n"]
+  },
   "auth": {
     "create": {
       "account1": "Créez votre compte",
