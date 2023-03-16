@@ -21,6 +21,10 @@ function ProjectTableDataBody(props: ColumnBodyProps) {
     );
   }
 
+  if ("task" in props) {
+    return <p className="ml-5 inline capitalize">{props.task.preset} preset</p>;
+  }
+
   return <></>;
 }
 

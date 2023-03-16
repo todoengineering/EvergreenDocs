@@ -35,7 +35,7 @@ function WorkflowTableBodyRow(props: {
         <>
           {props.workflow.tasks.map((task) => (
             <Collapsible.Content asChild key={task.headCommit}>
-              <tr className="bg-cyan-50">
+              <tr className="border-b bg-gray-50">
                 {columns.map((column) => (
                   <td className="px-6 py-2" key={task.headCommit}>
                     <column.Body task={task} />

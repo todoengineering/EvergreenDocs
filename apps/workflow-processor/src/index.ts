@@ -121,11 +121,11 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
 
         // TODO: Make this smarter/configurable
         await githubRepositoryService.createBranch({ branchName: preset.branchName });
-        await githubRepositoryService.commitFile({
+        const commit = await githubRepositoryService.commitFile({
           branchName: preset.branchName,
           path: "path" in generate ? generate.path : generate.outputPath,
           content: output,
-          message: "Update readme",
+          message: preset.branchName,
         });
         // TODO: Make this smarter/configurable
         const pullRequest = await githubRepositoryService.createPullRequest({
@@ -135,7 +135,12 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
 
         await workflowLoggingService.entities.task
           .patch({ headCommit, preset: generate.preset, index: presetIndex })
-          .set({ status: "success", outputLinks: [pullRequest.html_url] })
+          .set({
+            status: "success",
+            outputPullRequestUrl: pullRequest.html_url,
+            outputCommit: commit.commit.sha || "Unknown commit sha",
+            outputCommitMessage: commit.commit.message || "Unknown commit message",
+          })
           .go();
 
         console.log("Updated preset", {
@@ -157,7 +162,8 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
 
         await workflowLoggingService.entities.task
           .patch({ headCommit, preset: generate.preset, index: presetIndex })
-          .set({ status: "failed", reason: "Internal error" })
+          // TODO: make this not give away internal errors to the user
+          .set({ status: "failed", reason: errorMessage })
           .go();
       }
     })
