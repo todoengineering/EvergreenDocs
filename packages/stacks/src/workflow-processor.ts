@@ -76,7 +76,7 @@ async function workflowProcessorStack({ stack }: StackContext) {
   stack.getAllFunctions().forEach((fn) => {
     // We assume that the API is in us-east-1, it's an edge lambda and can't be traced
     if (!fn.functionArn.includes("us-east-1")) {
-      cdk.Tags.of(fn).add("lumigo:auto-trace", "true");
+      cdk.Tags.of(fn).add("lumigo:auto-trace", String(stack.stage === "production"));
     }
   });
 
