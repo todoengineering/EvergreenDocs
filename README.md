@@ -21,7 +21,7 @@ Evergreen Docs includes the following packages:
 - @evergreendocs/github-webhook-ingest: Lambda function with an endpoint that is called by the Evergreen Docs Github App webhook and a webhook event message on the EventBridge bus
 - @evergreendocs/web: Evergreen Docs web app. Allows users to manage and customise the Evergreen GitHub app
 - @evergreendocs/workflow-processor: README.md file generator for GitHub repositories. It uses the GitHub API to fetch information about the repository and uses OpenAI's GPT-3 API to generate a README.md file
-- eslint-config-evergreendocs: A set of ESLint rules for Evergreen Docs
+- eslint-config-evergreendocs: ESLint configuration for Evergreen Docs
 - @evergreendocs/services: Services package for Evergreen Docs
 - @evergreendocs/stacks: Used to deploy the Evergreen Docs stacks
 - @evergreendocs/tsconfig: TypeScript configuration for Evergreen Docs
