@@ -11,11 +11,19 @@ const FADE_IN_VARIANT = {
   show: { opacity: 1, y: 0, transition: { type: "spring" } },
 };
 
+function Footer() {
+  return (
+    <div className="absolute bottom-0 w-full border-t border-gray-200 bg-white py-5 text-center">
+      <p className="text-gray-500">Some stuff in here</p>
+    </div>
+  );
+}
+
 function Index() {
   const { t } = useTranslation("common");
 
   return (
-    <Layout>
+    <Layout footer={<Footer />}>
       <motion.div
         initial="hidden"
         whileInView="show"
