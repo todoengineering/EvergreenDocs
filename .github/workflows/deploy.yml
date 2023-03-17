@@ -38,7 +38,7 @@ jobs:
   deploy:
     name: Deploy
     needs: checks
-    timeout-minutes: 10
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     permissions:
       id-token: write

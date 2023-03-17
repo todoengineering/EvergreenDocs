@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
     const newDocumentCookies = `accessToken=${accessToken}; path=/; max-age=31536000; SameSite=Lax;`;
     router.replace(router.asPath.split("#")[0]);
 
-    if (!getCookieConsentValue()) {
+    if (!getCookieConsentValue("cookieConsent")) {
       // TODO: Show a message that the user needs to accept cookies to use the app
       console.log("Cookie consent not given, not setting cookie");
       return;
