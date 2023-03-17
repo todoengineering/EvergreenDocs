@@ -12,7 +12,7 @@
     "value-proposition": "Prix fixe pour aider chaque équipe à maintenir ses projets à jour",
     "description": "Les utilisateurs gagnent un temps et un effort considérables en automatisant l'écriture de la documentation, ce qui leur permet de se concentrer sur des tâches plus importantes et de minimiser les tracas liés à l'écriture et à la maintenance de la documentation.",
 
-    "features": ["Projets illimités", "Utilisateurs illimités", "Traduisez votre", "Support i18n"]
+    "features": ["Projets illimités", "Utilisateurs illimités", "Traduisez votre documentation", "Support i18n"]
   },
   "auth": {
     "create": {
