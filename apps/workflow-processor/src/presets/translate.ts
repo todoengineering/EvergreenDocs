@@ -38,7 +38,7 @@ Please translate the above text to the ISO 639-1 code ${this.presetConfig.langua
 
     const prompt = `${this.files[0].content}
 
-Please translate the values in the above JSON to the ISO 639-1 code ${this.presetConfig.language}:`;
+Please translate the values in the above JSON (making sure it has no trailing commas and no new line at the end) to the ISO 639-1 code ${this.presetConfig.language}:`;
 
     return prompt.replace(/\r?\n/g, "\n");
   }
