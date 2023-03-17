@@ -44,7 +44,7 @@ const features = [
 function Section({ children, className }: React.PropsWithChildren<{ className?: string }>) {
   return (
     <motion.div
-      className={cx(className, "relative -top-32 flex w-screen justify-center")}
+      className={cx(className, "relative -top-32 flex justify-center")}
       variants={FADE_IN_VARIANT}
     >
       <div className="max-w-4xl px-5 xl:px-0">{children}</div>
@@ -101,7 +101,7 @@ function Index() {
           },
         }}
       >
-        <Section className="flex w-screen justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
+        <Section className="flex justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
           <motion.h1
             className=" py-10 text-center text-4xl font-bold text-black drop-shadow-sm md:text-7xl"
             variants={FADE_IN_VARIANT}

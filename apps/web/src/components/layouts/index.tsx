@@ -83,7 +83,7 @@ export default function Layout({ children, header: _header, footer: _footer }: L
       <Meta />
 
       {header}
-      <main className="w-screen pt-24">{children}</main>
+      <main className="pt-24">{children}</main>
       {footer}
     </>
   );
