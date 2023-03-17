@@ -11,8 +11,12 @@
     "title": "Pricing",
     "value-proposition": "Flat price to help every team keep their projects evergreen",
     "description": "Users save significant time and effort by automating the writing of documentation, allowing them to focus on more important tasks and minimize the hassle of writing and maintaining documentation.",
-
-    "features": ["Unlimited projects", "Unlimited users", "Translate your", "i18n support"]
+    "features": [
+      "Unlimited projects",
+      "Unlimited users",
+      "Translate your documentation",
+      "i18n support"
+    ]
   },
   "auth": {
     "create": {
@@ -20,5 +24,42 @@
       "account2": "to continue to"
     },
     "continue-with-github": "Continue with GitHub"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "description": "Evergreen is committed to protecting the privacy of its users. This Privacy Policy explains how we collect, use, and disclose information about our users. By using Evergreen, you agree to the terms of this Privacy Policy.",
+    "sections": [
+      {
+        "title": "How we use your information",
+        "points": [
+          "User information: We collect information such as your name, email address, and Github username when you sign up for our service.",
+          "Repository information: We collect repository information from your Github account in order to provide our service. This includes repository names, descriptions, and other metadata. We don’t store any of your code or any other intellectual property.",
+          "Usage data: We collect usage data such as how often you use our service, and what features you use the most. We use this information to improve our service."
+        ]
+      },
+      {
+        "title": "Information We Collect",
+        "description": "We use your information to provide and improve our service, and to communicate with you. Specifically, we use your information to:",
+        "points": [
+          "Create pull requests on your repositories to keep documentation up to date and perform other maintenance using AI.",
+          "Send you notifications about changes to your repositories.",
+          "Analyse how you use our service to improve it.",
+          "Communicate with you about our service and any updates.",
+          "Respond to any support requests or inquiries."
+        ]
+      },
+      {
+        "title": "Data Security",
+        "description": "We take data security very seriously, and we take steps to protect your information. We use industry-standard encryption to protect your information in transit, and we store your information in secure data centers with access controls and monitoring in place."
+      },
+      {
+        "title": "Data Security",
+        "description": "We do not share your personal information with any third parties, except as required by law or as necessary to provide our service."
+      },
+      {
+        "title": "Changes to this Policy",
+        "description": "If you have any questions about our privacy policy or how we collect and use your information, please contact us at "
+      }
+    ]
   }
 }
