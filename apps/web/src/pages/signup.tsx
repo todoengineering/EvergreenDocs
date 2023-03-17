@@ -20,7 +20,7 @@ function LoginPage() {
 
   return (
     <Layout header={null} footer={null}>
-      <div className="absolute top-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32">
+      <div className="absolute top-0 flex h-screen w-full items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32">
         <div className="flex flex-col items-center gap-10">
           <Link href="/" className="font-display flex items-center text-2xl font-bold">
             <Image src="/images/logo.svg" alt="Evergreen Docs" width={32} height={32} />

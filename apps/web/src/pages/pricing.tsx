@@ -37,7 +37,7 @@ function Index() {
             },
           },
         }}
-        className="absolute top-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32"
+        className="absolute top-0 flex h-screen w-full items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32"
       >
         <div className="flex max-w-4xl flex-col items-center gap-10 px-5 xl:px-0">
           <motion.h1

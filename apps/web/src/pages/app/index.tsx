@@ -20,9 +20,9 @@ function Header() {
 function AppPage() {
   return (
     <Layout header={<Header />} footer={null}>
-      <div className="absolute top-0 flex h-screen h-max w-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 " />
+      <div className="absolute top-0 flex h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 " />
 
-      <div className="flex w-screen justify-center">
+      <div className="flex justify-center">
         <div className="absolute flex w-full max-w-screen-xl flex-col overflow-x-auto px-5 xl:px-0">
           <WorkflowTable />
         </div>

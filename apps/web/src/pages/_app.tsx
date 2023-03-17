@@ -8,8 +8,10 @@ import { Inter } from "next/font/google";
 import { Provider as RWBProvider } from "react-wrap-balancer";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { getCookieConsentValue } from "react-cookie-consent";
 
 import { trpc } from "../trpc";
+import CookieConsent from "../components/cookie-consent";
 
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
@@ -37,14 +39,23 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
       return;
     }
 
-    document.cookie = `accessToken=${accessToken}; path=/; max-age=31536000; SameSite=Lax;`;
+    const newDocumentCookies = `accessToken=${accessToken}; path=/; max-age=31536000; SameSite=Lax;`;
     router.replace(router.asPath.split("#")[0]);
+
+    if (!getCookieConsentValue()) {
+      // TODO: Show a message that the user needs to accept cookies to use the app
+      console.log("Cookie consent not given, not setting cookie");
+      return;
+    }
+
+    document.cookie = newDocumentCookies;
   }, [router]);
 
   return (
     <RWBProvider>
       <div className={cx(sfPro.variable, inter.variable)}>
         <Component {...pageProps} />
+        <CookieConsent />
       </div>
     </RWBProvider>
   );
