@@ -8,7 +8,7 @@
 - [ ] Générer des commentaires sur votre code en utilisant Chat GPT et ouvrir une demande de tirage avec le code mis à jour
 - [ ] Utiliser un assistant de chatbot pour répondre aux questions sur votre dépôt
 
-## Pour commencer avec l'application GitHub
+## Commencer avec l'application GitHub
 
 ### Installation
 
@@ -94,9 +94,9 @@ graph LR
   end
 
   subgraph AWS
-    ingest[Ingest Lambda]
-    defaultEventBridge[Default EventBridge]
-    workflowProcessor[Workflow Processor Lambda]
+    ingest[Lambda d'ingestion]
+    defaultEventBridge[EventBridge par défaut]
+    workflowProcessor[Lambda de traitement de flux de travail]
   end
 
   openAi[Open AI]
