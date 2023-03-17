@@ -1,6 +1,6 @@
 {
   "value-proposition": "Halten Sie Ihre Dokumentation grün und frisch",
-  "app-description": "Verwalten und pflegen Sie Dokumentation mühelos mit Evergreen Docs - der Github-App, die Aktualisierungen automatisiert, READMEs generiert, Dokumente übersetzt und ein Changelog führt, alles basierend auf kontextuellen Daten aus Ihrem Repository.",
+  "app-description": "Verwalten und pflegen Sie Dokumentation mühelos mit Evergreen Docs - der Github-App, die Aktualisierungen automatisiert, READMEs generiert, Dokumentation übersetzt und ein Changelog führt, alles basierend auf kontextuellen Daten aus Ihrem Repository.",
   "signup-button": "Registrieren",
   "login-button": "Anmelden",
   "gotoapp-button": "Zur App gehen",
@@ -10,15 +10,56 @@
   "pricing": {
     "title": "Preisgestaltung",
     "value-proposition": "Fester Preis, um jedem Team zu helfen, ihre Projekte immergrün zu halten",
-    "description": "Benutzer sparen erhebliche Zeit und Mühe, indem sie das Schreiben von Dokumentation automatisieren, was es ihnen ermöglicht, sich auf wichtigere Aufgaben zu konzentrieren und den Aufwand beim Schreiben und Pflegen von Dokumentationen zu minimieren.",
-
-    "features": ["Unbegrenzte Projekte", "Unbegrenzte Benutzer", "Übersetzen Sie Ihre", "i18n-Unterstützung"]
+    "description": "Benutzer sparen erhebliche Zeit und Mühe, indem sie das Schreiben von Dokumentation automatisieren, was es ihnen ermöglicht, sich auf wichtigere Aufgaben zu konzentrieren und den Aufwand beim Schreiben und Pflegen von Dokumentation zu minimieren.",
+    "features": [
+      "Unbegrenzte Projekte",
+      "Unbegrenzte Benutzer",
+      "Übersetzen Sie Ihre Dokumentation",
+      "i18n-Unterstützung"
+    ]
   },
   "auth": {
     "create": {
       "account1": "Erstellen Sie Ihr Konto",
       "account2": "um fortzufahren zu"
     },
-    "continue-with-github": "Weiter mit GitHub"
+    "continue-with-github": "Mit GitHub fortfahren"
+  },
+  "privacyPolicy": {
+    "title": "Datenschutz-Bestimmungen",
+    "description": "Evergreen verpflichtet sich zum Schutz der Privatsphäre seiner Benutzer. Diese Datenschutzrichtlinie erläutert, wie wir Informationen über unsere Benutzer sammeln, verwenden und offenlegen. Durch die Nutzung von Evergreen stimmen Sie den Bedingungen dieser Datenschutzrichtlinie zu.",
+    "sections": [
+      {
+        "title": "Wie wir Ihre Informationen verwenden",
+        "points": [
+          "Benutzerinformationen: Wir sammeln Informationen wie Ihren Namen, Ihre E-Mail-Adresse und Ihren Github-Benutzernamen, wenn Sie sich für unseren Service anmelden.",
+          "Repository-Informationen: Wir sammeln Repository-Informationen von Ihrem Github-Konto, um unseren Service bereitzustellen. Dazu gehören Repository-Namen, -Beschreibungen und andere Metadaten. Wir speichern keinen Ihrer Codes oder sonstigen geistigen Eigentumsrechte.",
+          "Nutzungsdaten: Wir sammeln Nutzungsdaten wie die Häufigkeit, mit der Sie unseren Service nutzen, und welche Funktionen Sie am häufigsten nutzen. Wir verwenden diese Informationen, um unseren Service zu verbessern."
+        ]
+      },
+      {
+        "title": "Informationen, die wir sammeln",
+        "description": "Wir verwenden Ihre Informationen, um unseren Service bereitzustellen und zu verbessern sowie um mit Ihnen zu kommunizieren. Konkret verwenden wir Ihre Informationen, um:",
+        "points": [
+          "Pull Requests auf Ihren Repositories zu erstellen, um die Dokumentation auf dem neuesten Stand zu halten und andere Wartungsarbeiten mit Hilfe von KI durchzuführen.",
+          "Sie über Änderungen an Ihren Repositories zu benachrichtigen.",
+          "Analysieren, wie Sie unseren Service nutzen, um ihn zu verbessern.",
+          "Mit Ihnen über unseren Service und alle Updates zu kommunizieren.",
+          "Auf Supportanfragen oder Anfragen zu antworten."
+        ]
+      },
+      {
+        "title": "Datensicherheit",
+        "description": "Wir nehmen die Datensicherheit sehr ernst und ergreifen Maßnahmen zum Schutz Ihrer Informationen. Wir verwenden branchenübliche Verschlüsselung, um Ihre Informationen während der Übertragung zu schützen, und wir speichern Ihre Informationen in sicheren Rechenzentren mit Zugangskontrollen und Überwachung.",
+      },
+      {
+        "title": "Datenweitergabe",
+        "description": "Wir geben Ihre persönlichen Informationen nicht an Dritte weiter, es sei denn, dies ist gesetzlich vorgeschrieben oder erforderlich, um unseren Service bereitzustellen.",
+      },
+      {
+        "title": "Änderungen an dieser Richtlinie",
+        "description": "Wenn Sie Fragen zu unserer Datenschutzrichtlinie oder zur Erfassung und Verwendung Ihrer Informationen haben, kontaktieren Sie uns bitte unter"
+      }
+    ]
   }
 }
