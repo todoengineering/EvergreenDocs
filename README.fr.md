@@ -8,7 +8,7 @@
 - [ ] Générer des commentaires sur votre code en utilisant Chat GPT et ouvrir une demande de tirage avec le code mis à jour
 - [ ] Utiliser un assistant de chatbot pour répondre aux questions sur votre dépôt
 
-## Pour commencer avec l'application GitHub
+## Commencer avec l'application GitHub
 
 ### Installation
 
