@@ -1,4 +1,5 @@
 import { TranslatePresetConfig } from "../schema/presets/index.js";
+import ConfigError from "../config-error.js";
 
 import { BasePreset } from "./base.js";
 
@@ -21,7 +22,9 @@ class TranslatePreset extends BasePreset<TranslatePresetConfig> {
 
   createPrompt(): string {
     if (!this.files?.length) {
-      throw new Error("Files not fetched");
+      throw new ConfigError(
+        `Files not fetched for .inputPath value [${this.presetConfig.inputPath}]`
+      );
     }
 
     const fileName =

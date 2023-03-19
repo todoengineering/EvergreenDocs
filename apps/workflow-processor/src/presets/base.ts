@@ -1,7 +1,7 @@
 import { PushEvent } from "@octokit/webhooks-types";
 
 import { PresetConfig } from "../schema/evergreen-config.js";
-import GithubRepositoryService from "../services/github-repository-service.js";
+import GithubRepo from "../services/github-repo.js";
 import type { WorkflowProcessorFile } from "../types/index.js";
 
 abstract class BasePreset<T = PresetConfig> {
@@ -9,13 +9,9 @@ abstract class BasePreset<T = PresetConfig> {
   protected pushEvent: PushEvent;
   protected _branchName?: string;
   protected files?: WorkflowProcessorFile[];
-  protected githubRepositoryService: GithubRepositoryService;
+  protected githubRepositoryService: GithubRepo;
 
-  constructor(
-    presetConfig: T,
-    pushEvent: PushEvent,
-    githubRepositoryService: GithubRepositoryService
-  ) {
+  constructor(presetConfig: T, pushEvent: PushEvent, githubRepositoryService: GithubRepo) {
     this.presetConfig = presetConfig;
     this.pushEvent = pushEvent;
     this.githubRepositoryService = githubRepositoryService;

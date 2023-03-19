@@ -6,17 +6,17 @@ import { operations as Operations } from "@octokit/openapi-types";
 import { WorkflowProcessorFile } from "../types/index.js";
 import config from "../config.js";
 
-type GithubRepositoryServiceOptions = {
+type GithubRepoOptions = {
   installationId: number;
   repoOwner: string;
   repoName: string;
 };
 
-class GithubRepositoryService extends Octokit {
+class GithubRepo extends Octokit {
   readonly repoOwner: string;
   readonly repoName: string;
 
-  constructor({ installationId, repoOwner, repoName }: GithubRepositoryServiceOptions) {
+  constructor({ installationId, repoOwner, repoName }: GithubRepoOptions) {
     super({
       authStrategy: createAppAuth,
       auth: {
@@ -222,4 +222,4 @@ class GithubRepositoryService extends Octokit {
   }
 }
 
-export default GithubRepositoryService;
+export default GithubRepo;
