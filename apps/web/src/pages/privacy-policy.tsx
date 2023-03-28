@@ -4,7 +4,7 @@ import React from "react";
 import useTranslation from "next-translate/useTranslation";
 
 import Layout from "../components/layouts/index";
-import RenderIf from "../components/render-if";
+import { RenderIf } from "../components/common";
 
 function PrivacyPolicyPage() {
   const { t } = useTranslation("common");

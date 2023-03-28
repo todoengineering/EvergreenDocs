@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import useTranslation from "next-translate/useTranslation";
 
 import useScroll from "../../hooks/use-scroll";
-import RenderIf from "../render-if";
+import { RenderIf } from "../common";
 
 import Meta from "./meta";
 
@@ -85,7 +85,7 @@ export default function Layout({ children, header: _header, footer: _footer }: L
       <Meta />
 
       {header}
-      <main className="pt-24">{children}</main>
+      <main>{children}</main>
       {footer}
     </>
   );

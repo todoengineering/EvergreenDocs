@@ -73,7 +73,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     return true;
   }
 
-  await Promise.all(
+  const taskLogs = await Promise.all(
     parsedConfig.generates.map(async (generate, presetIndex) => {
       try {
         const preset = presetFactory(generate, body, githubRepositoryService);
@@ -160,19 +160,21 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           commits: body.commits.map((commit) => commit.id),
         });
 
-        await workflowLoggingService.entities.task
+        const taskLog = await workflowLoggingService.entities.task
           .patch({ headCommit, preset: generate.preset, index: presetIndex })
           // TODO: make this not give away internal errors to the user
           .set({ status: "failed", reason: errorMessage })
           .go();
+
+        return taskLog.data;
       }
     })
   );
 
-  await workflowLoggingService.entities.workflow
-    .patch({ headCommit })
-    .set({ status: "success" })
-    .go();
+  const skippedTasks = taskLogs.filter((taskLog) => !taskLog || taskLog?.status === "skipped");
+  const status = skippedTasks.length === taskLogs.length ? "skipped" : "success";
+
+  await workflowLoggingService.entities.workflow.patch({ headCommit }).set({ status }).go();
 
   console.log("Processed event", {
     repository: body.repository?.full_name,

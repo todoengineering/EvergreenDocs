@@ -2,14 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": [
-        "^build",
-        "^prisma:generate"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**"
-      ],
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"],
       "cache": false
     },
     "lint": {
@@ -19,17 +13,20 @@
     "test": {
       "outputs": []
     },
-    "prisma:generate": {
-      "cache": false
-    },
     "//#dev:sst": {
       "cache": false
     },
     "dev": {
-      "dependsOn": [
-        "prisma:generate",
-        "^//#dev:sst"
-      ],
+      "dependsOn": ["^//#dev:sst"],
+      "cache": false
+    },
+    "migration:push": {
+      "cache": false
+    },
+    "migration:create": {
+      "cache": false
+    },
+    "migration:deploy": {
       "cache": false
     }
   }

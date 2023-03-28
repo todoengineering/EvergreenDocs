@@ -21,6 +21,7 @@ module.exports = {
     require("@tailwindcss/typography"),
     // require("@tailwindcss/forms"),
     // require("@tailwindcss/line-clamp"),
+    require("tailwindcss-radix")(),
     plugin(({ addVariant }) => {
       addVariant("radix-side-top", '&[data-side="top"]');
       addVariant("radix-side-bottom", '&[data-side="bottom"]');

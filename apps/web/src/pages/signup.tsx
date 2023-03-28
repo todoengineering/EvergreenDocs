@@ -9,7 +9,7 @@ import { getGithubAuthUrl } from "../url";
 
 function LoginPage() {
   // TODO: Can this be passed in as a prop?
-  const [githubUrl, setGithubUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState(getGithubAuthUrl(null));
   const { t } = useTranslation("common");
 
   useEffect(() => {

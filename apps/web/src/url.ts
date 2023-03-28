@@ -3,7 +3,14 @@ const DEFAULT_HOST = "https://www.ever-green.io";
 function getGithubAuthUrl(_origin: string | null) {
   const origin = _origin || DEFAULT_HOST;
 
-  const redirectUri = origin ? `${origin}/app` : `${DEFAULT_HOST}/app`;
+  let redirectUri = `${DEFAULT_HOST}/app`;
+
+  if (typeof window !== "undefined") {
+    const searchParams = new URLSearchParams(window.location.search);
+    redirectUri = searchParams.get("redirect_url") || `${origin}/app`;
+  } else if (origin) {
+    redirectUri = `${origin}/app`;
+  }
 
   const params = new URLSearchParams({
     client_id: "Iv1.57a1bcccc340ebe9",
