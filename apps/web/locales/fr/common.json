@@ -6,22 +6,22 @@
   "gotoapp-button": "Aller à l'application",
   "get-started-button": "Commencer",
   "install-app-button": "Installer l'application",
-  "month": "mois",
+  "month": "pour les 100 premiers utilisateurs",
   "pricing": {
     "title": "Tarification",
-    "value-proposition": "Prix fixe pour aider chaque équipe à maintenir ses projets à jour",
+    "value-proposition": "Offre limitée dans le temps pour les premiers adoptants",
     "description": "Les utilisateurs gagnent un temps et un effort considérables en automatisant l'écriture de la documentation, ce qui leur permet de se concentrer sur des tâches plus importantes et de minimiser les tracas liés à l'écriture et à la maintenance de la documentation.",
     "features": [
       "Projets illimités",
       "Utilisateurs illimités",
       "Traduisez votre documentation",
-      "Prise en charge de l'i18n"
+      "Support i18n"
     ]
   },
   "auth": {
     "create": {
       "account1": "Créez votre compte",
-      "account2": "pour continuer vers"
+      "account2": "pour continuer à"
     },
     "continue-with-github": "Continuer avec GitHub"
   },
@@ -44,8 +44,8 @@
           "Créer des demandes de tirage sur vos référentiels pour maintenir la documentation à jour et effectuer d'autres opérations de maintenance à l'aide de l'IA.",
           "Vous envoyer des notifications sur les modifications apportées à vos référentiels.",
           "Analyser comment vous utilisez notre service pour l'améliorer.",
-          "Communiquer avec vous sur notre service et toutes les mises à jour.",
-          "Répondre à toutes les demandes de support ou d'informations."
+          "Communiquer avec vous au sujet de notre service et de toutes les mises à jour.",
+          "Répondre à toute demande de support ou demande de renseignements."
         ]
       },
       {
@@ -53,11 +53,11 @@
         "description": "Nous prenons la sécurité des données très au sérieux et nous prenons des mesures pour protéger vos informations. Nous utilisons un cryptage de niveau industriel pour protéger vos informations en transit, et nous stockons vos informations dans des centres de données sécurisés avec des contrôles d'accès et une surveillance en place."
       },
       {
-        "title": "Partage des données",
+        "title": "Sécurité des données",
         "description": "Nous ne partageons pas vos informations personnelles avec des tiers, sauf si la loi l'exige ou si cela est nécessaire pour fournir notre service."
       },
       {
-        "title": "Modifications de cette politique",
+        "title": "Modifications apportées à cette politique",
         "description": "Si vous avez des questions sur notre politique de confidentialité ou sur la manière dont nous collectons et utilisons vos informations, veuillez nous contacter à l'adresse suivante :"
       }
     ]
