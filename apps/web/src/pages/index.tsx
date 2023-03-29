@@ -10,7 +10,7 @@ const features = [
   {
     title: "Translate",
     description:
-      "Our translate preset lets you effortlessly translate any file into any language. Once you specify your language preference, we&apos;ll automatically translate your file every time you make changes to your repository. Helping you to reach a global audience with no manual effort required.",
+      "Our translate preset lets you effortlessly translate any file into any language. Once you specify your language preference, we'll automatically translate your file every time you make changes to your repository. Helping you to reach a global audience with no manual effort required.",
     generates: {
       preset: "translate",
       inputPath: "README.md",
@@ -20,25 +20,17 @@ const features = [
     imageSrc: "/images/preset-translate-example-fr.png",
   },
   {
-    title: "Code Comment",
+    title: "i18n Translate",
     description:
-      "With our code comment preset, you can easily create code comments for your programming language of choice. This powerful tool automatically generates documentation for your code, helping you save time and effort.",
+      "Our i18n translate preset lets you effortlessly translate any file into any language. Once you specify your language preference, we'll automatically translate your file every time you make changes to your repository. Helping you to reach a global audience with no manual effort required.",
     generates: {
-      preset: "code-comment",
-      path: "./apps/workflow-processor/src/presets/code-comment.ts",
-      type: "class",
-      name: "CodeCommentPreset",
+      preset: "translate",
+      type: "json",
+      inputPath: "apps/web/locales/en/common.json",
+      outputPath: "apps/web/locales/fr/common.json",
+      language: "fr",
     },
-    imageSrc: "/images/preset-translate-example-fr.png",
-  },
-  {
-    title: "Changelog",
-    description:
-      "With our changelog preset, you can easily create a changelog for your repository. This powerful tool automatically generates a changelog for your repository, helping you save time and effort.",
-    generates: {
-      preset: "changelog",
-    },
-    imageSrc: "/images/preset-translate-example-fr.png",
+    imageSrc: "/images/i18n-translate-example-fr.png",
   },
 ];
 
