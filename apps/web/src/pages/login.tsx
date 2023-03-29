@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
@@ -6,10 +5,11 @@ import { useState, useEffect } from "react";
 import Github from "../components/icons/github";
 import Layout from "../components/layouts/index";
 import { getGithubAuthUrl } from "../url";
+import Button from "../components/common/button";
 
 function LoginPage() {
   // TODO: Can this be passed in as a prop?
-  const [githubUrl, setGithubUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState(getGithubAuthUrl(null));
   const { t } = useTranslation("common");
 
   useEffect(() => {
@@ -22,10 +22,14 @@ function LoginPage() {
     <Layout header={null} footer={null}>
       <div className="absolute top-0 flex h-screen w-full items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 pb-32">
         <div className="flex flex-col items-center gap-10">
-          <Link href="/" className="font-display flex items-center text-2xl font-bold">
+          <Button
+            variant="clear"
+            href="/"
+            className="font-display flex items-center text-2xl font-bold"
+          >
             <Image src="/images/logo.svg" alt="Evergreen Docs" width={32} height={32} />
             <p className="tracking-wide">EvergreenDocs</p>
-          </Link>
+          </Button>
 
           <div className="flex w-96 flex-col gap-8 rounded-xl bg-white p-10 shadow-2xl">
             <div className="flex flex-col gap-1">

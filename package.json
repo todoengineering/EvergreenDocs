@@ -16,13 +16,16 @@
     "lint": "turbo run lint --parallel",
     "test": "turbo run test --parallel",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "deploy": "sst deploy  --stage $SST_STAGE"
+    "deploy": "sst deploy  --stage $SST_STAGE",
+    "migration:push": "turbo run migration:push",
+    "migration:create": "turbo run migration:create",
+    "migration:deploy": "turbo run migration:deploy"
   },
   "devDependencies": {
     "constructs": "10.1.156",
     "dotenv": "^16.0.3",
     "prettier": "latest",
-    "sst": "2.1.35",
+    "sst": "2.2.2",
     "turbo": "latest"
   },
   "engines": {

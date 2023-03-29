@@ -1,40 +1,27 @@
 import React from "react";
-import * as Tooltip from "@radix-ui/react-tooltip";
 
-import { ColumnBodyProps } from "./types";
+import { Tooltip } from "../common";
 
-function CommitTableDataHead() {
+import { ColumnBodyProps, ColumnHeadProps } from "./types";
+
+function CommitTableDataHead({}: ColumnHeadProps) {
   return <>Commit</>;
 }
 
 function CommitTableDataBody(props: ColumnBodyProps) {
-  const commitHash = "workflow" in props ? props.workflow.headCommit : props.task.outputCommit;
+  const commitHash = "workflow" in props ? props.workflow.headCommit : props.task.output_commit;
   const commitMessage =
-    "workflow" in props ? props.workflow.headCommitMessage : props.task.outputCommitMessage;
+    "workflow" in props ? props.workflow.headCommitMessage : props.task.output_commit_message;
   const repositoryFullName =
-    "workflow" in props ? props.workflow.repositoryFullName : props.task.repositoryFullName;
+    // "workflow" in props ? props.workflow.repositoryFullName : props.task.repositoryFullName;
+    "workflow" in props ? props.workflow.repositoryFullName : "";
 
   return (
     <>
-      <Tooltip.Provider>
-        <Tooltip.Root>
-          <Tooltip.Trigger asChild>
-            <p className="block max-w-xs truncate">{commitMessage}</p>
-          </Tooltip.Trigger>
-
-          <Tooltip.Portal>
-            <Tooltip.Content
-              sideOffset={4}
-              className={
-                "inline-flex max-w-xs items-center rounded-md bg-gray-900 px-4 py-2.5 text-xs leading-none  text-gray-100"
-              }
-            >
-              <Tooltip.Arrow className="fill-current text-gray-900" />
-              <p>{commitMessage}</p>
-            </Tooltip.Content>
-          </Tooltip.Portal>
-        </Tooltip.Root>
-      </Tooltip.Provider>
+      <Tooltip
+        mainComponent={<p className="max-w-xs truncate">{commitMessage}</p>}
+        tooltipComponent={<p>{commitMessage}</p>}
+      />
 
       <a
         onClick={(e) => e.stopPropagation()}

@@ -1,10 +1,10 @@
 import useTranslation from "next-translate/useTranslation";
 import Balancer from "react-wrap-balancer";
 import { IconBrandGithub, IconCircleCheck } from "@tabler/icons";
-import Link from "next/link";
 import { motion } from "framer-motion";
 
 import Layout from "../components/layouts/index";
+import Button from "../components/common/button";
 
 const FADE_IN_VARIANT = {
   hidden: { opacity: 0, y: -10 },
@@ -14,9 +14,9 @@ const FADE_IN_VARIANT = {
 function Footer() {
   return (
     <div className="border-gray absolute bottom-0 w-full p-5">
-      <Link href="/privacy-policy" className="text-grey-500 text-sm hover:underline">
+      <Button href="/privacy-policy" variant="text">
         Privacy Policy
-      </Link>
+      </Button>
     </div>
   );
 }
@@ -63,20 +63,21 @@ function Index() {
             <p className="text-3xl font-bold">Pro</p>
 
             <p className="text-6xl">
-              $5 <span className="text-xs">/ {t("month")}</span>
+              $15 <span className="text-xs">/ {t("month")}</span>
             </p>
 
             <p className="text-sm text-gray-500">{t("pricing.value-proposition")}</p>
 
-            <Link
+            <Button
               href="https://github.com/apps/evergreen-docs"
-              className=" text-bold flex w-full items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white shadow-md transition-colors hover:bg-white hover:text-black"
+              className="flex items-center justify-center"
+              variant="black"
               target="_blank"
               rel="noreferrer"
             >
               <IconBrandGithub size={20} />
               <p>{t("install-app-button")}</p>
-            </Link>
+            </Button>
 
             <ul className="flex flex-col gap-2 text-sm">
               {Object.values(t("pricing.features", {}, { returnObjects: true })).map(

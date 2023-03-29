@@ -4,7 +4,7 @@ import React from "react";
 import useTranslation from "next-translate/useTranslation";
 
 import Layout from "../components/layouts/index";
-import RenderIf from "../components/render-if";
+import { RenderIf } from "../components/common";
 
 function PrivacyPolicyPage() {
   const { t } = useTranslation("common");
@@ -19,9 +19,9 @@ function PrivacyPolicyPage() {
 
   return (
     <Layout footer={null}>
-      <div className="relative -top-32 flex justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
+      <div className="flex justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
         <div className="flex flex-col items-center gap-10">
-          <div className="mx-10 my-10 flex max-w-6xl flex-col gap-8 rounded-xl bg-white p-10 shadow-2xl">
+          <div className="flex max-w-6xl flex-col gap-8 rounded-xl bg-white p-10 shadow-2xl">
             <h1 className="text-2xl font-bold">{t("privacyPolicy.title")}</h1>
             <p>{t("privacyPolicy.description")}</p>
             {privacyPolicySections.map((section) => (

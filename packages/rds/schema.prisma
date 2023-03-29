@@ -1,0 +1,51 @@
+generator kysely {
+  provider = "prisma-kysely"
+
+  output   = "./src/generated"
+  fileName = "db.ts"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = "mysql://fqv29tlqcut9b9f165bh:pscale_pw_COSbVGFVzSLHCrYdBFg9M36eWESzfCXTet8ZzJuimlF@aws-eu-west-2.connect.psdb.cloud/evergreen?sslaccept=strict"
+  relationMode = "prisma"
+}
+
+enum STATUS {
+  IN_PROGRESS
+  FAILED
+  SUCCEEDED
+  CANCELLED
+  SKIPPED
+}
+
+model Workflows {
+  head_commit          String    @id @db.VarChar(48)
+  repository_full_name String    @db.VarChar(128)
+  head_commit_message  String    @db.VarChar(512)
+  status               STATUS
+  reason               String?   @db.VarChar(256)
+  started_at           DateTime  @default(now())
+  completed_at         DateTime?
+
+  tasks Tasks[]
+
+  @@index([repository_full_name], name: "repository_full_name")
+}
+
+model Tasks {
+  id                      String    @id @default(dbgenerated("(UUID())"))
+  head_commit             String    @db.VarChar(48)
+  preset                  String    @db.VarChar(64)
+  status                  STATUS
+  output_pull_request_url String?   @db.VarChar(256)
+  output_commit           String?   @db.VarChar(48)
+  output_commit_message   String?   @db.VarChar(512)
+  reason                  String?   @db.VarChar(256)
+  started_at              DateTime  @default(now())
+  completed_at            DateTime?
+
+  workflow Workflows @relation(fields: [head_commit], references: [head_commit])
+
+  @@index([head_commit], name: "head_commit")
+}

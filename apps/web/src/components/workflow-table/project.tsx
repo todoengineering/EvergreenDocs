@@ -1,9 +1,13 @@
 import React from "react";
 
-import { ColumnBodyProps } from "./types";
+import { ColumnBodyProps, ColumnHeadProps } from "./types";
 
-function ProjectTableDataHead() {
-  return <>Project</>;
+function ProjectTableDataHead({ workflows }: ColumnHeadProps) {
+  return (
+    <>
+      {workflows?.length} workflow run{workflows?.length && workflows.length > 1 ? "s" : ""}
+    </>
+  );
 }
 
 function ProjectTableDataBody(props: ColumnBodyProps) {

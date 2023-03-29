@@ -6,9 +6,7 @@
   "types": "main.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
-    "console": "sst console"
+    "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts"
   },
   "devDependencies": {
     "@evergreendocs/tsconfig": "*",
