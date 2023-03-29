@@ -1,5 +1,3 @@
-// TODO: styling of text and fix the bottom
-
 import React from "react";
 import useTranslation from "next-translate/useTranslation";
 

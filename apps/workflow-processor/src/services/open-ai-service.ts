@@ -25,8 +25,7 @@ const createCompletion = async (prompt: string) => {
     throw new Error("No generated text");
   }
 
-  // TODO: Less logging here. Maybe we should save in dynamo or something
-  console.log(`Generated: ${response.data.choices[0].message?.content}`);
+  console.log("Generation Complete");
 
   return response.data.choices[0].message?.content;
 };

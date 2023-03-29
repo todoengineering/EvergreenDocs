@@ -6,10 +6,10 @@
   "gotoapp-button": "Go to app",
   "get-started-button": "Get started",
   "install-app-button": "Install App",
-  "month": "month",
+  "month": "for first 100 users",
   "pricing": {
     "title": "Pricing",
-    "value-proposition": "Flat price to help every team keep their projects evergreen",
+    "value-proposition": "Limited time offer for early adopters",
     "description": "Users save significant time and effort by automating the writing of documentation, allowing them to focus on more important tasks and minimize the hassle of writing and maintaining documentation.",
     "features": [
       "Unlimited projects",

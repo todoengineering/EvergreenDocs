@@ -4,13 +4,17 @@ import type { NextRequest } from "next/server";
 import { getTrpcClient } from "./trpc";
 
 const appPathRegex = new RegExp(`^\/app`);
-const requiresAuthorization = (path: string) => {
+const isAppPage = (path: string) => {
   return appPathRegex.test(path);
 };
 
+const authPathRegex = new RegExp(`^\/(login|signup)`);
+const isAuthPage = (path: string) => {
+  return authPathRegex.test(path);
+};
+
 async function middleware(request: NextRequest) {
-  // TODO: Check if the user is signed in on login/signup pages and redirect to app if they are
-  if (!requiresAuthorization(request.nextUrl.pathname)) {
+  if (!isAppPage(request.nextUrl.pathname) && !isAuthPage(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
@@ -19,11 +23,19 @@ async function middleware(request: NextRequest) {
     const user = await trpcClient.user.me.query(undefined);
 
     if (!user) {
+      if (isAuthPage(request.nextUrl.pathname)) {
+        return NextResponse.next();
+      }
+
       throw new Error("User not found");
     }
 
+    if (isAuthPage(request.nextUrl.pathname)) {
+      return NextResponse.redirect(new URL("/app", request.url));
+    }
+
     return NextResponse.next();
-  } catch {
+  } catch (e) {
     const logInUrl = new URL("/login", request.url);
     logInUrl.searchParams.set("redirect_url", request.url);
 

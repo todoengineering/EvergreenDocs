@@ -23,7 +23,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   const repoOwner = body.repository?.owner?.login;
   const repoName = body.repository?.name;
   const installationId = body.installation?.id;
-  const headCommit = body.head_commit?.id;
+  const headCommit = `${body.head_commit?.id}123`;
   const repositoryFullName = body.repository?.full_name;
   const commitBranch = body.ref.replace("refs/heads/", "");
 
@@ -39,7 +39,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
       repository_full_name: repositoryFullName,
       status: "IN_PROGRESS",
     })
-    .execute();
+    .executeTakeFirstOrThrow();
 
   const githubRepositoryService = new GithubRepositoryService({
     repoOwner,
@@ -87,8 +87,11 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           preset: generate.preset,
           status: "IN_PROGRESS",
         })
-        .returning("id")
         .execute();
+
+      if (!task.insertId) {
+        throw new Error("Failed to insert task");
+      }
 
       try {
         const hasUpdates = await preset.hasUpdates();
@@ -105,7 +108,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           await db
             .updateTable("Tasks")
             .set({ status: "SKIPPED", reason: "No updates" })
-            .where("Tasks.id", "=", task.id)
+            .where("Tasks.id", "=", Number(task.insertId))
             .execute();
 
           return;
@@ -145,7 +148,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
             output_commit: commit.commit.sha || "Unknown commit sha",
             output_commit_message: commit.commit.message || "Unknown commit message",
           })
-          .where("Tasks.id", "=", task.id)
+          .where("Tasks.id", "=", Number(task.insertId))
           .execute();
 
         console.log("Updated preset", {
@@ -168,7 +171,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
         const [taskLog] = await db
           .updateTable("Tasks")
           .set({ status: "FAILED", reason: errorMessage })
-          .where("Tasks.id", "=", task.id)
+          .where("Tasks.id", "=", Number(task.insertId))
           .returningAll()
           .execute();
 

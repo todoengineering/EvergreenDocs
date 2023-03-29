@@ -34,7 +34,7 @@ model Workflows {
 }
 
 model Tasks {
-  id                      String    @id @default(dbgenerated("(UUID())"))
+  id                      Int       @id @default(autoincrement())
   head_commit             String    @db.VarChar(48)
   preset                  String    @db.VarChar(64)
   status                  STATUS
