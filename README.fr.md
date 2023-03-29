@@ -1,11 +1,9 @@
-
-
-# Documentation Evergreen
+# Evergreen Docs
 
 ## Fonctionnalités (actuelles et prévues)
 
-- [x] Générer automatiquement une documentation mise à jour pour votre dépôt en utilisant Chat GPT et ouvrir une demande de tirage avec les modifications
-- [ ] Générer des commentaires sur votre code en utilisant Chat GPT et ouvrir une demande de tirage avec le code mis à jour
+- [x] Générer automatiquement une documentation mise à jour pour votre dépôt en utilisant Chat GPT et ouvrir une Pull Request avec les modifications
+- [ ] Générer des commentaires sur votre code en utilisant Chat GPT et ouvrir une Pull Request avec le code mis à jour
 - [ ] Utiliser un assistant de chatbot pour répondre aux questions sur votre dépôt
 
 ## Commencer avec l'application GitHub
@@ -18,9 +16,9 @@ Pour installer Evergreen Docs, il suffit de visiter le [GitHub Marketplace](http
 
 #### Fichier `evergreen.config.json`
 
-Avant de pouvoir utiliser Evergreen Docs, vous devrez créer un fichier evergreen.config.json à la racine de votre dépôt. Ce fichier contient les paramètres de configuration de l'application, tels que le nom du dépôt, la description et les sections de la documentation à générer.
+Avant de pouvoir utiliser Evergreen Docs, vous devrez créer un fichier `evergreen.config.json` à la racine de votre dépôt. Ce fichier contient les paramètres de configuration de l'application, tels que le nom du dépôt, la description et les sections de la documentation à générer.
 
-Voici un exemple de fichier evergreen.config.json :
+Voici un exemple de fichier `evergreen.config.json` :
 
 ```jsonc
 {
@@ -39,7 +37,7 @@ Voici un exemple de fichier evergreen.config.json :
 }
 ```
 
-Une fois que vous avez créé le fichier evergreen.config.json, il suffit de le commettre dans votre dépôt dans la branche principale. L'application générera automatiquement une demande de tirage avec votre documentation mise à jour dans les 10 minutes.
+Une fois que vous avez créé le fichier `evergreen.config.json`, il suffit de le commiter dans votre dépôt dans la branche principale. L'application générera automatiquement une Pull Request avec votre documentation mise à jour dans les 10 minutes.
 
 ## Exécution en local
 
@@ -50,7 +48,7 @@ Une fois que vous avez créé le fichier evergreen.config.json, il suffit de le 
 
 ### Installation
 
-1. Clonez le dépôt
+1. Clonez le repo
 
 ```sh
 git clone https://github.com/EvergreenDocs/EvergreenDocs
@@ -103,7 +101,7 @@ graph LR
 
 
   githubRepo -- via le webhook de l'application GitHub --> ingest --> defaultEventBridge -- filtré en utilisant une règle --> documentum <--> openAi
-  workflowProcessor -- créer des demandes de tirage, commettre des fichiers --> githubRepo
+  workflowProcessor -- créer des pull requests, commettre des fichiers --> githubRepo
 ```
 
 ## Licence
