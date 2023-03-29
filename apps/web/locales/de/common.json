@@ -6,11 +6,11 @@
   "gotoapp-button": "Zur App gehen",
   "get-started-button": "Loslegen",
   "install-app-button": "App installieren",
-  "month": "Monat",
+  "month": "für die ersten 100 Benutzer",
   "pricing": {
     "title": "Preisgestaltung",
-    "value-proposition": "Fester Preis, um jedem Team zu helfen, ihre Projekte immergrün zu halten",
-    "description": "Benutzer sparen erhebliche Zeit und Mühe, indem sie das Schreiben von Dokumentation automatisieren, was es ihnen ermöglicht, sich auf wichtigere Aufgaben zu konzentrieren und den Aufwand beim Schreiben und Pflegen von Dokumentation zu minimieren.",
+    "value-proposition": "Zeitlich begrenztes Angebot für Early Adopters",
+    "description": "Benutzer sparen erhebliche Zeit und Mühe, indem sie die Dokumentation automatisieren, was es ihnen ermöglicht, sich auf wichtigere Aufgaben zu konzentrieren und den Aufwand für das Schreiben und Pflegen von Dokumentation zu minimieren.",
     "features": [
       "Unbegrenzte Projekte",
       "Unbegrenzte Benutzer",
