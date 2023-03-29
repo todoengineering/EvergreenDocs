@@ -1,9 +1,7 @@
-import db from "@evergreendocs/rds";
+import db, { jsonArrayFrom, sql } from "@evergreendocs/rds";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Octokit } from "@octokit/core";
-import { sql } from "kysely";
-import { Tasks } from "@evergreendocs/rds/src/generated/db.js";
 
 import { router, publicProcedure } from "../trpc.js";
 import { isAuthorisedSession } from "../context/session.js";
@@ -13,8 +11,8 @@ const workflowLogRouter = router({
     .input(
       z.object({
         limit: z.number().min(1).max(100).default(25),
-        cursor: z.string().nullish(),
-        repositoryFullName: z.string(),
+        page: z.number().default(1),
+        repositoryFullName: z.string().optional(),
         includeSkippedWorkflows: z.boolean().default(true),
       })
     )
@@ -52,28 +50,38 @@ const workflowLogRouter = router({
           "Workflows.reason as reason",
           "Workflows.started_at as startedAt",
           "Workflows.completed_at as completedAt",
-          // TODO: Can we get these to be camelCase?
-          sql<Tasks[]>`JSON_ARRAYAGG(JSON_OBJECT(
-            'id', Tasks.id,
-            'head_commit', Tasks.head_commit,
-            'preset', Tasks.preset,
-            'status', Tasks.status,
-            'output_pull_request_url', Tasks.output_pull_request_url,
-            'output_commit', Tasks.output_commit,
-            'output_commit_message', Tasks.output_commit_message,
-            'reason', Tasks.reason,
-            'started_at', Tasks.started_at,
-            'completed_at', Tasks.completed_at
-          ))`.as("tasks"),
+          (eb) =>
+            jsonArrayFrom(
+              eb
+                .selectFrom("Tasks")
+                .select([
+                  "id",
+                  "head_commit",
+                  "preset",
+                  "status",
+                  "output_pull_request_url",
+                  "output_commit",
+                  "output_commit_message",
+                  "reason",
+                  "started_at",
+                  "completed_at",
+                ])
+                .whereRef("Tasks.head_commit", "=", sql`headCommit`)
+            ).as("tasks"),
         ])
-        .leftJoin("Tasks", "Tasks.head_commit", "Workflows.head_commit")
         .groupBy("Workflows.head_commit")
-
+        .orderBy("Workflows.started_at", "desc")
+        .$if(!input.includeSkippedWorkflows, (eb) => eb.where("Workflows.status", "!=", "SKIPPED"))
+        .$if(Boolean(input.repositoryFullName), (eb) =>
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          eb.where("Workflows.repository_full_name", "=", input.repositoryFullName!)
+        )
+        .limit(input.limit)
+        .offset((input.page - 1) * input.limit)
         .execute();
 
       return {
         items: result,
-        // nextCursor: workflowsResponse.cursor,
       };
     }),
 });

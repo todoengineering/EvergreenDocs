@@ -124,9 +124,7 @@ function StatusTableDataBody(props: ColumnBodyProps) {
           <div className={`h-3 w-3 rounded-full ${statusMap[status].className}`}></div>
         }
         tooltipComponent={
-          <span className="block text-xs leading-none text-gray-100">
-            {statusMap[status].className}
-          </span>
+          <span className="block text-xs leading-none text-gray-100">{statusMap[status].text}</span>
         }
       />
 

@@ -6,6 +6,7 @@ type ColumnHeadProps = {
   workflows: RouterOutput["workflowLog"]["getWorkflowsByRepository"]["items"] | undefined;
   filters: {
     includeSkippedWorkflows: boolean;
+    page: number;
   };
   setFilters: Dispatch<SetStateAction<ColumnHeadProps["filters"]>>;
 };

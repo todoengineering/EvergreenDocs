@@ -1,10 +1,10 @@
 import { useState } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 import { RouterOutput, trpc } from "../../trpc";
 import { RenderIf } from "../common";
+import Button from "../common/button";
 
 import OutputsColumn from "./outputs";
 import StatusColumn from "./status";
@@ -60,13 +60,15 @@ function WorkflowTable() {
   // TODO: Maybe use zod for this? Also maybe store this in url?
   const [filters, setFilters] = useState<{
     includeSkippedWorkflows: boolean;
-  }>({ includeSkippedWorkflows: false });
+    page: number;
+  }>({ includeSkippedWorkflows: false, page: 1 });
 
   const { data: userRepositories } = trpc.user.getRepositories.useQuery();
   const { data: workflowLogs, isLoading } = trpc.workflowLog.getWorkflowsByRepository.useQuery({
     repositoryFullName: repositoryFullName,
     includeSkippedWorkflows: filters.includeSkippedWorkflows,
     limit: 25,
+    page: filters.page,
   });
 
   return (
@@ -77,62 +79,80 @@ function WorkflowTable() {
         <ul className="mt-2 flex flex-col gap-2">
           {userRepositories?.map((repo) => {
             return (
-              <Link
+              <Button
+                variant="text"
                 key={repo.full_name}
                 href={`/app/repository/${repo.full_name}`}
-                className="mx-1 cursor-pointer rounded p-2 text-xs hover:bg-gray-100"
+                className="mx-1 rounded-md p-2 text-xs hover:bg-gray-100 "
               >
                 {repo.full_name}
-              </Link>
+              </Button>
             );
           })}
         </ul>
       </div>
 
-      <table className="mr-48 flex-1 border-collapse overflow-hidden rounded-r text-left text-sm shadow-md">
-        <thead className=" h-12 bg-gray-200 text-xs uppercase text-black">
-          <tr>
-            {columns.map((column, index) => (
-              <th scope="col" className="px-6 py-3" key={index}>
-                <column.Head
-                  workflows={workflowLogs?.items}
-                  filters={filters}
-                  setFilters={setFilters}
-                />
-              </th>
-            ))}
-          </tr>
-        </thead>
+      <div className="my-5 ml-2 mr-24 flex-1">
+        <table className="mr-48 w-full flex-1 border-collapse overflow-hidden rounded text-left text-sm shadow-md">
+          <thead className=" h-12 bg-gray-200 text-xs uppercase text-black">
+            <tr>
+              {columns.map((column, index) => (
+                <th scope="col" className="px-6 py-3" key={index}>
+                  <column.Head
+                    workflows={workflowLogs?.items}
+                    filters={filters}
+                    setFilters={setFilters}
+                  />
+                </th>
+              ))}
+            </tr>
+          </thead>
 
-        <RenderIf condition={!isLoading}>
-          <tbody>
+          <RenderIf condition={!isLoading} as="tbody">
             {workflowLogs?.items?.map((workflow) => (
               <WorkflowTableBodyRow
                 workflow={workflow}
                 key={`${workflow.headCommit}-WorkflowTableBodyRow`}
               />
             ))}
-          </tbody>
-        </RenderIf>
+          </RenderIf>
 
-        <RenderIf condition={isLoading}>
-          <tbody>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <tr key={index} className="border-b bg-white text-black">
-                {columns.map((column, colIndex) => (
-                  <td className="px-6 py-4" key={colIndex}>
-                    <div
-                      className={`${
-                        colIndex % 2 === 0 ? "bg-gray-300" : "bg-gray-400"
-                      } mt-3 mb-6 h-4 animate-pulse rounded`}
-                    />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </RenderIf>
-      </table>
+          <RenderIf condition={isLoading}>
+            <tbody>
+              {Array.from({ length: 5 }).map((_, index) => (
+                <tr key={index} className="border-b bg-white text-black">
+                  {columns.map((column, colIndex) => (
+                    <td className="px-6 py-4" key={colIndex}>
+                      <div
+                        className={`${
+                          colIndex % 2 === 0 ? "bg-gray-300" : "bg-gray-400"
+                        } mt-3 mb-6 h-4 animate-pulse rounded`}
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </RenderIf>
+        </table>
+
+        <div>
+          <button
+            className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
+            disabled={filters.page === 1}
+          >
+            Previous
+          </button>
+
+          <button
+            className="ml-3 inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

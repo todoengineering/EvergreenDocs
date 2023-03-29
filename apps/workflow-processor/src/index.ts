@@ -1,6 +1,6 @@
 import { EventBridgeHandler } from "aws-lambda";
 import { PushEvent } from "@octokit/webhooks-types";
-import { workflowLoggingService } from "@evergreendocs/services";
+import db from "@evergreendocs/rds";
 
 import { createCompletion } from "./services/open-ai-service.js";
 import presetFactory from "./presets/preset-factory.js";
@@ -31,14 +31,15 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
     return false;
   }
 
-  await workflowLoggingService.entities.workflow
-    .create({
-      headCommit,
-      headCommitMessage: body.head_commit?.message || "Unknown commit message",
-      repositoryFullName,
-      status: "in_progress",
+  await db
+    .insertInto("Workflows")
+    .values({
+      head_commit: headCommit,
+      head_commit_message: body.head_commit?.message || "Unknown commit message",
+      repository_full_name: repositoryFullName,
+      status: "IN_PROGRESS",
     })
-    .go();
+    .execute();
 
   const githubRepositoryService = new GithubRepositoryService({
     repoOwner,
@@ -52,10 +53,11 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   );
 
   if (!config) {
-    await workflowLoggingService.entities.workflow
-      .patch({ headCommit })
-      .set({ status: "skipped", reason: "No config" })
-      .go();
+    await db
+      .updateTable("Workflows")
+      .set({ status: "SKIPPED", reason: "No config" })
+      .where("Workflows.head_commit", "=", headCommit)
+      .execute();
 
     return true;
   }
@@ -65,29 +67,30 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
   try {
     parsedConfig = EvergreenConfig.parse(JSON.parse(config.content));
   } catch (error) {
-    await workflowLoggingService.entities.workflow
-      .patch({ headCommit })
-      .set({ status: "failed", reason: "Invalid config" })
-      .go();
+    await db
+      .updateTable("Workflows")
+      .set({ status: "FAILED", reason: "Invalid config" })
+      .where("Workflows.head_commit", "=", headCommit)
+      .execute();
 
     return true;
   }
 
   const taskLogs = await Promise.all(
-    parsedConfig.generates.map(async (generate, presetIndex) => {
+    parsedConfig.generates.map(async (generate) => {
+      const preset = presetFactory(generate, body, githubRepositoryService);
+
+      const [task] = await db
+        .insertInto("Tasks")
+        .values({
+          head_commit: headCommit,
+          preset: generate.preset,
+          status: "IN_PROGRESS",
+        })
+        .returning("id")
+        .execute();
+
       try {
-        const preset = presetFactory(generate, body, githubRepositoryService);
-
-        await workflowLoggingService.entities.task
-          .create({
-            headCommit,
-            preset: generate.preset,
-            index: presetIndex,
-            status: "in_progress",
-            repositoryFullName,
-          })
-          .go();
-
         const hasUpdates = await preset.hasUpdates();
 
         if (!hasUpdates) {
@@ -99,10 +102,11 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
             commitBranch,
           });
 
-          await workflowLoggingService.entities.task
-            .patch({ headCommit, preset: generate.preset, index: presetIndex })
-            .set({ status: "skipped", reason: "No updates" })
-            .go();
+          await db
+            .updateTable("Tasks")
+            .set({ status: "SKIPPED", reason: "No updates" })
+            .where("Tasks.id", "=", task.id)
+            .execute();
 
           return;
         }
@@ -133,15 +137,16 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           title: preset.branchName,
         });
 
-        await workflowLoggingService.entities.task
-          .patch({ headCommit, preset: generate.preset, index: presetIndex })
+        await db
+          .updateTable("Tasks")
           .set({
-            status: "success",
-            outputPullRequestUrl: pullRequest.html_url,
-            outputCommit: commit.commit.sha || "Unknown commit sha",
-            outputCommitMessage: commit.commit.message || "Unknown commit message",
+            status: "SUCCEEDED",
+            output_pull_request_url: pullRequest.html_url,
+            output_commit: commit.commit.sha || "Unknown commit sha",
+            output_commit_message: commit.commit.message || "Unknown commit message",
           })
-          .go();
+          .where("Tasks.id", "=", task.id)
+          .execute();
 
         console.log("Updated preset", {
           preset: generate.preset,
@@ -160,21 +165,22 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           commits: body.commits.map((commit) => commit.id),
         });
 
-        const taskLog = await workflowLoggingService.entities.task
-          .patch({ headCommit, preset: generate.preset, index: presetIndex })
-          // TODO: make this not give away internal errors to the user
-          .set({ status: "failed", reason: errorMessage })
-          .go();
+        const [taskLog] = await db
+          .updateTable("Tasks")
+          .set({ status: "FAILED", reason: errorMessage })
+          .where("Tasks.id", "=", task.id)
+          .returningAll()
+          .execute();
 
-        return taskLog.data;
+        return taskLog;
       }
     })
   );
 
-  const skippedTasks = taskLogs.filter((taskLog) => !taskLog || taskLog?.status === "skipped");
-  const status = skippedTasks.length === taskLogs.length ? "skipped" : "success";
+  const skippedTasks = taskLogs.filter((taskLog) => !taskLog || taskLog?.status === "SKIPPED");
+  const status = skippedTasks.length === taskLogs.length ? "SKIPPED" : "SUCCEEDED";
 
-  await workflowLoggingService.entities.workflow.patch({ headCommit }).set({ status }).go();
+  await db.updateTable("Workflows").set({ status }).where("head_commit", "=", headCommit).execute();
 
   console.log("Processed event", {
     repository: body.repository?.full_name,
