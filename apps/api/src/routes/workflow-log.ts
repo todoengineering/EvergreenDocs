@@ -29,18 +29,20 @@ const workflowLogRouter = router({
       const octokit = new Octokit({ auth: accessToken });
       const userRepositoriesResponse = await octokit.request("GET /user/repos");
 
-      const isUserRepository = userRepositoriesResponse.data.some(
-        (repository) => repository.full_name === input.repositoryFullName
-      );
+      if (input.repositoryFullName) {
+        const isUserRepository = userRepositoriesResponse.data.some(
+          (repository) => repository.full_name === input.repositoryFullName
+        );
 
-      if (!isUserRepository) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You must be logged in to view your workflow logs",
-        });
+        if (!isUserRepository) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "You must be logged in to view your workflow logs",
+          });
+        }
       }
 
-      const result = await db
+      const itemsPromise = db
         .selectFrom("Workflows")
         .select([
           "Workflows.head_commit as headCommit",
@@ -76,12 +78,45 @@ const workflowLogRouter = router({
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           eb.where("Workflows.repository_full_name", "=", input.repositoryFullName!)
         )
+        .$if(!input.repositoryFullName, (eb) =>
+          eb.where(
+            "Workflows.repository_full_name",
+            "in",
+            userRepositoriesResponse.data.map((repository) => repository.full_name)
+          )
+        )
         .limit(input.limit)
         .offset((input.page - 1) * input.limit)
         .execute();
 
+      const countPromise = db
+        .selectFrom("Workflows")
+        .select(db.fn.count("Workflows.started_at").as("count"))
+        .orderBy("Workflows.started_at", "desc")
+        .$if(!input.includeSkippedWorkflows, (eb) => eb.where("Workflows.status", "!=", "SKIPPED"))
+        .$if(Boolean(input.repositoryFullName), (eb) =>
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          eb.where("Workflows.repository_full_name", "=", input.repositoryFullName!)
+        )
+        .$if(!input.repositoryFullName, (eb) =>
+          eb.where(
+            "Workflows.repository_full_name",
+            "in",
+            userRepositoriesResponse.data.map((repository) => repository.full_name)
+          )
+        )
+
+        .execute();
+
+      const [items, count] = await Promise.all([itemsPromise, countPromise]);
+
+      const total =
+        typeof count[0].count === "string" ? parseInt(count[0].count, 10) : Number(count[0].count);
+
       return {
-        items: result,
+        items,
+        total,
+        hasMore: count[0].count > input.limit * input.page,
       };
     }),
 });

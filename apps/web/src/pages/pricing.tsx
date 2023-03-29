@@ -63,7 +63,7 @@ function Index() {
             <p className="text-3xl font-bold">Pro</p>
 
             <p className="text-6xl">
-              $5 <span className="text-xs">/ {t("month")}</span>
+              $15 <span className="text-xs">/ {t("month")}</span>
             </p>
 
             <p className="text-sm text-gray-500">{t("pricing.value-proposition")}</p>

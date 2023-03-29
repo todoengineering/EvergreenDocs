@@ -61,15 +61,18 @@ function WorkflowTable() {
   const [filters, setFilters] = useState<{
     includeSkippedWorkflows: boolean;
     page: number;
-  }>({ includeSkippedWorkflows: false, page: 1 });
+  }>({ includeSkippedWorkflows: true, page: 1 });
 
   const { data: userRepositories } = trpc.user.getRepositories.useQuery();
-  const { data: workflowLogs, isLoading } = trpc.workflowLog.getWorkflowsByRepository.useQuery({
-    repositoryFullName: repositoryFullName,
-    includeSkippedWorkflows: filters.includeSkippedWorkflows,
-    limit: 25,
-    page: filters.page,
-  });
+  const { data: workflowLogs, isLoading } = trpc.workflowLog.getWorkflowsByRepository.useQuery(
+    {
+      repositoryFullName: repositoryFullName,
+      includeSkippedWorkflows: filters.includeSkippedWorkflows,
+      limit: 25,
+      page: filters.page,
+    },
+    { refetchInterval: 1000 * 60 }
+  );
 
   return (
     <div className="flex flex-row">
@@ -119,7 +122,7 @@ function WorkflowTable() {
 
           <RenderIf condition={isLoading}>
             <tbody>
-              {Array.from({ length: 5 }).map((_, index) => (
+              {Array.from({ length: 25 }).map((_, index) => (
                 <tr key={index} className="border-b bg-white text-black">
                   {columns.map((column, colIndex) => (
                     <td className="px-6 py-4" key={colIndex}>
@@ -136,21 +139,20 @@ function WorkflowTable() {
           </RenderIf>
         </table>
 
-        <div>
-          <button
-            className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+        <div className="mt-3 flex w-full justify-end gap-3">
+          <Button
             onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
             disabled={filters.page === 1}
           >
             Previous
-          </button>
+          </Button>
 
-          <button
-            className="ml-3 inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+          <Button
             onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
+            disabled={workflowLogs?.hasMore === false}
           >
             Next
-          </button>
+          </Button>
         </div>
       </div>
     </div>

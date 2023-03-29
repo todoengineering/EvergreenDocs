@@ -102,7 +102,7 @@ function Index() {
           },
         }}
       >
-        <Section className="flex justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
+        <Section className="mt-32 flex justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-100 py-32">
           <motion.h1
             className=" py-10 text-center text-4xl font-bold text-black drop-shadow-sm md:text-7xl"
             variants={FADE_IN_VARIANT}
@@ -120,7 +120,7 @@ function Index() {
             className="mx-auto mt-6 flex items-center justify-center space-x-5"
             variants={FADE_IN_VARIANT}
           >
-            <Button>
+            <Button href="/login">
               <p>{t("get-started-button")}</p>
             </Button>
           </motion.div>
