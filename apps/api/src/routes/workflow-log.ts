@@ -89,6 +89,7 @@ const workflowLogRouter = router({
         .offset((input.page - 1) * input.limit)
         .execute();
 
+      // TODO: Can we do this in a single query? With the above query maybe? Also should probably extract these to a service/repository
       const countPromise = db
         .selectFrom("Workflows")
         .select(db.fn.count("Workflows.started_at").as("count"))
