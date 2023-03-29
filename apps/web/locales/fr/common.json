@@ -1,5 +1,3 @@
-
-
 {
   "value-proposition": "Gardez votre documentation verte et fraîche",
   "app-description": "Gérez et maintenez facilement votre documentation avec Evergreen Docs - l'application Github qui automatise les mises à jour, génère des README, traduit les docs et tient un journal des modifications, le tout en fonction des données contextuelles de votre référentiel.",
@@ -12,7 +10,7 @@
   "pricing": {
     "title": "Tarification",
     "value-proposition": "Prix fixe pour aider chaque équipe à maintenir ses projets à jour",
-    "description": "Les utilisateurs gagnent un temps considérable en automatisant l'écriture de la documentation, ce qui leur permet de se concentrer sur des tâches plus importantes et de minimiser les tracas liés à l'écriture et à la maintenance de la documentation.",
+    "description": "Les utilisateurs gagnent un temps et un effort considérables en automatisant l'écriture de la documentation, ce qui leur permet de se concentrer sur des tâches plus importantes et de minimiser les tracas liés à l'écriture et à la maintenance de la documentation.",
     "features": [
       "Projets illimités",
       "Utilisateurs illimités",
@@ -23,7 +21,7 @@
   "auth": {
     "create": {
       "account1": "Créez votre compte",
-      "account2": "pour continuer à"
+      "account2": "pour continuer vers"
     },
     "continue-with-github": "Continuer avec GitHub"
   },
@@ -47,7 +45,7 @@
           "Vous envoyer des notifications sur les modifications apportées à vos référentiels.",
           "Analyser comment vous utilisez notre service pour l'améliorer.",
           "Communiquer avec vous sur notre service et toutes les mises à jour.",
-          "Répondre à toute demande de support ou demande de renseignements."
+          "Répondre à toutes les demandes de support ou d'informations."
         ]
       },
       {
