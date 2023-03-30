@@ -17,9 +17,7 @@
     "test": "turbo run test --parallel",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "deploy": "sst deploy  --stage $SST_STAGE",
-    "migration:push": "turbo run migration:push",
-    "migration:create": "turbo run migration:create",
-    "migration:deploy": "turbo run migration:deploy"
+    "migration:push": "turbo run migration:push"
   },
   "devDependencies": {
     "constructs": "10.1.156",

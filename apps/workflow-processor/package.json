@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.284.0",
+    "@evergreendocs/rds": "*",
     "@evergreendocs/services": "*",
     "@octokit/auth-app": "^4.0.9",
     "@octokit/core": "^4.2.0",

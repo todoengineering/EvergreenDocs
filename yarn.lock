@@ -3389,6 +3389,7 @@ __metadata:
   resolution: "@evergreendocs/workflow-processor@workspace:apps/workflow-processor"
   dependencies:
     "@aws-sdk/client-dynamodb": ^3.284.0
+    "@evergreendocs/rds": "*"
     "@evergreendocs/services": "*"
     "@evergreendocs/tsconfig": "*"
     "@octokit/auth-app": ^4.0.9

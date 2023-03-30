@@ -22,12 +22,6 @@
     },
     "migration:push": {
       "cache": false
-    },
-    "migration:create": {
-      "cache": false
-    },
-    "migration:deploy": {
-      "cache": false
     }
   }
 }
