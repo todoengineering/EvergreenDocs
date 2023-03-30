@@ -12,7 +12,7 @@
     "@evergreendocs/tsconfig": "*",
     "@types/node": "^18.11.15",
     "eslint-config-evergreendocs": "*",
-    "typescript": "^4.9.4"
+    "typescript": "^5.0.2"
   },
   "dependencies": {
     "zod": "^3.20.2"
