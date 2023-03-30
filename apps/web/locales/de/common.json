@@ -3,6 +3,7 @@
   "app-description": "Verwalten und pflegen Sie Dokumentation mühelos mit Evergreen Docs - der Github-App, die Aktualisierungen automatisiert, READMEs generiert, Dokumentation übersetzt und ein Changelog führt, alles basierend auf kontextuellen Daten aus Ihrem Repository.",
   "signup-button": "Registrieren",
   "login-button": "Anmelden",
+  "logout-button": "Abmelden",
   "gotoapp-button": "Zur App gehen",
   "get-started-button": "Loslegen",
   "install-app-button": "App installieren",
@@ -10,7 +11,7 @@
   "pricing": {
     "title": "Preisgestaltung",
     "value-proposition": "Zeitlich begrenztes Angebot für Early Adopters",
-    "description": "Benutzer sparen erhebliche Zeit und Mühe, indem sie die Dokumentation automatisieren, was es ihnen ermöglicht, sich auf wichtigere Aufgaben zu konzentrieren und den Aufwand für das Schreiben und Pflegen von Dokumentation zu minimieren.",
+    "description": "Benutzer sparen erhebliche Zeit und Mühe, indem sie das Schreiben von Dokumentation automatisieren, was es ihnen ermöglicht, sich auf wichtigere Aufgaben zu konzentrieren und den Aufwand beim Schreiben und Pflegen von Dokumentation zu minimieren.",
     "features": [
       "Unbegrenzte Projekte",
       "Unbegrenzte Benutzer",
@@ -23,7 +24,7 @@
       "account1": "Erstellen Sie Ihr Konto",
       "account2": "um fortzufahren zu"
     },
-    "continue-with-github": "Mit GitHub fortfahren"
+    "continue-with-github": "Weiter mit GitHub"
   },
   "privacyPolicy": {
     "title": "Datenschutz-Bestimmungen",
