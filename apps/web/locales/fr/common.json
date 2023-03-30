@@ -3,6 +3,7 @@
   "app-description": "Gérez et maintenez facilement votre documentation avec Evergreen Docs - l'application Github qui automatise les mises à jour, génère des README, traduit les docs et tient un journal des modifications, le tout en fonction des données contextuelles de votre référentiel.",
   "signup-button": "S'inscrire",
   "login-button": "Se connecter",
+  "logout-button": "Se déconnecter",
   "gotoapp-button": "Aller à l'application",
   "get-started-button": "Commencer",
   "install-app-button": "Installer l'application",
@@ -44,8 +45,8 @@
           "Créer des demandes de tirage sur vos référentiels pour maintenir la documentation à jour et effectuer d'autres opérations de maintenance à l'aide de l'IA.",
           "Vous envoyer des notifications sur les modifications apportées à vos référentiels.",
           "Analyser comment vous utilisez notre service pour l'améliorer.",
-          "Communiquer avec vous au sujet de notre service et de toutes les mises à jour.",
-          "Répondre à toute demande de support ou demande de renseignements."
+          "Communiquer avec vous sur notre service et toutes les mises à jour.",
+          "Répondre à toutes les demandes de support ou demandes de renseignements."
         ]
       },
       {
