@@ -3281,6 +3281,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@evergreendocs/rds@workspace:packages/rds"
   dependencies:
+    "@evergreendocs/services": "*"
     "@evergreendocs/tsconfig": "*"
     "@faker-js/faker": ^7.6.0
     "@planetscale/database": ^1.6.0
