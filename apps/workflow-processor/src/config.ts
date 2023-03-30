@@ -10,24 +10,17 @@ declare global {
   }
 }
 
-type GitHubAppAuth = {
-  appId: string;
-  clientId: string;
-  clientSecret: string;
-};
-
-const githubAppAuth = await secretsManagerService.getSecretJson<GitHubAppAuth>(
-  "development/evergreendocs/githubapp"
+const githubAppAuth = await secretsManagerService.getSecretJson(
+  "production/evergreendocs/githubapp"
 );
 
 const githubAppPrivateKey = await secretsManagerService.getSecret(
-  "development/evergreendocs/githubapp/privatekey"
+  "production/evergreendocs/githubapp/privatekey"
 );
 
 const openAiKey =
   process.env["OPENAI_API_KEY"] ||
-  (await secretsManagerService.getSecretJson<{ key: string }>("development/evergreendocs/openai"))
-    .key;
+  (await secretsManagerService.getSecretJson("production/evergreendocs/openai")).key;
 
 const configSchema = z.object({
   openAi: z.object({

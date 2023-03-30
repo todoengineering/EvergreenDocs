@@ -76,7 +76,7 @@ function WorkflowTable() {
 
   return (
     <div className="flex flex-row">
-      <div className="sticky top-0 h-screen overflow-auto border shadow-md">
+      <div className="sticky top-0 h-screen overflow-auto rounded-r border bg-white shadow-md">
         <p className="flex h-12 items-center px-3 text-xs font-bold uppercase">Repositories</p>
 
         <ul className="mt-2 flex flex-col gap-2">

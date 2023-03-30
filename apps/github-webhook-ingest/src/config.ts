@@ -16,13 +16,13 @@ const configSchema = z.object({
   }),
 });
 
-const githubAppAuth = await secretsManagerService.getSecretJson<{ webhookSecret: string }>(
-  "development/evergreendocs/githubapp"
+const githubAppAuth = await secretsManagerService.getSecretJson(
+  "production/evergreendocs/githubapp"
 );
 
 const config = configSchema.parse({
   github: {
-    webhookSecret: githubAppAuth?.webhookSecret,
+    webhookSecret: githubAppAuth.webhookSecret,
   },
 });
 

@@ -5,7 +5,6 @@ import * as cdk from "aws-cdk-lib";
 
 import authStack from "./auth.js";
 import cacheStack from "./cache.js";
-import workflowProcessorStack from "./workflow-processor.js";
 import githubWebhookIngestStack from "./github-webhook-ingest.js";
 import { getStackSubdomain } from "./domain.js";
 import route53Stack from "./route53.js";
@@ -13,7 +12,6 @@ import route53Stack from "./route53.js";
 async function apiStack({ stack }: StackContext) {
   const { cacheTable } = use(cacheStack);
   const { authApi } = use(authStack);
-  const { workflowLogsTable } = use(workflowProcessorStack);
   const { githubWebhookIngestLambda } = use(githubWebhookIngestStack);
   // Needed for the custom domain
   use(route53Stack);
@@ -29,13 +27,13 @@ async function apiStack({ stack }: StackContext) {
             effect: Effect.ALLOW,
             actions: ["secretsmanager:GetSecretValue"],
             resources: [
-              `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/githubapp*`,
+              `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:production/evergreendocs/githubapp*`,
+              `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:${stack.stage}/evergreendocs/rds*`,
             ],
           }),
         ],
         environment: {
           CACHE_TABLE_NAME: cacheTable.tableName,
-          WORKFLOW_LOGS_TABLE_NAME: workflowLogsTable.tableName,
         },
       },
     },
@@ -61,7 +59,6 @@ async function apiStack({ stack }: StackContext) {
       },
     },
   });
-  api.attachPermissions([workflowLogsTable, cacheTable]);
 
   const apiEndpoint = `${api.customDomainUrl}/trpc`;
 

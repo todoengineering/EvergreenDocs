@@ -12,7 +12,8 @@
     "electrodb": "^2.4.2",
     "kysely": "^0.23.5",
     "kysely-neon": "^1.0.2",
-    "pg": "^8.10.0"
+    "pg": "^8.10.0",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.284.0",

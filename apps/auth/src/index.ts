@@ -4,13 +4,8 @@ import { AuthHandler, GithubAdapter } from "sst/node/future/auth";
 import { Octokit } from "@octokit/core";
 import { secretsManagerService, cacheService, CacheServiceTypes } from "@evergreendocs/services";
 
-type GitHubAppAuth = {
-  appId: string;
-  clientId: string;
-  clientSecret: string;
-};
-const githubAppAuth = await secretsManagerService.getSecretJson<GitHubAppAuth>(
-  "development/evergreendocs/githubapp"
+const githubAppAuth = await secretsManagerService.getSecretJson(
+  "production/evergreendocs/githubapp"
 );
 
 export const handler = AuthHandler({

@@ -25,14 +25,8 @@ type RefreshTokenResponse = {
   token_type: string;
 };
 
-type GitHubAppAuth = {
-  appId: string;
-  clientId: string;
-  clientSecret: string;
-};
-
-const githubAppAuth = await secretsManagerService.getSecretJson<GitHubAppAuth>(
-  "development/evergreendocs/githubapp"
+const githubAppAuth = await secretsManagerService.getSecretJson(
+  "production/evergreendocs/githubapp"
 );
 
 async function refreshAccessToken(refreshToken: string, session: AuthorisedSession) {

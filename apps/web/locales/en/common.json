@@ -3,6 +3,7 @@
   "app-description": "Effortlessly manage and maintain documentation with Evergreen Docs - the Github App that automates updates, generates READMEs, translates docs, and keeps a changelog, all based on contextual data from your repository.",
   "signup-button": "Sign up",
   "login-button": "Log in",
+  "logout-button": "Log out",
   "gotoapp-button": "Go to app",
   "get-started-button": "Get started",
   "install-app-button": "Install App",

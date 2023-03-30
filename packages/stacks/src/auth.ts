@@ -24,7 +24,7 @@ async function authStack({ stack }: StackContext) {
         effect: Effect.ALLOW,
         actions: ["secretsmanager:GetSecretValue"],
         resources: [
-          `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:development/evergreendocs/githubapp*`,
+          `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:production/evergreendocs/githubapp*`,
         ],
       }),
     ],

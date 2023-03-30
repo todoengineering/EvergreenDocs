@@ -12,8 +12,20 @@ const authPathRegex = new RegExp(`^\/(login|signup)`);
 const isAuthPage = (path: string) => {
   return authPathRegex.test(path);
 };
+const isLogoutPage = (path: string) => {
+  return path === "/logout";
+};
 
 async function middleware(request: NextRequest) {
+  console.log("isLogoutPage(request.nextUrl.pathname)", isLogoutPage(request.nextUrl.pathname));
+  if (isLogoutPage(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL("/", request.url), {
+      headers: {
+        "Set-Cookie": "accessToken=; path=/; max-age=0; SameSite=Lax;",
+      },
+    });
+  }
+
   if (!isAppPage(request.nextUrl.pathname) && !isAuthPage(request.nextUrl.pathname)) {
     return NextResponse.next();
   }

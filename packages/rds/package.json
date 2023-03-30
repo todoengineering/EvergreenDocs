@@ -10,15 +10,14 @@
     "build": "prisma generate",
     "lint": "../../node_modules/.bin/eslint . --ext .ts,.mts",
     "migration:push": "prisma db push",
-    "migration:create": "prisma migrate dev",
-    "migration:deploy": "prisma migrate deploy",
     "seed": "prisma db seed"
   },
   "dependencies": {
     "@planetscale/database": "^1.6.0",
     "kysely": "^0.23.5",
     "kysely-planetscale": "^1.3.0",
-    "mysql2": "^3.2.0"
+    "mysql2": "^3.2.0",
+    "@evergreendocs/services": "*"
   },
   "devDependencies": {
     "@evergreendocs/tsconfig": "*",

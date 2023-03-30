@@ -48,7 +48,7 @@ const session = new Entity(
       },
     },
   },
-  { table: config.tableName, client: ddbClient }
+  { table: config.cacheTableName, client: ddbClient }
 );
 
 export default session;

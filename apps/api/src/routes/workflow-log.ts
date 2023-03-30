@@ -106,7 +106,6 @@ const workflowLogRouter = router({
             userRepositoriesResponse.data.map((repository) => repository.full_name)
           )
         )
-
         .execute();
 
       const [items, count] = await Promise.all([itemsPromise, countPromise]);
