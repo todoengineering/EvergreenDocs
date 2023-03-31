@@ -51,8 +51,7 @@ const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     const jsonPayload = getJsonPayload(event);
 
-    // TODO: Less logging
-    console.log("Received request", event, jsonPayload);
+    console.log(`Received event: ${jsonPayload}`);
 
     const headers = event.headers;
 
@@ -88,6 +87,11 @@ const handler: APIGatewayProxyHandlerV2 = async (event) => {
         body: "FailedEntry Error - The entry could not be successfully forwarded to Amazon EventBridge",
       };
     }
+
+    console.log(
+      "202 Accepted - The event was successfully forwarded to Amazon EventBridge",
+      headers
+    );
 
     return { statusCode: 202, body: "Message forwarded to Amazon EventBridge" };
   } catch (err) {

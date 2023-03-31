@@ -1,3 +1,5 @@
+// TODO: More logging in here
+
 import "@evergreendocs/tsconfig/session";
 
 import { AuthHandler, GithubAdapter } from "sst/node/future/auth";
@@ -19,7 +21,10 @@ export const handler = AuthHandler({
       clientSecret: githubAppAuth.clientSecret,
     }),
   },
+
   async onSuccess(input) {
+    console.log(`User logged in with ${input.provider}`);
+
     if (input.provider === "github") {
       if (!input.tokenset.access_token) {
         throw new Error("Missing access token");
@@ -30,6 +35,8 @@ export const handler = AuthHandler({
       });
 
       const githubUser = await octokit.request("GET /user");
+
+      console.log(`Fetched user ${githubUser.data.id} from GitHub`);
 
       const user = {
         id: String(githubUser.data.id),
@@ -62,6 +69,8 @@ export const handler = AuthHandler({
 
       await cacheService.entities.session.upsert(session).go();
 
+      console.log("Updated session in DynamoDB");
+
       return {
         type: "user",
         properties: { user },
@@ -71,6 +80,8 @@ export const handler = AuthHandler({
     throw new Error("Unknown provider");
   },
   async onError() {
+    console.error("Auth failed");
+
     return {
       statusCode: 400,
       headers: {

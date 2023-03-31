@@ -3,11 +3,10 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Octokit } from "@octokit/core";
 
-import { router, publicProcedure } from "../trpc.js";
-import { isAuthorisedSession } from "../context/session.js";
+import { router, protectedProcedure } from "../trpc.js";
 
 const workflowLogRouter = router({
-  getWorkflowsByRepository: publicProcedure
+  getWorkflowsByRepository: protectedProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(100).default(25),
@@ -17,17 +16,12 @@ const workflowLogRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      if (!isAuthorisedSession(ctx.session)) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "You must be logged in to view your workflow logs",
-        });
-      }
-
       const accessToken = await ctx.session.getAccessToken();
 
       const octokit = new Octokit({ auth: accessToken });
       const userRepositoriesResponse = await octokit.request("GET /user/repos");
+
+      console.log(`Fetched ${userRepositoriesResponse.data.length} repositories`);
 
       if (input.repositoryFullName) {
         const isUserRepository = userRepositoriesResponse.data.some(
@@ -110,13 +104,15 @@ const workflowLogRouter = router({
 
       const [items, count] = await Promise.all([itemsPromise, countPromise]);
 
+      console.log(`Fetched ${items.length} workflows`);
+
       const total =
         typeof count[0].count === "string" ? parseInt(count[0].count, 10) : Number(count[0].count);
 
       return {
         items,
         total,
-        hasMore: count[0].count > input.limit * input.page,
+        hasMore: Number(count[0].count) > input.limit * input.page,
       };
     }),
 });

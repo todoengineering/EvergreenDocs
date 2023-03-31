@@ -44,6 +44,8 @@ async function refreshAccessToken(refreshToken: string, session: AuthorisedSessi
     }),
   });
 
+  console.log("Refreshed access token");
+
   const refreshTokenData = (await refreshTokenResponse.json()) as RefreshTokenResponse;
 
   // TODO: tokens should be encrypted
@@ -63,6 +65,8 @@ async function refreshAccessToken(refreshToken: string, session: AuthorisedSessi
   }
 
   await cacheService.entities.session.upsert(newSession).go();
+
+  console.log("Updated session in DynamoDB");
 
   return newSession;
 }
@@ -89,8 +93,17 @@ function getAccessToken(session: AuthorisedSession) {
       });
     }
 
+    console.log(`Fetched access token from DynamoDB`);
+
     if (new Date(ddbSession.data?.accessTokenExpiresAt) < new Date()) {
       if (!ddbSession.data?.refreshToken) {
+        await cacheService.entities.session
+          .delete({
+            externalId: session.properties.user.id,
+            provider: session.properties.user.provider,
+          })
+          .go();
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Session does not have a refresh token",
