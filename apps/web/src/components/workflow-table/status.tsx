@@ -14,11 +14,6 @@ import { RenderIf, Tooltip } from "../common";
 
 import { ColumnBodyProps, ColumnHeadProps } from "./types";
 
-// For some reason, the IconEyeOff type is not exported from @tabler/icons. Remove this to see if it's fixed.
-declare module "@tabler/icons" {
-  export const IconEyeOff: typeof IconEye;
-}
-
 dayjs.extend(relativeTime);
 
 const statusMap: Record<
