@@ -59,6 +59,7 @@ async function apiStack({ stack }: StackContext) {
       },
     },
   });
+  api.attachPermissions([cacheTable]);
 
   const apiEndpoint = `${api.customDomainUrl}/trpc`;
 

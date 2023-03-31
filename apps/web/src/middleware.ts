@@ -17,7 +17,6 @@ const isLogoutPage = (path: string) => {
 };
 
 async function middleware(request: NextRequest) {
-  console.log("isLogoutPage(request.nextUrl.pathname)", isLogoutPage(request.nextUrl.pathname));
   if (isLogoutPage(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/", request.url), {
       headers: {
@@ -48,10 +47,15 @@ async function middleware(request: NextRequest) {
 
     return NextResponse.next();
   } catch (e) {
-    const logInUrl = new URL("/login", request.url);
-    logInUrl.searchParams.set("redirect_url", request.url);
+    if (isAppPage(request.nextUrl.pathname)) {
+      const logInUrl = new URL("/login", request.url);
 
-    return NextResponse.redirect(logInUrl);
+      logInUrl.searchParams.set("redirect_url", request.url);
+
+      return NextResponse.redirect(logInUrl);
+    }
+
+    return NextResponse.next();
   }
 }
 
