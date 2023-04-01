@@ -132,7 +132,7 @@ const handler: EventBridgeHandler<"push", PushEvent, boolean> = async (event) =>
           branchName: preset.branchName,
           path: "path" in generate ? generate.path : generate.outputPath,
           content: output,
-          message: preset.branchName,
+          message: preset.commitMessage,
         });
         // TODO: Make this smarter/configurable
         const pullRequest = await githubRepositoryService.createPullRequest({

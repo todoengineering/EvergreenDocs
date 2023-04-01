@@ -8,6 +8,7 @@ abstract class BasePreset<T = PresetConfig> {
   protected presetConfig: T;
   protected pushEvent: PushEvent;
   protected _branchName?: string;
+  protected _commitMessage?: string;
   protected files?: WorkflowProcessorFile[];
   protected githubRepositoryService: GithubRepositoryService;
 
@@ -27,6 +28,14 @@ abstract class BasePreset<T = PresetConfig> {
     }
 
     return this._branchName;
+  }
+
+  public get commitMessage() {
+    if (!this._commitMessage) {
+      throw new Error("Commit message not set");
+    }
+
+    return this._commitMessage;
   }
 
   abstract hasUpdates(): Promise<boolean>;

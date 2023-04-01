@@ -27,6 +27,7 @@ class TranslatePreset extends BasePreset<TranslatePresetConfig> {
     const fileName =
       this.presetConfig.inputPath.split("/")[this.presetConfig.inputPath.split("/").length - 1];
     this._branchName = `evergreen-translate-${fileName}-${this.presetConfig.language}`;
+    this._commitMessage = `Translate ${fileName} to ${this.presetConfig.language}`;
 
     if (this.presetConfig.type === "md") {
       const prompt = `${this.files[0].content}

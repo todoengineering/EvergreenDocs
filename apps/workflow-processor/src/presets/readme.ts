@@ -179,6 +179,7 @@ class ReadmePreset extends BasePreset<ReadmePresetConfig> {
 
     // TODO: Get ChatGPT to generate branch name
     this._branchName = "evergreen-generated-readme";
+    this._commitMessage = `Evergreen update README.md`;
 
     const rootPackageJsonFile = this.files.find((file) => file.path === "package.json");
 
