@@ -25,10 +25,10 @@ async function apiStack({ stack }: StackContext) {
         initialPolicy: [
           new PolicyStatement({
             effect: Effect.ALLOW,
-            actions: ["secretsmanager:GetSecretValue"],
+            actions: ["ssm:GetParameters"],
             resources: [
-              `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:production/evergreendocs/githubapp*`,
-              `arn:aws:secretsmanager:${stack.region}:${stack.account}:secret:${stack.stage}/evergreendocs/rds*`,
+              `arn:aws:ssm:${stack.region}:${stack.account}:parameter/production/evergreendocs/githubapp/*`,
+              `arn:aws:ssm:${stack.region}:${stack.account}:parameter/${stack.stage}/evergreendocs/rds/*`,
             ],
           }),
         ],

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { secretsManagerService } from "@evergreendocs/services";
+import { parameterStoreService } from "@evergreendocs/services";
 
 declare global {
   namespace NodeJS {
@@ -10,17 +10,15 @@ declare global {
   }
 }
 
-const githubAppAuth = await secretsManagerService.getSecretJson(
-  "production/evergreendocs/githubapp"
-);
+const githubAppAuth = await parameterStoreService.getSecretJson({
+  stage: "production",
+  parameter: "githubapp",
+});
 
-const githubAppPrivateKey = await secretsManagerService.getSecret(
-  "production/evergreendocs/githubapp/privatekey"
-);
-
-const openAiKey =
-  process.env["OPENAI_API_KEY"] ||
-  (await secretsManagerService.getSecretJson("production/evergreendocs/openai")).key;
+const { key: openAiKey } = await parameterStoreService.getSecretJson({
+  stage: "production",
+  parameter: "openai",
+});
 
 const configSchema = z.object({
   openAi: z.object({
@@ -41,10 +39,10 @@ const config = configSchema.parse({
     model: process.env["OPENAI_MODEL"],
   },
   github: {
-    appId: githubAppAuth?.appId,
-    clientId: githubAppAuth?.clientId,
-    clientSecret: githubAppAuth?.clientSecret,
-    privateKey: githubAppPrivateKey,
+    appId: githubAppAuth.appId,
+    clientId: githubAppAuth.clientId,
+    clientSecret: githubAppAuth.clientSecret,
+    privateKey: githubAppAuth.privatekey,
   },
 });
 

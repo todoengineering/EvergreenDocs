@@ -4,11 +4,12 @@ import "@evergreendocs/tsconfig/session";
 
 import { AuthHandler, GithubAdapter } from "sst/node/future/auth";
 import { Octokit } from "@octokit/core";
-import { secretsManagerService, cacheService, CacheServiceTypes } from "@evergreendocs/services";
+import { parameterStoreService, cacheService, CacheServiceTypes } from "@evergreendocs/services";
 
-const githubAppAuth = await secretsManagerService.getSecretJson(
-  "production/evergreendocs/githubapp"
-);
+const githubAppAuth = await parameterStoreService.getSecretJson({
+  stage: "production",
+  parameter: "githubapp",
+});
 
 export const handler = AuthHandler({
   clients: async () => ({

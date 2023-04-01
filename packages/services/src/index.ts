@@ -1,5 +1,5 @@
-import secretsManagerService from "./secrets-manager-service/index.js";
+import parameterStoreService from "./parameter-store-service/index.js";
 import cacheService, { CacheServiceTypes } from "./cache-service/index.js";
 
-export { secretsManagerService, cacheService };
+export { parameterStoreService, cacheService };
 export type { CacheServiceTypes };

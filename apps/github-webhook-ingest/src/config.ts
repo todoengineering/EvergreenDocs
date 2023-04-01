@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { secretsManagerService } from "@evergreendocs/services";
+import { parameterStoreService } from "@evergreendocs/services";
 
 declare global {
   namespace NodeJS {
@@ -16,9 +16,10 @@ const configSchema = z.object({
   }),
 });
 
-const githubAppAuth = await secretsManagerService.getSecretJson(
-  "production/evergreendocs/githubapp"
-);
+const githubAppAuth = await parameterStoreService.getSecretJson({
+  stage: "production",
+  parameter: "githubapp",
+});
 
 const config = configSchema.parse({
   github: {

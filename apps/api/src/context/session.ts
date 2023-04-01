@@ -2,7 +2,7 @@ import "@evergreendocs/tsconfig/session";
 
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 import { SessionValue } from "sst/node/future/auth";
-import { cacheService, CacheServiceTypes, secretsManagerService } from "@evergreendocs/services";
+import { cacheService, CacheServiceTypes, parameterStoreService } from "@evergreendocs/services";
 import { TRPCError } from "@trpc/server";
 
 interface AuthorisedSession extends Extract<SessionValue, { type: "user" }> {
@@ -25,9 +25,10 @@ type RefreshTokenResponse = {
   token_type: string;
 };
 
-const githubAppAuth = await secretsManagerService.getSecretJson(
-  "production/evergreendocs/githubapp"
-);
+const githubAppAuth = await parameterStoreService.getSecretJson({
+  stage: "production",
+  parameter: "githubapp",
+});
 
 async function refreshAccessToken(refreshToken: string, session: AuthorisedSession) {
   const refreshTokenResponse = await fetch("https://github.com/login/oauth/access_token", {
