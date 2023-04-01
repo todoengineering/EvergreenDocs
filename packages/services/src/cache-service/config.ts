@@ -9,7 +9,8 @@ declare global {
 }
 
 const configSchema = z.object({
-  cacheTableName: z.string(),
+  // TODO: Make this required
+  cacheTableName: z.string().default(""),
 });
 
 const config = configSchema.parse({
