@@ -25,7 +25,8 @@ async function workflowProcessorStack({ stack }: StackContext) {
         actions: ["ssm:GetParameters"],
         resources: [
           `arn:aws:ssm:${stack.region}:${stack.account}:parameter/production/evergreendocs/githubapp/*`,
-          `arn:aws:ssm:${stack.region}:${stack.account}:parameter/${stack.stage}/evergreendocs/openai/*`,
+          `arn:aws:ssm:${stack.region}:${stack.account}:parameter/production/evergreendocs/openai/*`,
+          `arn:aws:ssm:${stack.region}:${stack.account}:parameter/${stack.stage}/evergreendocs/rds/*`,
         ],
       }),
     ],

@@ -25,6 +25,9 @@ export default {
     app.setDefaultFunctionProps({
       runtime: "nodejs18.x",
       logRetention: "one_day",
+      environment: {
+        SST_STAGE: app.stage,
+      },
       nodejs: {
         format: "esm",
       },
