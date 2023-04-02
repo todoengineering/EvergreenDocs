@@ -12,6 +12,11 @@ import CommitColumn from "./commit";
 import ProjectColumn from "./project";
 import { Column } from "./types";
 
+type WorkflowTableProps = {
+  initialWorkflowLogs: RouterOutput["workflowLog"]["getWorkflowsByRepository"];
+  userRepositories: RouterOutput["user"]["getRepositories"];
+};
+
 const columns: readonly Column[] = [ProjectColumn, CommitColumn, StatusColumn, OutputsColumn];
 
 function WorkflowTableBodyRow(props: {
@@ -52,18 +57,17 @@ function WorkflowTableBodyRow(props: {
   );
 }
 
-function WorkflowTable() {
+function WorkflowTable({ initialWorkflowLogs, userRepositories }: WorkflowTableProps) {
   const router = useRouter();
   const { organisation, name } = router.query;
   const repositoryFullName = `${organisation}/${name}`;
-
+  debugger;
   // TODO: Maybe use zod for this? Also maybe store this in url?
   const [filters, setFilters] = useState<{
     includeSkippedWorkflows: boolean;
     page: number;
   }>({ includeSkippedWorkflows: true, page: 1 });
 
-  const { data: userRepositories } = trpc.user.getRepositories.useQuery();
   const { data: workflowLogs, isLoading } = trpc.workflowLog.getWorkflowsByRepository.useQuery(
     {
       repositoryFullName: repositoryFullName,
@@ -71,7 +75,7 @@ function WorkflowTable() {
       limit: 25,
       page: filters.page,
     },
-    { refetchInterval: 1000 * 60 }
+    { refetchInterval: 1000 * 60, initialData: initialWorkflowLogs }
   );
 
   return (
@@ -80,7 +84,7 @@ function WorkflowTable() {
         <p className="flex h-12 items-center px-3 text-xs font-bold uppercase">Repositories</p>
 
         <ul className="mt-2 flex flex-col gap-2">
-          {userRepositories?.map((repo) => {
+          {userRepositories.map((repo) => {
             return (
               <Button
                 variant="text"

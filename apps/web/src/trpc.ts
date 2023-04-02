@@ -1,11 +1,14 @@
 import { AppRouter } from "@evergreendocs/api";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { createTRPCNext } from "@trpc/next";
-import { NextPageContext } from "next";
+import { GetServerSidePropsContext, NextPageContext } from "next";
 import { NextRequest } from "next/server";
 import superjson from "superjson";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import { RequestCookies } from "next/dist/compiled/@edge-runtime/cookies";
+
+import config from "./config";
 
 type RouterInput = inferRouterInputs<AppRouter>;
 type RouterOutput = inferRouterOutputs<AppRouter>;
@@ -25,12 +28,11 @@ const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, never>>({
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
           enabled: (opts) =>
-            (process.env["NODE_ENV"] === "development" && typeof window !== "undefined") ||
+            (config.nodeEnv === "development" && typeof window !== "undefined") ||
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         httpBatchLink({
-          // TODO: move to config file
-          url: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"] as string,
+          url: config.apiUrl,
           async headers() {
             const cookies = document.cookie.split(";").reduce((acc, cookie) => {
               const [key, value] = cookie.split("=");
@@ -58,21 +60,26 @@ const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, never>>({
   ssr: false,
 });
 
-const getTrpcClient = (req: NextRequest) =>
+const getTrpcClient = (req: NextRequest | GetServerSidePropsContext["req"]) =>
   createTRPCProxyClient<AppRouter>({
     links: [
       loggerLink({
         enabled: (opts) =>
-          (process.env["NODE_ENV"] === "development" && typeof window !== "undefined") ||
+          (config.nodeEnv === "development" && typeof window !== "undefined") ||
           (opts.direction === "down" && opts.result instanceof Error),
       }),
       httpBatchLink({
-        // TODO: move to config file
-        url: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"] as string,
+        url: config.apiUrl,
         async headers() {
-          const accessToken = req.cookies.get("accessToken");
+          let accessToken: string | null = null;
 
-          return accessToken?.value ? { Authorization: `bearer ${accessToken.value}` } : {};
+          if (req.cookies instanceof RequestCookies) {
+            accessToken = req.cookies.get("accessToken")?.value ?? null;
+          } else if (req.cookies) {
+            accessToken = req.cookies["accessToken"] ?? null;
+          }
+
+          return accessToken ? { Authorization: `bearer ${accessToken}` } : {};
         },
       }),
     ],

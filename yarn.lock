@@ -4091,6 +4091,7 @@ __metadata:
     framer-motion: ^10.0.1
     jsdom: ^21.1.0
     next: ^13.1.1
+    next-superjson-plugin: ^0.5.6
     next-translate: ^2.0.2
     next-translate-plugin: ^2.0.2
     postcss: ^8.4.21
@@ -9428,6 +9429,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hoist-non-react-statics@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "hoist-non-react-statics@npm:3.3.2"
+  dependencies:
+    react-is: ^16.7.0
+  checksum: b1538270429b13901ee586aa44f4cc3ecd8831c061d06cb8322e50ea17b3f5ce4d0e2e66394761e6c8e152cd8c34fb3b4b690116c6ce2bd45b18c746516cb9e8
+  languageName: node
+  linkType: hard
+
 "hosted-git-info@npm:^2.1.4":
   version: 2.8.9
   resolution: "hosted-git-info@npm:2.8.9"
@@ -11271,6 +11281,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-superjson-plugin@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "next-superjson-plugin@npm:0.5.6"
+  dependencies:
+    hoist-non-react-statics: ^3.3.2
+  peerDependencies:
+    next: ^13
+    superjson: ^1
+  checksum: 1f3c540664c07d146201dd1cda9c690b0302b0b8dff169280e963ac508f800e684d02425178ad9cf2acfde03f1d55b17040716f65e95ca823a56983b5955d67c
+  languageName: node
+  linkType: hard
+
 "next-translate-plugin@npm:^2.0.2":
   version: 2.0.2
   resolution: "next-translate-plugin@npm:2.0.2"
@@ -12638,7 +12660,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.1":
+"react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
