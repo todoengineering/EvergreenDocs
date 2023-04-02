@@ -61,7 +61,7 @@ function WorkflowTable({ initialWorkflowLogs, userRepositories }: WorkflowTableP
   const router = useRouter();
   const { organisation, name } = router.query;
   const repositoryFullName = `${organisation}/${name}`;
-  debugger;
+
   // TODO: Maybe use zod for this? Also maybe store this in url?
   const [filters, setFilters] = useState<{
     includeSkippedWorkflows: boolean;
