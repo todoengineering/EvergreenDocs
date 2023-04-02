@@ -53,9 +53,7 @@ function Header() {
           <p className="tracking-wide">EvergreenDocs</p>
         </Button>
 
-        <Button href="/logout" variant="text">
-          {t("logout-button")}
-        </Button>
+        <a href="/logout">{t("logout-button")}</a>
       </div>
     </div>
   );
