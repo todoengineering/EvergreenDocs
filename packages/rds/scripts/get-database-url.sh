@@ -14,19 +14,16 @@ fi
 
 AWS_REGION=eu-west-1
 
-SECRET_NAME="$SST_STAGE/rds"
+PARAMETER_PATH="/$SST_STAGE/evergreendocs/rds"
 
-# Retrieve the secret ARN
-secret_arn=$(aws secretsmanager describe-secret --region $AWS_REGION --query 'ARN' --output text --secret-id $SECRET_NAME --profile $AWS_PROFILE)
 
-# Retrieve the secrets JSON
-secrets=$(aws secretsmanager get-secret-value --region $AWS_REGION --secret-id $secret_arn --query SecretString --output text --profile $AWS_PROFILE)
+echo "AWS_PROFILE: ${PARAMETER_PATH}/host"
 
-# Extract the values from the secrets JSON
-host=$(echo $secrets | jq -r '.host')
-username=$(echo $secrets | jq -r '.username')
-password=$(echo $secrets | jq -r '.password')
-database=$(echo $secrets | jq -r '.database')
+# Retrieve the parameter values
+host=$(aws ssm get-parameter --region $AWS_REGION --name "${PARAMETER_PATH}/host" --query 'Parameter.Value' --output text --with-decryption --profile $AWS_PROFILE)
+username=$(aws ssm get-parameter --region $AWS_REGION --name "${PARAMETER_PATH}/username" --query 'Parameter.Value' --output text --with-decryption --profile $AWS_PROFILE)
+password=$(aws ssm get-parameter --region $AWS_REGION --name "${PARAMETER_PATH}/password" --query 'Parameter.Value' --output text --with-decryption --profile $AWS_PROFILE)
+database=$(aws ssm get-parameter --region $AWS_REGION --name "${PARAMETER_PATH}/database" --query 'Parameter.Value' --output text --with-decryption --profile $AWS_PROFILE)
 
 # Create the MySQL database URL string
 db_url="mysql://${username}:${password}@${host}/${database}?sslaccept=strict"

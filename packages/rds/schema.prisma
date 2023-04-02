@@ -9,7 +9,7 @@ datasource db {
   provider     = "mysql"
   // pscale connect prisma-playground [branc-name] --port 3309
   // https://planetscale.com/docs/reference/connect
-  url          = "mysql://root@127.0.0.1:3309/evergreeb"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 

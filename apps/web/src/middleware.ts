@@ -59,7 +59,7 @@ async function middleware(request: NextRequest) {
   }
 }
 
-const config = { matcher: "/((?!_next/image|_next/static|favicon.ico).*)" };
+const config = { matcher: "/((?!api|_next|fonts|examples|[\\w-]+\\.\\w+).*)" };
 
 export { config };
 export default middleware;
