@@ -49,6 +49,8 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
     }
 
     document.cookie = newDocumentCookies;
+
+    window.location.reload();
   }, [router]);
 
   return (

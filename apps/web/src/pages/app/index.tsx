@@ -1,19 +1,22 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { GetServerSideProps } from "next";
 
-import { trpc } from "../../trpc";
+import { getTrpcClient } from "../../trpc";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const trpcClient = getTrpcClient(context.req);
+
+  const repositories = await trpcClient.user.getRepositories.query();
+
+  return {
+    redirect: {
+      destination: `/app/repository/${repositories[0].full_name}`,
+      permanent: false,
+    },
+  };
+};
 
 function AppPage() {
-  const router = useRouter();
-  const { data: userRepositories } = trpc.user.getRepositories.useQuery();
-
-  useEffect(() => {
-    if (userRepositories) {
-      router.push(`/app/repository/${userRepositories[0].full_name}`);
-    }
-  }, [userRepositories, router]);
-
-  return <></>;
+  return <>You got no repos bro</>;
 }
 
 export default AppPage;
