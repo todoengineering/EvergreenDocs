@@ -28,11 +28,11 @@ const trpc = createTRPCNext<AppRouter, NextPageContext, Record<string, never>>({
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
           enabled: (opts) =>
-            (config.nodeEnv === "development" && typeof window !== "undefined") ||
+            (config.get.nodeEnv === "development" && typeof window !== "undefined") ||
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: config.apiUrl,
+          url: config.get.apiUrl,
           async headers() {
             const cookies = document.cookie.split(";").reduce((acc, cookie) => {
               const [key, value] = cookie.split("=");
@@ -65,11 +65,11 @@ const getTrpcClient = (req: NextRequest | GetServerSidePropsContext["req"]) =>
     links: [
       loggerLink({
         enabled: (opts) =>
-          (config.nodeEnv === "development" && typeof window !== "undefined") ||
+          (config.get.nodeEnv === "development" && typeof window !== "undefined") ||
           (opts.direction === "down" && opts.result instanceof Error),
       }),
       httpBatchLink({
-        url: config.apiUrl,
+        url: config.get.apiUrl,
         async headers() {
           let accessToken: string | null = null;
 

@@ -9,16 +9,28 @@ declare global {
   }
 }
 
-const configSchema = z.object({
-  nodeEnv: z.enum(["development", "production"]).default("production"),
-  apiUrl: z.string().url(),
-  authUrl: z.string().url(),
-});
+// This allows us to lazy load the config, which is useful when building nextjs. Also caches the parsed config.
+class Config {
+  private readonly configSchema = z.object({
+    nodeEnv: z.enum(["development", "production"]).default("production"),
+    apiUrl: z.string().url(),
+    authUrl: z.string().url(),
+  });
+  private readonly unknownConfig: unknown = {
+    nodeEnv: process.env["NODE_ENV"],
+    apiUrl: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"],
+    authUrl: process.env["NEXT_PUBLIC_EVERGREEN_AUTH_URL"],
+  };
 
-const config = configSchema.parse({
-  nodeEnv: process.env["NODE_ENV"],
-  apiUrl: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"],
-  authUrl: process.env["NEXT_PUBLIC_EVERGREEN_AUTH_URL"],
-});
+  private _config?: z.infer<typeof this.configSchema>;
 
-export default config;
+  get get() {
+    if (!this._config) {
+      this._config = this.configSchema.parse(this.unknownConfig);
+    }
+
+    return this._config;
+  }
+}
+
+export default new Config();
