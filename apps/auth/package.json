@@ -15,6 +15,6 @@
     "@evergreendocs/tsconfig": "*",
     "@types/node": "^18.0.12",
     "eslint-config-evergreendocs": "*",
-    "typescript": "^4.5.3"
+    "typescript": "^5.0.3"
   }
 }
