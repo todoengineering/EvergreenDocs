@@ -1,4 +1,4 @@
-import { AppRouter } from "@evergreendocs/api";
+import type { AppRouter } from "@evergreendocs/api";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { createTRPCNext } from "@trpc/next";
 import { GetServerSidePropsContext, NextPageContext } from "next";

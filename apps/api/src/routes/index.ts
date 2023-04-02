@@ -8,5 +8,4 @@ const appRouter = router({
   workflowLog: workflowLogRouter,
 });
 
-export default appRouter;
 export type AppRouter = typeof appRouter;

@@ -2,7 +2,7 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render as reactTestingLibraryRender } from "@testing-library/react";
 import { httpBatchLink } from "@trpc/react-query";
-import { EvergreenDocsTypes } from "@evergreendocs/api";
+import type { EvergreenDocsTypes } from "@evergreendocs/api";
 
 import { trpc } from "../src/trpc.js";
 import { UserContext } from "../src/context/user.jsx";

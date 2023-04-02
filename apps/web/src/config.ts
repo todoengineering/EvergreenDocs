@@ -16,6 +16,7 @@ class Config {
     apiUrl: z.string().url(),
     authUrl: z.string().url(),
   });
+
   private readonly unknownConfig: unknown = {
     nodeEnv: process.env["NODE_ENV"],
     apiUrl: process.env["NEXT_PUBLIC_EVERGREEN_API_URL"],
