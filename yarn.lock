@@ -4016,7 +4016,7 @@ __metadata:
     mysql2: ^3.2.0
     nodemon: ^2.0.22
     prisma: ^4.11.0
-    prisma-kysely: ^1.0.8
+    prisma-kysely: ^1.1.0
     ts-node: ^10.9.1
     typescript: ^5.0.3
   languageName: unknown
@@ -12400,9 +12400,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma-kysely@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "prisma-kysely@npm:1.0.8"
+"prisma-kysely@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "prisma-kysely@npm:1.1.0"
   dependencies:
     "@prisma/generator-helper": 3.12.0
     "@prisma/sdk": 3.12.0
@@ -12410,7 +12410,7 @@ __metadata:
     zod: ^3.21.0
   bin:
     prisma-kysely: dist/bin.js
-  checksum: 72a88c1901d4c16cf589628aa67f5c3c5f162163d64e45152ad305b30795123011dc5a05ee2e48d45bbe341fd456df1817c33099028bb27ec519415246bc7314
+  checksum: e7dd8ff9844a891b5e52c8360f99fbe0ca07f3838e55a2541bc378cb8e28162888679ed268449a8f4379dd21e61336542dc30bb9a85c18f827808d060d788cc7
   languageName: node
   linkType: hard
 
