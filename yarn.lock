@@ -4008,7 +4008,7 @@ __metadata:
     "@evergreendocs/services": "*"
     "@evergreendocs/tsconfig": "*"
     "@faker-js/faker": ^7.6.0
-    "@planetscale/database": ^1.6.0
+    "@planetscale/database": ^1.10.0
     "@types/node": ^18.0.12
     eslint-config-evergreendocs: "*"
     kysely: ^0.23.5
@@ -4621,10 +4621,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@planetscale/database@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@planetscale/database@npm:1.6.0"
-  checksum: 8139f81a573bbfe1078159979d383e93c904d78663a964f3185ca26df1ad05b1f96ff94f9573b3baedcc3d6e05a90e8667e01bfba217943ab19f1ba1fa58c846
+"@planetscale/database@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "@planetscale/database@npm:1.10.0"
+  checksum: 36a6a56b337d4b23536e0598abcf58a7c3d5bb55fcfc01807bc18c5f1648accede973148aae7db166f75d0b957e0724c865306baf75c786357a9b5d33ca0bc63
   languageName: node
   linkType: hard
 
