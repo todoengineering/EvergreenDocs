@@ -100,7 +100,7 @@ graph LR
   openAi[Open AI]
 
 
-  githubRepo -- via GitHub app webhook --> ingest --> defaultEventBridge -- filtered using rule --> documentum <--> openAi
+  githubRepo -- via GitHub app webhook --> ingest --> defaultEventBridge -- filtered using rule --> workflowProcessor <--> openAi
   workflowProcessor -- create pull requests, commit files --> githubRepo
 ```
 
